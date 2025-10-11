@@ -17,7 +17,7 @@
   bibliography: bibliography("sources.bib"),
   date: datetime.today(),
   glossary: glossary, // displays the glossary terms defined in the glossary dictionary
-  language: "en", // en, de
+  language: "de", // en, de
   supervisor: (company: "John Appleseed"),
   university: "Cooperative State University Baden-Württemberg",
   university-location: "Ravensburg Campus Friedrichshafen",
