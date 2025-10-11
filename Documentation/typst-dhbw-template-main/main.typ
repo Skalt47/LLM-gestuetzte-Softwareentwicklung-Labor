@@ -1,19 +1,16 @@
-#import "../lib.typ": *
+#import "lib.typ": *
 #import "acronyms.typ": acronyms
 #import "glossary.typ": glossary
 
 #show: supercharged-dhbw.with(
   title: "Exploration of Typst for the Composition of a University Thesis",
   authors: (
-    (name: "Max Mustermann", student-id: "7654321", course: "TIS21", course-of-studies: "IT-Security", company: (
-      (name: "YXZ GmbH", post-code: "70435", city: "Stuttgart")
-    )),
-    (name: "Juan Pérez", student-id: "1234567", course: "TIM21", course-of-studies: "Mobile Computer Science", company: (
-      (name: "ABC S.L.", post-code: "08005", city: "Barcelona", country: "Spain")
-    )),
+    (name: "Max Mustermann", student-id: "7654321", course: "TIS21", course-of-studies: "IT-Security"),
+    (name: "Juan Pérez", student-id: "1234567", course: "TIM21", course-of-studies: "Mobile Computer Science"),
   ),
   acronyms: acronyms, // displays the acronyms defined in the acronyms dictionary
-  at-university: false, // if true the company name on the title page and the confidentiality statement are hidden
+  at-university: true, // if true the company name on the title page and the confidentiality statement are hidden
+  city: "Stuttgart",
   bibliography: bibliography("sources.bib"),
   date: datetime.today(),
   glossary: glossary, // displays the glossary terms defined in the glossary dictionary
