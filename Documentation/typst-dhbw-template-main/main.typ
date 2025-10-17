@@ -3,38 +3,37 @@
 #import "glossary.typ": glossary
 
 #show: supercharged-dhbw.with(
-  title: "Exploration of Typst for the Composition of a University Thesis",
+  title: "LLM-gestuetzte-Softwareentwicklung-Labor",
   authors: (
-    (name: "Max Mustermann", student-id: "7654321", course: "TIS21", course-of-studies: "IT-Security"),
-    (name: "Juan Pérez", student-id: "1234567", course: "TIM21", course-of-studies: "Mobile Computer Science"),
+    (name: "Tim Jauch", student-id: "763086", course: "SWB", course-of-studies: "LLM-gestuetzte-Softwareentwicklung"),
+    (name: "Annabel Heberle", student-id: "770677", course: "SWB", course-of-studies: "LLM-gestuetzte-Softwareentwicklung"),
   ),
   acronyms: acronyms, // displays the acronyms defined in the acronyms dictionary
   at-university: true, // if true the company name on the title page and the confidentiality statement are hidden
-  city: "Stuttgart",
+  city: "Esslingen",
   bibliography: bibliography("sources.bib"),
   date: datetime.today(),
   glossary: glossary, // displays the glossary terms defined in the glossary dictionary
   language: "de", // en, de
-  supervisor: (company: "John Appleseed"),
-  university: "Cooperative State University Baden-Württemberg",
-  university-location: "Ravensburg Campus Friedrichshafen",
-  university-short: "DHBW",
+  // supervisor: (company: "John Appleseed"),
+  supervisor: (university: "Prof. Dr. Jörg Nitzsche, Dr. Stefan Kaufmann, Klemens Morbe"),
+  university: "Hochschule Esslingen University of Applied Sciences",
+  university-location: "Campus Esslingen Flandernstraße",
+  university-short: "HSE",
   // for more options check the package documentation (https://typst.app/universe/package/supercharged-dhbw)
 )
 
 // Edit this content to your liking
 
-= Introduction
+= Einleitung
 
-#lorem(100)
+PokéStack: Gonna know them all!
 
-#lorem(100)
-
-#lorem(100)
+Weitere Ideen: LLM spuckt Intressante Fakten zu den Pokemon die aktiv im Spiel sind aus.
 
 = Examples
 
-#lorem(30)
+B
 
 == Acronyms
 
