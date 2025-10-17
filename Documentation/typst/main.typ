@@ -1,4 +1,4 @@
-#import "lib.typ": *
+#import "static/lib.typ": *
 #import "acronyms.typ": acronyms
 #import "glossary.typ": glossary
 

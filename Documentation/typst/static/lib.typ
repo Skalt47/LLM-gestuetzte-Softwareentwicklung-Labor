@@ -77,7 +77,7 @@
   heading-numbering: "1.1",
   math-numbering: "(1)",
   page-numbering: (preface: "I", main: "1 / 1", appendix: "a"),
-  logo-left: image("dhbw.svg"),
+  logo-left: image("../assets/university-logo.svg"),
   logo-right: none,
   logo-size-ratio: "1:1",
   ignored-link-label-keys-for-highlighting: (),

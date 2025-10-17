@@ -1,5 +1,5 @@
-#import "locale.typ": ACRONYMS
-#import "shared-lib.typ": display, display-link, is-in-dict
+#import "../static/locale.typ": ACRONYMS
+#import "../static/shared-lib.typ": display, display-link, is-in-dict
 
 #let prefix = "acronym-state-"
 #let acros = state("acronyms", none)
