@@ -24,20 +24,78 @@
 )
 
 // Edit this content to your liking
+#let project-name = "Stack Attack"
+#let project-slogan = "All or nothing!"
 
 = Einleitung
+#project-name: #project-slogan
+== Vorstellung des Projekts
+#project-name ist ein Softwareprojekt, welches mit Hilfe von LLMs entwickelt und dokumentiert wird. Das Ziel des Projekts ist es, eine Online Version des beliebten Quartett Kartenspiels zu erstellen. Hierbei gilt es den Aufwand bei der Erstellung der Software mithilfe von LLMs zu minimieren und gleichzeitig eine qualitativ hochwertige Software zu entwickeln.
 
-PokéStack: Gonna know them all!
+== Zielsetzung und Relevanz
 
-Weitere Ideen: LLM spuckt Intressante Fakten zu den Pokemon die aktiv im Spiel sind aus.
+== Aufbau der Arbeit
 
-#lorem(100)
+= Projektbeschreibung
 
-= Examples
+== Problemstellung und Anforderungen
 
-B
+== Zielgruppe und Personas
 
-== Acronyms
+= Softwarearchitektur und Technologie
+
+== Gesamtübersicht der Architektur
+
+== Frontend/Benutzeroberfläche
+
+== Backend, Datenbank und Schnittstellen
+
+== LLM-Integration (MCP, Wrapper, API)
+
+== Sicherheits- und Authentifizierungsmechanismen 
+
+= Implementierung
+
+== Vorgehensmodell und Projektmanagement
+
+== Code-Generierung und Entwicklung
+
+== Datenmodelle und Schnittstellenimplementierung
+
+== Versionskontrolle, Build- und CI-Prozesse
+
+= Einsatz der LLMs und Prompt Engineering
+
+== Auswahl der LLMs und Dienste
+
+== Aufbau und Dokumentation der Prompts
+
+== Generierte Assets (Code, Bilder, Audio, Video, Text)
+
+== Fehleranalyse und Optimierung
+
+== Qualitätssicherung bei der LLM-Nutzung
+
+= Erfahrung, Herausforderungen und Reflexion
+
+== Positive Erfahrungen und Erfolgsgeschichten
+
+== Schwierigkeiten und Problemstellung
+
+== Grenzen und Risiken von LLMs
+
+== Lessons Learned und Empfehlungen
+
+== Zukunft der LLM-gestützten Entwicklung
+
+= Zusammenfassung und Fazit
+
+== Zusammenfassung der Arbeit
+
+== Persönliche Reflexion und Fazit
+
+
+= Acronyms
 
 Use the `acr` function to insert acronyms, which looks like this #acr("HTTP").
 
@@ -127,10 +185,3 @@ You can also reference by adding `<ref>` with the desired name after figures or 
 
 For example this @table references the table on the previous page.
 
-= Conclusion
-
-#lorem(100)
-
-#lorem(120)
-
-#lorem(80)
