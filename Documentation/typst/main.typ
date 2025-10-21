@@ -27,6 +27,7 @@
 #let project-name = "Stack Attack"
 #let project-slogan = "All or nothing!"
 
+// Max 1 Page
 = Einleitung
 #project-name: #project-slogan
 == Vorstellung des Projekts
@@ -36,12 +37,14 @@
 
 == Aufbau der Arbeit
 
+// ~3 Pages
 = Projektbeschreibung
 
 == Problemstellung und Anforderungen
 
 == Zielgruppe und Personas
 
+// ~3 Pages
 = Softwarearchitektur und Technologie
 
 == Gesamtübersicht der Architektur
@@ -54,6 +57,7 @@
 
 == Sicherheits- und Authentifizierungsmechanismen 
 
+// ~3 Pages
 = Implementierung
 
 == Vorgehensmodell und Projektmanagement
@@ -64,6 +68,7 @@
 
 == Versionskontrolle, Build- und CI-Prozesse
 
+// ~4 Pages
 = Einsatz der LLMs und Prompt Engineering
 
 == Auswahl der LLMs und Dienste
@@ -76,6 +81,7 @@
 
 == Qualitätssicherung bei der LLM-Nutzung
 
+// ~3 Pages
 = Erfahrung, Herausforderungen und Reflexion
 
 == Positive Erfahrungen und Erfolgsgeschichten
@@ -88,13 +94,14 @@
 
 == Zukunft der LLM-gestützten Entwicklung
 
+// 1-2 Pages
 = Zusammenfassung und Fazit
 
 == Zusammenfassung der Arbeit
 
 == Persönliche Reflexion und Fazit
 
-
+/*
 = Acronyms
 
 Use the `acr` function to insert acronyms, which looks like this #acr("HTTP").
@@ -185,3 +192,4 @@ You can also reference by adding `<ref>` with the desired name after figures or 
 
 For example this @table references the table on the previous page.
 
+*/

@@ -1,0 +1,2 @@
+# Documentation
+The documentation for this software project is written as a [typst document](https://typst.app/). In order to save some time the [template](https://github.com/DannySeidel/typst-dhbw-template) of [Danny Seidel](https://github.com/DannySeidel) was used and modified.
