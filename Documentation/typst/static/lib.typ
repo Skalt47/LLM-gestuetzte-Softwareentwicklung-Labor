@@ -141,8 +141,8 @@
   }
 
   // save heading and body font families in variables
-  let body-font = "Open Sans"
-  let heading-font = "Montserrat"
+  let body-font = "Libertinus Serif"
+  let heading-font = "Libertinus Serif"
 
   // customize look of figure
   set figure.caption(separator: [ --- ], position: bottom)
