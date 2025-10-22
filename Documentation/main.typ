@@ -1,6 +1,6 @@
 #import "static/lib.typ": *
-#import "acronyms.typ": acronyms
-#import "glossary.typ": glossary
+#import "../acronyms.typ": acronyms
+#import "../glossary.typ": glossary
 
 #show: supercharged-dhbw.with(
   title: "LLM-gestuetzte-Softwareentwicklung-Labor",
