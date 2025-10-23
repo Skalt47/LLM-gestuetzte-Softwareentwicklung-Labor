@@ -7,6 +7,8 @@
         "Morbe",
         "Nitzsche",
         "pagebreak",
-        "sourcecode"
-    ]
+        "sourcecode",
+        "typst"
+    ],
+    "java.compile.nullAnalysis.mode": "automatic"
 }
