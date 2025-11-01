@@ -1,35 +1,53 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect, useState } from "react";
 
-function App() {
-  const [count, setCount] = useState(0)
+type Dino = {
+  id: number;
+  species: string;
+  groupCode: string;
+  lifespanYears?: number;
+  lengthM?: number;
+  speedKmh?: number;
+  intelligence?: number;
+  attack?: number;
+  defense?: number;
+};
 
+export default function App() {
+  const [data, setData] = useState<Dino[]>([]);
+  useEffect(() => {
+    fetch("http://localhost:8080/api/dinosaurs")
+      .then((r) => r.json())
+      .then(setData);
+  }, []);
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <main style={{ padding: 16 }}>
+      <h1>Dinosaur Data</h1>
+      <table>
+        <thead>
+          <tr>
+            <th>Group</th>
+            <th>Species</th>
+            <th>Length (m)</th>
+            <th>Speed (km/h)</th>
+            <th>Int</th>
+            <th>Atk</th>
+            <th>Def</th>
+          </tr>
+        </thead>
+        <tbody>
+          {data.map((d) => (
+            <tr key={d.id}>
+              <td>{d.groupCode}</td>
+              <td>{d.species}</td>
+              <td>{d.lengthM ?? "-"}</td>
+              <td>{d.speedKmh ?? "-"}</td>
+              <td>{d.intelligence ?? "-"}</td>
+              <td>{d.attack ?? "-"}</td>
+              <td>{d.defense ?? "-"}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </main>
+  );
 }
-
-export default App

@@ -1,0 +1,41 @@
+[
+  { "species": "Tyrannosaurus rex", "group": "1A", "lifespan_years": 28, "length_m": 12.3, "speed_kmh": 27, "intelligence": 58, "attack": 98, "defense": 70 },
+  { "species": "Triceratops horridus", "group": "1B", "lifespan_years": 30, "length_m": 9.0, "speed_kmh": 24, "intelligence": 38, "attack": 90, "defense": 95 },
+  { "species": "Ankylosaurus magniventris", "group": "1C", "lifespan_years": 35, "length_m": 7.0, "speed_kmh": 12, "intelligence": 32, "attack": 72, "defense": 99 },
+  { "species": "Edmontosaurus annectens", "group": "1D", "lifespan_years": 25, "length_m": 12.0, "speed_kmh": 35, "intelligence": 40, "attack": 55, "defense": 60 },
+
+  { "species": "Spinosaurus aegyptiacus", "group": "2A", "lifespan_years": 30, "length_m": 15.0, "speed_kmh": 24, "intelligence": 50, "attack": 95, "defense": 65 },
+  { "species": "Carcharodontosaurus saharicus", "group": "2B", "lifespan_years": 26, "length_m": 13.0, "speed_kmh": 32, "intelligence": 52, "attack": 96, "defense": 68 },
+  { "species": "Suchomimus tenerensis", "group": "2C", "lifespan_years": 23, "length_m": 11.0, "speed_kmh": 30, "intelligence": 46, "attack": 88, "defense": 60 },
+  { "species": "Ouranosaurus nigeriensis", "group": "2D", "lifespan_years": 22, "length_m": 7.0, "speed_kmh": 28, "intelligence": 36, "attack": 58, "defense": 55 },
+
+  { "species": "Velociraptor mongoliensis", "group": "3A", "lifespan_years": 18, "length_m": 2.0, "speed_kmh": 40, "intelligence": 78, "attack": 62, "defense": 30 },
+  { "species": "Protoceratops andrewsi", "group": "3B", "lifespan_years": 20, "length_m": 1.8, "speed_kmh": 20, "intelligence": 34, "attack": 48, "defense": 55 },
+  { "species": "Oviraptor philoceratops", "group": "3C", "lifespan_years": 16, "length_m": 1.6, "speed_kmh": 35, "intelligence": 60, "attack": 50, "defense": 40 },
+  { "species": "Gallimimus bullatus", "group": "3D", "lifespan_years": 22, "length_m": 6.0, "speed_kmh": 60, "intelligence": 55, "attack": 54, "defense": 45 },
+
+  { "species": "Brachiosaurus altithorax", "group": "4A", "lifespan_years": 80, "length_m": 25.0, "speed_kmh": 10, "intelligence": 22, "attack": 70, "defense": 85 },
+  { "species": "Allosaurus fragilis", "group": "4B", "lifespan_years": 25, "length_m": 10.0, "speed_kmh": 33, "intelligence": 50, "attack": 92, "defense": 62 },
+  { "species": "Stegosaurus stenops", "group": "4C", "lifespan_years": 30, "length_m": 9.0, "speed_kmh": 7, "intelligence": 18, "attack": 68, "defense": 90 },
+  { "species": "Diplodocus carnegii", "group": "4D", "lifespan_years": 70, "length_m": 26.0, "speed_kmh": 12, "intelligence": 20, "attack": 66, "defense": 80 },
+
+  { "species": "Giganotosaurus carolinii", "group": "5A", "lifespan_years": 27, "length_m": 13.5, "speed_kmh": 32, "intelligence": 52, "attack": 97, "defense": 66 },
+  { "species": "Argentinosaurus huinculensis", "group": "5B", "lifespan_years": 90, "length_m": 30.0, "speed_kmh": 10, "intelligence": 20, "attack": 72, "defense": 88 },
+  { "species": "Mapusaurus roseae", "group": "5C", "lifespan_years": 25, "length_m": 11.5, "speed_kmh": 30, "intelligence": 50, "attack": 93, "defense": 64 },
+  { "species": "Iguanodon bernissartensis", "group": "5D", "lifespan_years": 28, "length_m": 10.0, "speed_kmh": 27, "intelligence": 38, "attack": 60, "defense": 58 },
+
+  { "species": "Deinonychus antirrhopus", "group": "6A", "lifespan_years": 20, "length_m": 3.0, "speed_kmh": 43, "intelligence": 76, "attack": 70, "defense": 40 },
+  { "species": "Tenontosaurus tilletti", "group": "6B", "lifespan_years": 25, "length_m": 6.5, "speed_kmh": 30, "intelligence": 34, "attack": 52, "defense": 56 },
+  { "species": "Acrocanthosaurus atokensis", "group": "6C", "lifespan_years": 26, "length_m": 11.0, "speed_kmh": 30, "intelligence": 50, "attack": 92, "defense": 63 },
+  { "species": "Pachycephalosaurus wyomingensis", "group": "6D", "lifespan_years": 18, "length_m": 4.5, "speed_kmh": 24, "intelligence": 42, "attack": 66, "defense": 62 },
+
+  { "species": "Ceratosaurus nasicornis", "group": "7A", "lifespan_years": 22, "length_m": 6.0, "speed_kmh": 30, "intelligence": 46, "attack": 86, "defense": 58 },
+  { "species": "Kentrosaurus aethiopicus", "group": "7B", "lifespan_years": 25, "length_m": 5.5, "speed_kmh": 10, "intelligence": 18, "attack": 64, "defense": 88 },
+  { "species": "Dryosaurus altus", "group": "7C", "lifespan_years": 16, "length_m": 3.0, "speed_kmh": 48, "intelligence": 44, "attack": 40, "defense": 42 },
+  { "species": "Torvosaurus tanneri", "group": "7D", "lifespan_years": 24, "length_m": 10.0, "speed_kmh": 28, "intelligence": 48, "attack": 90, "defense": 60 },
+
+  { "species": "Parasaurolophus walkeri", "group": "8A", "lifespan_years": 28, "length_m": 10.0, "speed_kmh": 32, "intelligence": 40, "attack": 58, "defense": 57 },
+  { "species": "Corythosaurus casuarius", "group": "8B", "lifespan_years": 26, "length_m": 9.0, "speed_kmh": 33, "intelligence": 40, "attack": 56, "defense": 55 },
+  { "species": "Maiasaura peeblesorum", "group": "8C", "lifespan_years": 24, "length_m": 9.0, "speed_kmh": 30, "intelligence": 42, "attack": 54, "defense": 58 },
+  { "species": "Saurolophus osborni", "group": "8D", "lifespan_years": 25, "length_m": 9.5, "speed_kmh": 31, "intelligence": 38, "attack": 55, "defense": 56 }
+]

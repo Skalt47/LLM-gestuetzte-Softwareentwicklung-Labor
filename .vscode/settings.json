@@ -5,10 +5,12 @@
         "Heberle",
         "Jauch",
         "Morbe",
+        "mvnw",
         "Nitzsche",
         "pagebreak",
         "sourcecode",
         "typst"
     ],
-    "java.compile.nullAnalysis.mode": "automatic"
+    "java.compile.nullAnalysis.mode": "automatic",
+    "java.configuration.updateBuildConfiguration": "interactive"
 }
