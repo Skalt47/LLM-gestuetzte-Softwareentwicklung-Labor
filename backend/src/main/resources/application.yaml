@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5433/dinodb
+    url: jdbc:postgresql://localhost:5434/dinodb
     username: app
     password: app
   jpa:
