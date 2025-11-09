@@ -58,6 +58,7 @@ public class MatchController {
     ms.getHumanDeck().addAll(human);
     ms.getAiDeck().addAll(ai);
 
+    //Save MatchState (current Game) in Redis
     state.put(ms);
 
     // 5) Build the API response: include match ID, starting player, and the human's top card

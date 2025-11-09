@@ -1,6 +1,7 @@
 package com.example.backend.service;
+import java.io.Serializable;
 
-public class DinoCard {
+public class DinoCard implements Serializable{
 
   public long dinosaurId;
   public String species;

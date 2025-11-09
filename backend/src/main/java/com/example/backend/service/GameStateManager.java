@@ -4,21 +4,27 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import org.springframework.stereotype.Component;
+import org.springframework.data.redis.core.RedisTemplate;
 
 @Component
 public class GameStateManager {
 
-  private final Map<UUID, MatchState> matches = new ConcurrentHashMap<>();
+  private final RedisTemplate<String, MatchState> redisMatchesTemplate;
+  private static final String key_prefix = "match:";
+
+  public GameStateManager(RedisTemplate<String, MatchState> redisMatchesTemplate) {
+    this.redisMatchesTemplate = redisMatchesTemplate;
+  }
 
   public MatchState get(UUID id) {
-    return matches.get(id);
+    return redisMatchesTemplate.opsForValue().get(key_prefix + id);
   }
 
   public void put(MatchState s) {
-    matches.put(s.getId(), s);
+    redisMatchesTemplate.opsForValue().set(key_prefix + s.getId(), s);
   }
 
   public void remove(UUID id) {
-    matches.remove(id);
+    redisMatchesTemplate.delete(key_prefix + id);
   }
 }
