@@ -11,5 +11,8 @@ services:
   adminer:
     image: adminer
     ports: ["8081:8080"]
+  redis:
+      image: redis:7
+      ports: ["6379:6379"]
 volumes:
   pgdata:
