@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 type StartMatchResponse = {
   matchId: string;
   activePlayer: string;
-  myTopCard: Record<string, unknown>; // flexible to match your current DTO
+  myTopCard: Record<string, unknown>; // flexible to match current DTO
 };
 
 export default function MatchStartTest() {

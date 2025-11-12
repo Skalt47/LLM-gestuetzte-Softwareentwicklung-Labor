@@ -12,7 +12,7 @@ type Dino = {
   defense?: number;
 };
 
-// Match DTOs 
+// Match DTOs
 type CardView = {
   species: string;
   groupCode: string;
@@ -36,7 +36,7 @@ export default function App() {
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState<string | null>(null);
 
-  // Load dinosaurs 
+  // Load dinosaurs
   useEffect(() => {
     fetch("/api/dinosaurs")
       .then((r) => r.json())
