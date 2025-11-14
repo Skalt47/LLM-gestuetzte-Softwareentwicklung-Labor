@@ -1,4 +1,4 @@
-package com.example.backend.service;
+package com.example.backend.model;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
