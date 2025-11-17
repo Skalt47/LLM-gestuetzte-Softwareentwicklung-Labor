@@ -9,7 +9,8 @@
         "Nitzsche",
         "pagebreak",
         "sourcecode",
-        "typst"
+        "typst",
+        "Vorgehensmodell"
     ],
     "java.compile.nullAnalysis.mode": "automatic",
     "java.configuration.updateBuildConfiguration": "interactive"

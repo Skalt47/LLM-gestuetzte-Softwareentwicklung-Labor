@@ -30,8 +30,4 @@ public class DinosaurController {
   public Dinosaur create(@RequestBody Dinosaur d) {
     return repo.save(d);
   }
-
-
-
-
 }

@@ -51,7 +51,11 @@
 
 == Frontend/Benutzeroberfläche
 
+Typescript, React
+
 == Backend, Datenbank und Schnittstellen
+
+Java, Spring Boot, REST API, PostgreSQL, Docker, Flyway
 
 == LLM-Integration (MCP, Wrapper, API)
 
@@ -76,6 +80,7 @@
 == Aufbau und Dokumentation der Prompts
 
 == Generierte Assets (Code, Bilder, Audio, Video, Text)
+Stammdaten in Form von JSON, Bilder für die Karten
 
 == Fehleranalyse und Optimierung
 
@@ -85,14 +90,18 @@
 = Erfahrung, Herausforderungen und Reflexion
 
 == Positive Erfahrungen und Erfolgsgeschichten
+Schneller Einstieg in Technologien, durch den Einsatz von LLMs
 
 == Schwierigkeiten und Problemstellung
 
 == Grenzen und Risiken von LLMs
+Kreislauf des Todes bei Problemen
 
 == Lessons Learned und Empfehlungen
+Fantastisch beim Einstieg in neue Technologien, aber nicht als alleinige Lösung geeignet
 
 == Zukunft der LLM-gestützten Entwicklung
+Hauptsächlich als Unterstützung für Entwickler, nicht als Ersatz
 
 // 1-2 Pages
 = Zusammenfassung und Fazit
