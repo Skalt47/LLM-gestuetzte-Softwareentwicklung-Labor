@@ -10,6 +10,7 @@ type Dino = {
   intelligence?: number;
   attack?: number;
   defense?: number;
+  imgUrl?: string;
 };
 
 // Match DTOs 
@@ -22,6 +23,7 @@ type CardView = {
   intelligence: number;
   attack: number;
   defense: number;
+  imgUrl: string;
 };
 
 type StartMatchResponse = {
@@ -132,6 +134,17 @@ export default function App() {
             </div>
 
             <h3>My Top Card</h3>
+            {match.myTopCard.imgUrl && (
+              <img
+                src={`http://localhost:8080${match.myTopCard.imgUrl}`}
+                alt="Dino"
+                style={{
+                  width: "300px",
+                  borderRadius: "8px",
+                  marginBottom: "16px"
+                }}
+              />
+            )}
             <ul style={{ paddingLeft: 18, margin: 0 }}>
               <li>
                 <strong>Species:</strong> {match.myTopCard.species}

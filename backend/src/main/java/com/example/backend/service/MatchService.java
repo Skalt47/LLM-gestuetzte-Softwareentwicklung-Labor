@@ -42,6 +42,7 @@ public class MatchService {
             c.intelligence = optInt(d.getIntelligence());
             c.attack = optInt(d.getAttack());
             c.defense = optInt(d.getDefense());
+            c.imgUrl = d.getImageUrl();
             return c;
         })
         .collect(Collectors.toList());
@@ -70,7 +71,8 @@ public class MatchService {
         top.speedKmh,
         top.intelligence,
         top.attack,
-        top.defense
+        top.defense,
+        top.imgUrl
         );
         return new StartMatchResponse(ms.getId(), "HUMAN", view);
     }

@@ -15,6 +15,7 @@ public record StartMatchResponse(
     double speedKmh,
     int intelligence,
     int attack,
-    int defense
+    int defense,
+    String imgUrl
   ) {}
 }

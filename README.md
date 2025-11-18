@@ -36,6 +36,8 @@ Starting backend (Maven Wrapper):
 ./mvnw spring-boot:run
 ```
 
+Use .env file for secrets. See what fields to set in .env.example file
+
 ## Frontend
 
 Starting frontend, by changing into the frontend folder:
