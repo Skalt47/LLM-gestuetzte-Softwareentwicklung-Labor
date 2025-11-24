@@ -17,15 +17,15 @@ public class GameStateManager {
     this.redisMatchesTemplate = redisMatchesTemplate;
   }
 
-  public MatchState get(UUID id) {
-    return redisMatchesTemplate.opsForValue().get(key_prefix + id);
+  public MatchState get(UUID matchId) {
+    return redisMatchesTemplate.opsForValue().get(key_prefix + matchId);
   }
 
   public void put(MatchState s) {
-    redisMatchesTemplate.opsForValue().set(key_prefix + s.getId(), s);
+    redisMatchesTemplate.opsForValue().set(key_prefix + s.getMatchId(), s);
   }
 
-  public void remove(UUID id) {
-    redisMatchesTemplate.delete(key_prefix + id);
+  public void remove(UUID matchId) {
+    redisMatchesTemplate.delete(key_prefix + matchId);
   }
 }
