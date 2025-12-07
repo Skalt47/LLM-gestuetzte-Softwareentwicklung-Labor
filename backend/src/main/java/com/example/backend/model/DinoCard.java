@@ -1,4 +1,4 @@
-package com.example.backend.service;
+package com.example.backend.model;
 import java.io.Serializable;
 
 public class DinoCard implements Serializable{

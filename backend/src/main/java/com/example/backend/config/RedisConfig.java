@@ -1,6 +1,6 @@
 package com.example.backend.config;
 
-import com.example.backend.service.MatchState;
+import com.example.backend.model.MatchState;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;

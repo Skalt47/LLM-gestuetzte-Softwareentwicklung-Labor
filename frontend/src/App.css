@@ -33,10 +33,114 @@
   }
 }
 
-.card {
-  padding: 2em;
+.App {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+  font-family: Arial, sans-serif;
 }
 
-.read-the-docs {
-  color: #888;
+h1 {
+  color: #2c3e50;
+  margin-bottom: 30px;
+}
+
+.start-section button,
+.card button,
+.result button,
+.game-over button {
+  padding: 10px 20px;
+  margin: 10px 5px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #3498db;
+  color: white;
+  transition: background-color 0.3s;
+}
+
+.start-section button:hover,
+.card button:hover,
+.result button:hover,
+.game-over button:hover {
+  background-color: #2980b9;
+}
+
+.card {
+  border: 2px solid #3498db;
+  border-radius: 10px;
+  padding: 20px;
+  margin: 20px 0;
+  background-color: #ecf0f1;
+}
+
+.card h2 {
+  color: #2c3e50;
+  margin-top: 0;
+}
+
+.attributes {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.attributes button {
+  text-align: left;
+  padding: 12px;
+}
+
+.deck-info {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.result {
+  border: 2px solid #27ae60;
+  border-radius: 10px;
+  padding: 20px;
+  margin: 20px 0;
+  background-color: #d5f4e6;
+}
+
+.result.ai {
+  border-color: #e74c3c;
+  background-color: #fadbd8;
+}
+
+.result.draw {
+  border-color: #f39c12;
+  background-color: #fde8c8;
+}
+
+.game-over {
+  border: 3px solid #2c3e50;
+  border-radius: 10px;
+  padding: 30px;
+  margin: 20px 0;
+  background-color: #bdc3c7;
+}
+
+.game-over h2 {
+  color: #2c3e50;
+  font-size: 28px;
+}
+
+.error {
+  color: #e74c3c;
+  padding: 15px;
+  border: 2px solid #e74c3c;
+  border-radius: 5px;
+  margin-top: 20px;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
