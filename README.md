@@ -38,6 +38,16 @@ Starting backend (Maven Wrapper):
 
 Use .env file for secrets. See what fields to set in .env.example file
 
+### Image Generation
+For generating new images you can change the path to your model and include your API_KEY in .env file.
+Before generating new images, delete images from backend folder and delete path in database. When starting backend for every dinosaur which doesnt have a img_url a new image is created.
+Use the following inside pgAdmin:
+```
+UPDATE dinosaurs
+SET image_url = NULL
+WHERE id IN (example_id_1, example_id_32);
+```
+
 ## Frontend
 
 Starting frontend, by changing into the frontend folder:
