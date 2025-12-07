@@ -23,7 +23,7 @@ public class DinoImageGenerationService {
     private String apiKey;
 
     // Advanced parameters for better quality
-    private static final int NUM_INFERENCE_STEPS = 45;
+    private static final int NUM_INFERENCE_STEPS = 35;
     private static final double GUIDANCE_SCALE = 7.5;
 
     private final ObjectMapper objectMapper = new ObjectMapper();
