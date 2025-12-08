@@ -12,4 +12,5 @@ public class DinoCard implements Serializable{
   public int intelligence;
   public int attack;
   public int defense;
+  public String imgUrl;
 }

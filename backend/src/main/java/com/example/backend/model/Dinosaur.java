@@ -19,6 +19,9 @@ public class Dinosaur {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
+  @Column(name = "image_url")
+  private String imgUrl;
+
   @Column(nullable = false)
   private String species; // "Tyrannosaurus rex"
 
@@ -39,6 +42,10 @@ public class Dinosaur {
   private Integer defense;
 
   // Getters
+  public String getImageUrl() {
+    return imgUrl;
+  }
+
   public Long getId() {
     return id;
   }
@@ -73,5 +80,14 @@ public class Dinosaur {
 
   public Integer getDefense() {
     return defense;
+  }
+
+  public String getImgUrl(){
+    return imgUrl;
+  }
+
+  // Setter for imgUrl
+  public void setImageUrl(String imgUrl) {
+    this.imgUrl = imgUrl;
   }
 }

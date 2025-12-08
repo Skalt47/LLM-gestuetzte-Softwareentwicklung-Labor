@@ -1,7 +1,22 @@
 import { useState } from "react";
 import "./App.css";
 
-interface Card {
+// Card DTO
+type Card = {
+  id: number;
+  species: string;
+  groupCode: string;
+  lifespanYears?: number;
+  lengthM?: number;
+  speedKmh?: number;
+  intelligence?: number;
+  attack?: number;
+  defense?: number;
+  imgUrl?: string;
+};
+
+// Match DTOs
+type CardView = {
   species: string;
   groupCode: string;
   lifespanYears: number;
@@ -10,7 +25,8 @@ interface Card {
   intelligence: number;
   attack: number;
   defense: number;
-}
+  imgUrl: string;
+};
 
 interface MatchState {
   matchId: string;
@@ -103,6 +119,17 @@ function App() {
           {matchState.topCard && (
             <div className="card">
               <h2>{matchState.topCard.species}</h2>
+              {matchState.topCard.imgUrl && (
+                <img
+                  src={`http://localhost:8080${matchState.topCard.imgUrl}`}
+                  alt={matchState.topCard.species}
+                  style={{
+                    width: "300px",
+                    borderRadius: "8px",
+                    marginBottom: "12px",
+                  }}
+                />
+              )}
               <p>Group: {matchState.topCard.groupCode}</p>
               <div className="attributes">
                 <button onClick={() => playCard("lifespan")}>

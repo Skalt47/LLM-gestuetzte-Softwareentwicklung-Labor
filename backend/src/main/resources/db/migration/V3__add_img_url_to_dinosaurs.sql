@@ -1,0 +1,2 @@
+ALTER TABLE dinosaurs
+ADD COLUMN image_url VARCHAR(50);
