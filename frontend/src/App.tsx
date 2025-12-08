@@ -1,8 +1,8 @@
 import { useState } from "react";
 import "./App.css";
 
-interface Card {
-type Dino = {
+// Card DTO
+type Card = {
   id: number;
   species: string;
   groupCode: string;
@@ -15,7 +15,7 @@ type Dino = {
   imgUrl?: string;
 };
 
-// Match DTOs 
+// Match DTOs
 type CardView = {
   species: string;
   groupCode: string;
@@ -119,6 +119,17 @@ function App() {
           {matchState.topCard && (
             <div className="card">
               <h2>{matchState.topCard.species}</h2>
+              {matchState.topCard.imgUrl && (
+                <img
+                  src={`http://localhost:8080${matchState.topCard.imgUrl}`}
+                  alt={matchState.topCard.species}
+                  style={{
+                    width: "300px",
+                    borderRadius: "8px",
+                    marginBottom: "12px",
+                  }}
+                />
+              )}
               <p>Group: {matchState.topCard.groupCode}</p>
               <div className="attributes">
                 <button onClick={() => playCard("lifespan")}>
@@ -155,45 +166,6 @@ function App() {
               <button onClick={startMatch}>Play Next Round</button>
             </div>
           )}
-            <h3>My Top Card</h3>
-            {match.myTopCard.imgUrl && (
-              <img
-                src={`http://localhost:8080${match.myTopCard.imgUrl}`}
-                alt="Dino"
-                style={{
-                  width: "300px",
-                  borderRadius: "8px",
-                  marginBottom: "16px"
-                }}
-              />
-            )}
-            <ul style={{ paddingLeft: 18, margin: 0 }}>
-              <li>
-                <strong>Species:</strong> {match.myTopCard.species}
-              </li>
-              <li>
-                <strong>Group:</strong> {match.myTopCard.groupCode}
-              </li>
-              <li>
-                <strong>Lifespan (years):</strong>{" "}
-                {match.myTopCard.lifespanYears}
-              </li>
-              <li>
-                <strong>Length (m):</strong> {match.myTopCard.lengthM}
-              </li>
-              <li>
-                <strong>Speed (km/h):</strong> {match.myTopCard.speedKmh}
-              </li>
-              <li>
-                <strong>Intelligence:</strong> {match.myTopCard.intelligence}
-              </li>
-              <li>
-                <strong>Attack:</strong> {match.myTopCard.attack}
-              </li>
-              <li>
-                <strong>Defense:</strong> {match.myTopCard.defense}
-              </li>
-            </ul>
 
           {(playResult?.humanDeckSize === 0 ||
             playResult?.aiDeckSize === 0) && (

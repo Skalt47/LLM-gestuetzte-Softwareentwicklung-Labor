@@ -86,7 +86,7 @@ public class Dinosaur {
     return imgUrl;
   }
 
-  // Setteer for imgUrl
+  // Setter for imgUrl
   public void setImageUrl(String imgUrl) {
     this.imgUrl = imgUrl;
   }
