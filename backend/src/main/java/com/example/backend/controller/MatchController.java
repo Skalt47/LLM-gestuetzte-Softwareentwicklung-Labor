@@ -5,6 +5,7 @@ import com.example.backend.service.MatchService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestParam;
 import com.example.backend.dto.PlayCardRequest;
 import com.example.backend.dto.PlayCardResponse;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,8 +22,8 @@ public class MatchController {
   }
 
   @PostMapping("/start")
-  public StartMatchResponse startMatch() {
-    return matchService.startNewMatch();
+  public StartMatchResponse startMatch(@RequestParam(name = "playerId", required = false) Long playerId) {
+    return matchService.startNewMatch(playerId);
   }
 
   @PostMapping("{matchId}/play")
