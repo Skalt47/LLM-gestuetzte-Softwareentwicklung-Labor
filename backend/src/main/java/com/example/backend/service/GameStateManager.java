@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 public class GameStateManager {
 
   private final RedisTemplate<String, MatchState> redisMatchesTemplate;
-  private static final String key_prefix = "match:";
+  private static final String KEY_PREFIX = "match:";
 
   public GameStateManager(
     RedisTemplate<String, MatchState> redisMatchesTemplate
@@ -18,14 +18,14 @@ public class GameStateManager {
   }
 
   public MatchState get(UUID matchId) {
-    return redisMatchesTemplate.opsForValue().get(key_prefix + matchId);
+    return redisMatchesTemplate.opsForValue().get(KEY_PREFIX + matchId);
   }
 
   public void put(MatchState s) {
-    redisMatchesTemplate.opsForValue().set(key_prefix + s.getMatchId(), s);
+    redisMatchesTemplate.opsForValue().set(KEY_PREFIX + s.getMatchId(), s);
   }
 
   public void remove(UUID matchId) {
-    redisMatchesTemplate.delete(key_prefix + matchId);
+    redisMatchesTemplate.delete(KEY_PREFIX + matchId);
   }
 }
