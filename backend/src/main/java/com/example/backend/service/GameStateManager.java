@@ -1,31 +1,31 @@
 package com.example.backend.service;
 
-import java.util.Map;
-import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
-import org.springframework.stereotype.Component;
-import org.springframework.data.redis.core.RedisTemplate;
 import com.example.backend.model.MatchState;
+import java.util.UUID;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.stereotype.Component;
 
 @Component
 public class GameStateManager {
 
   private final RedisTemplate<String, MatchState> redisMatchesTemplate;
-  private static final String key_prefix = "match:";
+  private static final String KEY_PREFIX = "match:";
 
-  public GameStateManager(RedisTemplate<String, MatchState> redisMatchesTemplate) {
+  public GameStateManager(
+    RedisTemplate<String, MatchState> redisMatchesTemplate
+  ) {
     this.redisMatchesTemplate = redisMatchesTemplate;
   }
 
-  public MatchState get(UUID id) {
-    return redisMatchesTemplate.opsForValue().get(key_prefix + id);
+  public MatchState get(UUID matchId) {
+    return redisMatchesTemplate.opsForValue().get(KEY_PREFIX + matchId);
   }
 
   public void put(MatchState s) {
-    redisMatchesTemplate.opsForValue().set(key_prefix + s.getId(), s);
+    redisMatchesTemplate.opsForValue().set(KEY_PREFIX + s.getMatchId(), s);
   }
 
-  public void remove(UUID id) {
-    redisMatchesTemplate.delete(key_prefix + id);
+  public void remove(UUID matchId) {
+    redisMatchesTemplate.delete(KEY_PREFIX + matchId);
   }
 }

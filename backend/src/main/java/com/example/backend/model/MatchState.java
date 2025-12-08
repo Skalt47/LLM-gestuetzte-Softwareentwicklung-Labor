@@ -8,7 +8,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 public class MatchState implements Serializable{
 
-  private final UUID id = UUID.randomUUID();
+  private final UUID matchId = UUID.randomUUID();
   private String activePlayer; // Human or AI
 
   @JsonDeserialize(as = ArrayDeque.class)
@@ -20,8 +20,8 @@ public class MatchState implements Serializable{
   public MatchState() {}
 
   // Getters + Setters
-  public UUID getId() {
-    return id;
+  public UUID getMatchId() {
+    return matchId;
   }
 
   public String getActivePlayer() {

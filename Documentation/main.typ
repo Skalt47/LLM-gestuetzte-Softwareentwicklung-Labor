@@ -55,7 +55,7 @@ Typescript, React
 
 == Backend, Datenbank und Schnittstellen
 
-Java, Spring Boot, REST API, PostgreSQL, Docker, Flyway
+Java, Spring Boot, REST API, PostgreSQL and Redis, Docker, Flyway
 
 == LLM-Integration (MCP, Wrapper, API)
 

@@ -26,8 +26,4 @@ public class DinosaurController {
     return repo.findById(id).orElseThrow();
   }
 
-  @PostMapping
-  public Dinosaur create(@RequestBody Dinosaur d) {
-    return repo.save(d);
-  }
 }
