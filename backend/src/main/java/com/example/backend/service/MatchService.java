@@ -51,8 +51,8 @@ public class MatchService {
 
     // 3) Mixing & Handing out cards to human and ai
     Collections.shuffle(cards, new Random());
-    var human = new ArrayDeque<DinoCard>(cards.subList(0, 15));
-    var ai = new ArrayDeque<DinoCard>(cards.subList(16, 31));
+    var human = new ArrayDeque<DinoCard>(cards.subList(0, 16));
+    var ai = new ArrayDeque<DinoCard>(cards.subList(16, 32));
 
     // 4) Create a new match state and store both decks in memory
     var ms = new MatchState();
