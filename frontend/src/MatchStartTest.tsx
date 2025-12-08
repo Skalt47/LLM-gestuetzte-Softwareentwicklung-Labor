@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 type StartMatchResponse = {
   matchId: string;
   activePlayer: string;
-  myTopCard: Record<string, unknown>; // flexible to match your current DTO
+  topCard: Record<string, unknown>; // flexible to match your current DTO
 };
 
 export default function MatchStartTest() {
@@ -65,7 +65,7 @@ export default function MatchStartTest() {
 
           <h3 style={{ marginTop: 12 }}>My Top Card</h3>
           <ul style={{ paddingLeft: 18 }}>
-            {Object.entries(data.myTopCard || {}).map(([k, v]) => (
+            {Object.entries(data.topCard || {}).map(([k, v]) => (
               <li key={k}>
                 <strong>{k}:</strong> {String(v)}
               </li>

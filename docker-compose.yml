@@ -5,7 +5,7 @@ services:
       POSTGRES_DB: dinodb
       POSTGRES_USER: app
       POSTGRES_PASSWORD: app
-    ports: ["5434:5432"]
+    ports: ["5434:5432"] # Host port 5434 mapped to container port 5432
     volumes:
       - pgdata:/var/lib/postgresql/data
   adminer:
