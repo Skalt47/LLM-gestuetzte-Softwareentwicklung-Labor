@@ -14,8 +14,6 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @Service
 public class MatchService {
@@ -89,8 +87,8 @@ public class MatchService {
   }
   @Transactional
   public PlayCardResponse playCard(
-    @PathVariable String matchId,
-    @RequestBody PlayCardRequest request
+    String matchId,
+    PlayCardRequest request
   ) {
     // 1) Load the match state from Redis
     var ms = state.get(UUID.fromString(matchId));
