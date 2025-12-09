@@ -1,0 +1,9 @@
+CREATE TABLE IF NOT EXISTS players (
+    id BIGSERIAL PRIMARY KEY,
+    name TEXT NOT NULL,
+    wins INT NOT NULL DEFAULT 0,
+    losses INT NOT NULL DEFAULT 0,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_players_name ON players (name);

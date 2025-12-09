@@ -42,8 +42,19 @@
 }
 
 h1 {
-  color: #2c3e50;
+  color: #153e36;
   margin-bottom: 30px;
+  font-size: 48px;
+  font-weight: 800;
+  letter-spacing: 0.6px;
+  margin-top: 6px;
+  text-shadow: 0 2px 0 rgba(255,255,255,0.6);
+}
+
+@media (max-width: 600px) {
+  h1 {
+    font-size: 32px;
+  }
 }
 
 .start-section button,
@@ -143,4 +154,101 @@ h1 {
 button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+}
+
+/* Player modal styles */
+:root {
+  --dino-turquoise: #16c7b7;
+  --modal-padding: 20px;
+  --modal-margin: 24px; /* gap between viewport and modal border on all sides */
+}
+
+.player-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  z-index: 1000;
+}
+
+.player-modal {
+  background: white;
+  border: 3px solid var(--dino-turquoise);
+  padding: var(--modal-padding);
+  border-radius: 12px;
+  /* center using transform to avoid scrollbar offset issues */
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  /* ensure modal respects equal margins on all sides */
+  width: min(420px, calc(100vw - 2 * var(--modal-margin)));
+  max-width: calc(100vw - 2 * var(--modal-margin));
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 12px; /* consistent gap between elements */
+  align-items: stretch;
+  max-height: calc(100vh - 2 * var(--modal-margin)); /* keep it within viewport with equal top/bottom gap */
+  overflow: auto; /* scroll if content grows */
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.player-modal-title {
+  margin: 0;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: var(--dino-turquoise);
+}
+
+.dino-emoji { font-size: 26px; line-height: 1; }
+
+.player-modal-input {
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+.player-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.player-modal-actions .save {
+  background: var(--dino-turquoise);
+  color: white;
+  border: 2px solid var(--dino-turquoise);
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.player-modal-actions .save:hover {
+  filter: brightness(0.95);
+}
+
+.player-modal-actions .save:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* small pop animation for win/lose emoji */
+@keyframes pop {
+  0% { transform: scale(0.2) rotate(-20deg); opacity: 0 }
+  60% { transform: scale(1.15) rotate(10deg); opacity: 1 }
+  100% { transform: scale(1) rotate(0deg); opacity: 1 }
+}
+.confetti-emoji {
+  display: inline-block;
+  animation: pop 700ms cubic-bezier(.2,.9,.2,1);
+}
+.sad-emoji {
+  display: inline-block;
+  animation: pop 700ms cubic-bezier(.2,.9,.2,1);
+  filter: grayscale(30%);
 }

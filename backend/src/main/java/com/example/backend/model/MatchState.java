@@ -10,6 +10,7 @@ public class MatchState implements Serializable{
 
   private final UUID matchId = UUID.randomUUID();
   private String activePlayer; // Human or AI
+  private Long playerId;
 
   @JsonDeserialize(as = ArrayDeque.class)
   private final Deque<DinoCard> humanDeck = new ArrayDeque<>();
@@ -38,6 +39,14 @@ public class MatchState implements Serializable{
 
   public Deque<DinoCard> getAiDeck() {
     return aiDeck;
+  }
+
+  public Long getPlayerId() {
+    return playerId;
+  }
+
+  public void setPlayerId(Long playerId) {
+      this.playerId = playerId;
   }
 
 }
