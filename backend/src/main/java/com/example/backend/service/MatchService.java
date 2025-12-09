@@ -14,7 +14,6 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import com.example.backend.service.PlayerService;
 
 @Service
 public class MatchService {
@@ -23,7 +22,11 @@ public class MatchService {
   private final GameStateManager state;
   private final PlayerService playerService;
 
-  public MatchService(DinosaurRepository repo, GameStateManager state, PlayerService playerService) {
+  public MatchService(
+    DinosaurRepository repo,
+    GameStateManager state,
+    PlayerService playerService
+  ) {
     this.repo = repo;
     this.state = state;
     this.playerService = playerService;
@@ -31,7 +34,6 @@ public class MatchService {
 
   @Transactional(readOnly = true)
   public StartMatchResponse startNewMatch(Long playerId) {
-
     // 1) Retrieving all dinosaurs from the database
     var dinos = repo.findAll();
 
@@ -93,11 +95,9 @@ public class MatchService {
   private static int optInt(Number n) {
     return n == null ? 0 : n.intValue();
   }
+
   @Transactional
-  public PlayCardResponse playCard(
-    String matchId,
-    PlayCardRequest request
-  ) {
+  public PlayCardResponse playCard(String matchId, PlayCardRequest request) {
     // 1) Load the match state from Redis
     var ms = state.get(UUID.fromString(matchId));
     if (ms == null) {
@@ -140,9 +140,9 @@ public class MatchService {
     String finalWinner = null;
 
     if (ms.getHumanDeck().isEmpty() && !ms.getAiDeck().isEmpty()) {
-        finalWinner = "AI";
+      finalWinner = "AI";
     } else if (ms.getAiDeck().isEmpty() && !ms.getHumanDeck().isEmpty()) {
-        finalWinner = "HUMAN";
+      finalWinner = "HUMAN";
     }
 
     // 6b) If game ends → update player record + delete match from redis
@@ -155,37 +155,37 @@ public class MatchService {
         playerService.applyMatchResult(ms.getPlayerId(), finalWinner);
       }
 
-        // 6d) Return final game-over response
-        return new PlayCardResponse(
-                finalWinner,
-                humanValue,
-                aiValue,
-                ms.getHumanDeck().size(),
-                ms.getAiDeck().size(),
-                null,   // no next card
-                true,    // gameOver=true   ← Deine neue Variable
-                finalWinner
-        );
+      // 6d) Return final game-over response
+      return new PlayCardResponse(
+        finalWinner,
+        humanValue,
+        aiValue,
+        ms.getHumanDeck().size(),
+        ms.getAiDeck().size(),
+        null, // no next card
+        true, // gameOver=true   ← Deine neue Variable
+        finalWinner
+      );
     }
 
     // 6) Save state back to Redis
     state.put(ms);
 
-    
-
     // 7) Prepare next top card view
     var next = ms.getHumanDeck().peekFirst();
-    var nextView = next == null ? null : new CardView(
-      next.species,
-      next.groupCode,
-      next.lifespanYears,
-      next.lengthM,
-      next.speedKmh,
-      next.intelligence,
-      next.attack,
-      next.defense,
-      next.imgUrl
-    );
+    var nextView = next == null
+      ? null
+      : new CardView(
+        next.species,
+        next.groupCode,
+        next.lifespanYears,
+        next.lengthM,
+        next.speedKmh,
+        next.intelligence,
+        next.attack,
+        next.defense,
+        next.imgUrl
+      );
 
     // 8) Return the result
     return new PlayCardResponse(
@@ -197,7 +197,6 @@ public class MatchService {
       nextView,
       false,
       null
-
     );
   }
 
