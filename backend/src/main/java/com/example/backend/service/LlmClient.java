@@ -22,7 +22,7 @@ public class LlmClient {
   public LlmClient(
       RestTemplateBuilder builder,
       @Value("${ollama.base-url:http://localhost:8080}") String baseUrl,
-      @Value("${ollama.model:deepseek-r1}") String model,
+      @Value("${ollama.model:phi3:mini}") String model,
       @Value("${ollama.timeout-ms:60000}") long timeoutMs) {
     this.rest = builder
         .setConnectTimeout(Duration.ofMillis(timeoutMs))
