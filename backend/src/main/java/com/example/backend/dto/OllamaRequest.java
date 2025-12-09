@@ -1,3 +1,5 @@
+package com.example.backend.dto;
+
 public class OllamaRequest {
   private String model;
   private String prompt;
