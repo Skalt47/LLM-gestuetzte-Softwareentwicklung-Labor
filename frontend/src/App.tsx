@@ -47,23 +47,32 @@ interface PlayResult {
 
 function App() {
   // player stored in localStorage: id and name
-  const [playerId, setPlayerId] = useState<string | null>(() => localStorage.getItem("playerId"));
-  const [playerName, setPlayerName] = useState<string | null>(() => localStorage.getItem("playerName"));
+  const [playerId, setPlayerId] = useState<string | null>(() =>
+    localStorage.getItem("playerId")
+  );
+  const [playerName, setPlayerName] = useState<string | null>(() =>
+    localStorage.getItem("playerName")
+  );
   const [nameInput, setNameInput] = useState("");
   const [matchState, setMatchState] = useState<MatchState | null>(null);
   const [playResult, setPlayResult] = useState<PlayResult | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [suggested, setSuggested] = useState<string | null>(null);
+  const [suggestLoading, setSuggestLoading] = useState(false);
 
   const startMatch = async () => {
     setLoading(true);
     setError(null);
     try {
       const playerParam = playerId ? `?playerId=${playerId}` : "";
-      const response = await fetch(`http://localhost:8080/api/matches/start${playerParam}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-      });
+      const response = await fetch(
+        `http://localhost:8080/api/matches/start${playerParam}`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+        }
+      );
       if (!response.ok) throw new Error("Failed to start match");
       const data = await response.json();
       setMatchState(data);
@@ -84,7 +93,8 @@ function App() {
   }, []);
 
   async function createPlayer() {
-    if (!nameInput || nameInput.trim().length === 0) return setError("Please enter a name");
+    if (!nameInput || nameInput.trim().length === 0)
+      return setError("Please enter a name");
     setLoading(true);
     try {
       const res = await fetch("http://localhost:8080/api/players", {
@@ -110,6 +120,7 @@ function App() {
     if (!matchState) return;
     setLoading(true);
     setError(null);
+    setSuggested(null);
     try {
       const response = await fetch(
         `http://localhost:8080/api/matches/${matchState.matchId}/play`,
@@ -128,8 +139,28 @@ function App() {
           : prev
       );
 
-      // Fetch next card state (optional: implement a GET endpoint to fetch new top card)
-      // For now, you could refresh the match or implement auto-play for AI
+      // AUTO-ADVANCE AI TURNS: if AI won and game not over, let AI play again
+      if (!result.gameOver && result.winner === "AI") {
+        // Wait 2 seconds, then AI picks and plays automatically
+        setTimeout(async () => {
+          try {
+            const suggestRes = await fetch(
+              `http://localhost:8080/api/matches/${matchState.matchId}/suggest-attribute`,
+              {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+              }
+            );
+            if (suggestRes.ok) {
+              const suggestData = await suggestRes.json();
+              // Recursively play the AI's chosen attribute
+              await playCard(suggestData.attribute);
+            }
+          } catch (err) {
+            console.error("AI auto-play failed:", err);
+          }
+        }, 2000);
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : "Unknown error");
     } finally {
@@ -137,24 +168,66 @@ function App() {
     }
   };
 
+  const suggestAttribute = async () => {
+    if (!matchState) return;
+    setSuggestLoading(true);
+    setError(null);
+    try {
+      const res = await fetch(
+        `http://localhost:8080/api/matches/${matchState.matchId}/suggest-attribute`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+      if (!res.ok) throw new Error("Failed to get suggestion");
+      const data = await res.json(); // { attribute: "attack" }
+      setSuggested(data.attribute);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Unknown error");
+    } finally {
+      setSuggestLoading(false);
+    }
+  };
+
   return (
     <div className="App">
       {/* Player name modal (blocks game until a name is provided) */}
       {!playerId && (
-        <div style={{
-          position: "fixed",
-          inset: 0,
-          background: "rgba(0,0,0,0.5)",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          zIndex: 1000,
-        }}>
-          <div style={{ background: "white", padding: 24, borderRadius: 8, width: 320 }}>
+        <div
+          style={{
+            position: "fixed",
+            inset: 0,
+            background: "rgba(0,0,0,0.5)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            zIndex: 1000,
+          }}
+        >
+          <div
+            style={{
+              background: "white",
+              padding: 24,
+              borderRadius: 8,
+              width: 320,
+            }}
+          >
             <h3>Enter your player name</h3>
-            <input value={nameInput} onChange={e => setNameInput(e.target.value)} placeholder="Your name" style={{ width: "100%", padding: 8, marginBottom: 12 }} />
+            <input
+              value={nameInput}
+              onChange={(e) => setNameInput(e.target.value)}
+              placeholder="Your name"
+              style={{ width: "100%", padding: 8, marginBottom: 12 }}
+            />
             <div style={{ display: "flex", justifyContent: "flex-end" }}>
-              <button onClick={createPlayer} disabled={loading} style={{ padding: "8px 12px" }}>{loading ? "Saving..." : "Save"}</button>
+              <button
+                onClick={createPlayer}
+                disabled={loading}
+                style={{ padding: "8px 12px" }}
+              >
+                {loading ? "Saving..." : "Save"}
+              </button>
             </div>
           </div>
         </div>
@@ -215,6 +288,22 @@ function App() {
                   </div>
                 </div>
               )}
+              <div
+                style={{
+                  display: "flex",
+                  gap: 12,
+                  alignItems: "center",
+                  marginBottom: 8,
+                }}
+              >
+                <button
+                  onClick={suggestAttribute}
+                  disabled={!matchState || suggestLoading || loading}
+                >
+                  {suggestLoading ? "Thinking..." : "AI Suggests"}
+                </button>
+                {suggested && <span>Suggested: {suggested}</span>}
+              </div>
 
               {/* round result */}
               {playResult && !playResult.gameOver && (

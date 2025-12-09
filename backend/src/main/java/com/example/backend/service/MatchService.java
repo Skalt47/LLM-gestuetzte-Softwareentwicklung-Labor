@@ -21,15 +21,21 @@ public class MatchService {
   private final DinosaurRepository repo;
   private final GameStateManager state;
   private final PlayerService playerService;
+  private final LlmClient llmClient;
+  private final LlmService llmService;
 
   public MatchService(
     DinosaurRepository repo,
     GameStateManager state,
-    PlayerService playerService
+    PlayerService playerService,
+    LlmClient llmClient,
+    LlmService llmService
   ) {
     this.repo = repo;
     this.state = state;
     this.playerService = playerService;
+    this.llmClient = llmClient;
+    this.llmService = llmService;
   }
 
   @Transactional(readOnly = true)
@@ -111,13 +117,24 @@ public class MatchService {
     if (humanCard == null || aiCard == null) {
       throw new IllegalStateException("One of the decks is empty.");
     }
-    // 3) Get the chosen attribute value from human
+    // 3) Get the chosen attribute value from human or ai
+    String attribute = request.getAttribute();
+    if (attribute == null || attribute.isBlank()) {
+      // if it’s AI’s turn, use AI’s top card; otherwise use human’s top card
+      var chooserCard = "AI".equalsIgnoreCase(ms.getActivePlayer())
+        ? aiCard
+        : humanCard;
+      attribute = llmClient.chooseAttribute(chooserCard);
+    }
     double humanValue = getAttributeValue(humanCard, request.getAttribute());
     double aiValue = getAttributeValue(aiCard, request.getAttribute());
 
     // 4) Compare and determine the winner
     int result = Double.compare(humanValue, aiValue);
     String winner = result > 0 ? "HUMAN" : result < 0 ? "AI" : "DRAW";
+
+    // update whose turn is next
+    ms.setActivePlayer("DRAW".equals(winner) ? ms.getActivePlayer() : winner);
 
     // 5) Move cards to winner's deck
     ms.getHumanDeck().removeFirst();
@@ -163,7 +180,7 @@ public class MatchService {
         ms.getHumanDeck().size(),
         ms.getAiDeck().size(),
         null, // no next card
-        true, // gameOver=true   ← Deine neue Variable
+        true, // gameOver=true
         finalWinner
       );
     }
@@ -198,6 +215,20 @@ public class MatchService {
       false,
       null
     );
+  }
+
+  @Transactional(readOnly = true)
+  public String suggestAttribute(String matchId) {
+    var ms = state.get(UUID.fromString(matchId));
+    if (ms == null) {
+      throw new IllegalArgumentException("Invalid match ID: " + matchId);
+    }
+    var card = ms.getHumanDeck().peekFirst();
+    if (card == null) {
+      throw new IllegalStateException("No card available.");
+    }
+    // Use the LLM to pick an attribute
+    return llmService.pickAttribute();
   }
 
   private double getAttributeValue(DinoCard card, String attribute) {
