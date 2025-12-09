@@ -288,22 +288,6 @@ function App() {
                   </div>
                 </div>
               )}
-              <div
-                style={{
-                  display: "flex",
-                  gap: 12,
-                  alignItems: "center",
-                  marginBottom: 8,
-                }}
-              >
-                <button
-                  onClick={suggestAttribute}
-                  disabled={!matchState || suggestLoading || loading}
-                >
-                  {suggestLoading ? "Thinking..." : "AI Suggests"}
-                </button>
-                {suggested && <span>Suggested: {suggested}</span>}
-              </div>
 
               {/* round result */}
               {playResult && !playResult.gameOver && (

@@ -22,20 +22,17 @@ public class MatchService {
   private final GameStateManager state;
   private final PlayerService playerService;
   private final LlmClient llmClient;
-  private final LlmService llmService;
 
   public MatchService(
     DinosaurRepository repo,
     GameStateManager state,
     PlayerService playerService,
-    LlmClient llmClient,
-    LlmService llmService
+    LlmClient llmClient
   ) {
     this.repo = repo;
     this.state = state;
     this.playerService = playerService;
     this.llmClient = llmClient;
-    this.llmService = llmService;
   }
 
   @Transactional(readOnly = true)
@@ -227,8 +224,8 @@ public class MatchService {
     if (card == null) {
       throw new IllegalStateException("No card available.");
     }
-    // Use the LLM to pick an attribute
-    return llmService.pickAttribute();
+    // Use the LLM to pick an attribute based on the card data
+    return llmClient.chooseAttribute(card);
   }
 
   private double getAttributeValue(DinoCard card, String attribute) {
