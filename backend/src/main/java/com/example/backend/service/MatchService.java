@@ -123,8 +123,8 @@ public class MatchService {
         : humanCard;
       attribute = llmClient.chooseAttribute(chooserCard);
     }
-    double humanValue = getAttributeValue(humanCard, request.getAttribute());
-    double aiValue = getAttributeValue(aiCard, request.getAttribute());
+    double humanValue = getAttributeValue(humanCard, attribute);
+    double aiValue = getAttributeValue(aiCard, attribute);
 
     // 4) Compare and determine the winner
     int result = Double.compare(humanValue, aiValue);
