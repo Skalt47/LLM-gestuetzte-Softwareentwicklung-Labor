@@ -3,16 +3,10 @@ package com.example.backend.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(
-  name = "dinosaurs",
-  uniqueConstraints = {
+@Table(name = "dinosaurs", uniqueConstraints = {
     @UniqueConstraint(name = "uq_dinosaurs_species", columnNames = "species"),
-    @UniqueConstraint(
-      name = "uq_dinosaurs_group_code",
-      columnNames = "group_code"
-    ),
-  }
-)
+    @UniqueConstraint(name = "uq_dinosaurs_group_code", columnNames = "group_code"),
+})
 public class Dinosaur {
 
   @Id
@@ -82,7 +76,7 @@ public class Dinosaur {
     return defense;
   }
 
-  public String getImgUrl(){
+  public String getImgUrl() {
     return imgUrl;
   }
 

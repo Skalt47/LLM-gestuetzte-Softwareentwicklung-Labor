@@ -12,8 +12,7 @@ public class GameStateManager {
   private static final String KEY_PREFIX = "match:";
 
   public GameStateManager(
-    RedisTemplate<String, MatchState> redisMatchesTemplate
-  ) {
+      RedisTemplate<String, MatchState> redisMatchesTemplate) {
     this.redisMatchesTemplate = redisMatchesTemplate;
   }
 

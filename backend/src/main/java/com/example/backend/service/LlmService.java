@@ -11,12 +11,12 @@ public class LlmService {
 
   private final RestTemplate restTemplate;
   private static final String[] ATTRIBUTES = {
-    "lifespan",
-    "length",
-    "speed",
-    "intelligence",
-    "attack",
-    "defense",
+      "lifespan",
+      "length",
+      "speed",
+      "intelligence",
+      "attack",
+      "defense",
   };
 
   public LlmService(RestTemplate restTemplate) {
@@ -28,8 +28,7 @@ public class LlmService {
    */
   public String pickAttribute() {
     try {
-      String prompt =
-        "Pick a number between 1 and 6. Reply with ONLY the number, nothing else.";
+      String prompt = "Pick a number between 1 and 6. Reply with ONLY the number, nothing else.";
 
       Map<String, Object> requestBody = new java.util.HashMap<>();
       requestBody.put("model", "phi3:mini");
@@ -39,10 +38,9 @@ public class LlmService {
       HttpEntity<Map<String, Object>> entity = new HttpEntity<>(requestBody);
 
       ResponseEntity<Map> response = restTemplate.postForEntity(
-        "http://localhost:11434/api/generate",
-        entity,
-        Map.class
-      );
+          "http://localhost:11434/api/generate",
+          entity,
+          Map.class);
 
       if (response.getBody() == null) {
         return ATTRIBUTES[0]; // Default to first attribute

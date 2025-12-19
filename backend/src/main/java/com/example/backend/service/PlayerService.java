@@ -28,14 +28,14 @@ public class PlayerService {
   }
 
   @Transactional
-   public void applyMatchResult(Long playerId, String winner) {
-        if (winner.equals("HUMAN")) {
-            recordWin(playerId);
-        } else if (winner.equals("AI")) {
-            recordLoss(playerId);
-        }
+  public void applyMatchResult(Long playerId, String winner) {
+    if (winner.equals("HUMAN")) {
+      recordWin(playerId);
+    } else if (winner.equals("AI")) {
+      recordLoss(playerId);
     }
- 
+  }
+
   @Transactional
   public Player recordWin(Long id) {
     var p = repo.findById(id).orElseThrow(() -> new IllegalArgumentException("Unknown player id: " + id));

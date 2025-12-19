@@ -38,14 +38,13 @@ public class DebugController {
       requestBody.put("prompt", prompt);
       requestBody.put("stream", false);
 
-      org.springframework.http.HttpEntity<Map<String, Object>> entity =
-        new org.springframework.http.HttpEntity<>(requestBody);
+      org.springframework.http.HttpEntity<Map<String, Object>> entity = new org.springframework.http.HttpEntity<>(
+          requestBody);
 
       ResponseEntity<Map> response = restTemplate.postForEntity(
-        "http://localhost:11434/api/generate",
-        entity,
-        Map.class
-      );
+          "http://localhost:11434/api/generate",
+          entity,
+          Map.class);
 
       return response.getBody();
     } catch (Exception e) {

@@ -12,8 +12,7 @@ import com.example.backend.model.DinoCard;
 
 @Component
 public class LlmClient {
-  private static final Set<String> ALLOWED =
-      Set.of("lifespan", "length", "speed", "intelligence", "attack", "defense");
+  private static final Set<String> ALLOWED = Set.of("lifespan", "length", "speed", "intelligence", "attack", "defense");
 
   private final RestTemplate rest;
   private final String baseUrl;
@@ -46,13 +45,13 @@ public class LlmClient {
         attack=%d
         defense=%d
         """.formatted(
-            card.species,
-            card.lifespanYears,
-            card.lengthM,
-            card.speedKmh,
-            card.intelligence,
-            card.attack,
-            card.defense);
+        card.species,
+        card.lifespanYears,
+        card.lengthM,
+        card.speedKmh,
+        card.intelligence,
+        card.attack,
+        card.defense);
 
     ChatRequest req = new ChatRequest(
         model,
@@ -84,9 +83,14 @@ public class LlmClient {
         .orElse("attack");
   }
 
-  public record Message(String role, String content) {}
-  public record ChatRequest(String model, List<Message> messages, boolean stream) {}
+  public record Message(String role, String content) {
+  }
+
+  public record ChatRequest(String model, List<Message> messages, boolean stream) {
+  }
+
   public record ChatResponse(ChatMessage message) {
-    public record ChatMessage(String role, String content) {}
+    public record ChatMessage(String role, String content) {
+    }
   }
 }

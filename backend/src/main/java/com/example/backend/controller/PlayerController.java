@@ -41,15 +41,16 @@ public class PlayerController {
    */
   @PostMapping("/{id}/result")
   public ResponseEntity<Player> recordResult(@PathVariable Long id, @RequestParam String outcome) {
-    if (outcome == null) return ResponseEntity.badRequest().build();
+    if (outcome == null)
+      return ResponseEntity.badRequest().build();
     switch (outcome.toLowerCase()) {
       case "win",
-           "human" -> {
+          "human" -> {
         var p = playerService.recordWin(id);
         return ResponseEntity.ok(p);
       }
       case "loss",
-           "ai" -> {
+          "ai" -> {
         var p = playerService.recordLoss(id);
         return ResponseEntity.ok(p);
       }

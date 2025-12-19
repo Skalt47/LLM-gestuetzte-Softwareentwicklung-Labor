@@ -4,7 +4,8 @@ public class PlayCardRequest {
 
   private String attribute;
 
-  public PlayCardRequest() {}
+  public PlayCardRequest() {
+  }
 
   public PlayCardRequest(String attribute) {
     this.attribute = attribute;

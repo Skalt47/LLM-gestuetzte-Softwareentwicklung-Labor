@@ -19,7 +19,8 @@ public class Player {
   @Column(nullable = false)
   private int losses = 0;
 
-  public Player() {}
+  public Player() {
+  }
 
   public Player(String name) {
     this.name = name;

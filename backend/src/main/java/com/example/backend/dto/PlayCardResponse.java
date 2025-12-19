@@ -9,18 +9,17 @@ public class PlayCardResponse {
   private int aiDeckSize;
   private StartMatchResponse.CardView nextTopCard;
   private boolean gameOver;
-private String matchWinner;
+  private String matchWinner;
 
   public PlayCardResponse(
-    String winner,
-    double humanValue,
-    double aiValue,
-    int humanDeckSize,
-    int aiDeckSize,
-    StartMatchResponse.CardView nextTopCard,
-    boolean gameOver,
-    String matchWinner
-  ) {
+      String winner,
+      double humanValue,
+      double aiValue,
+      int humanDeckSize,
+      int aiDeckSize,
+      StartMatchResponse.CardView nextTopCard,
+      boolean gameOver,
+      String matchWinner) {
     this.winner = winner;
     this.humanValue = humanValue;
     this.aiValue = aiValue;

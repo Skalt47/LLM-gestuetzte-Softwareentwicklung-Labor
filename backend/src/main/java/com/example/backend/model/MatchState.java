@@ -6,7 +6,7 @@ import java.util.UUID;
 import java.io.Serializable;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
-public class MatchState implements Serializable{
+public class MatchState implements Serializable {
 
   private final UUID matchId = UUID.randomUUID();
   private String activePlayer; // Human or AI
@@ -17,8 +17,9 @@ public class MatchState implements Serializable{
   @JsonDeserialize(as = ArrayDeque.class)
   private final Deque<DinoCard> aiDeck = new ArrayDeque<>();
 
-  //Default Constructor for Jackson
-  public MatchState() {}
+  // Default Constructor for Jackson
+  public MatchState() {
+  }
 
   // Getters + Setters
   public UUID getMatchId() {
@@ -46,7 +47,7 @@ public class MatchState implements Serializable{
   }
 
   public void setPlayerId(Long playerId) {
-      this.playerId = playerId;
+    this.playerId = playerId;
   }
 
 }

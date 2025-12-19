@@ -15,8 +15,6 @@ import com.example.backend.dto.PlayCardResponse;
 import com.example.backend.dto.StartMatchResponse;
 import com.example.backend.service.MatchService;
 
-
-
 @RestController
 @RequestMapping("/api/matches")
 public class MatchController {
@@ -26,20 +24,17 @@ public class MatchController {
   public MatchController(MatchService matchService, RestTemplate restTemplate) {
     this.matchService = matchService;
   }
-  
 
   @PostMapping("/start")
   public StartMatchResponse startMatch(
-    @RequestParam(name = "playerId", required = false) Long playerId
-  ) {
+      @RequestParam(name = "playerId", required = false) Long playerId) {
     return matchService.startNewMatch(playerId);
   }
 
   @PostMapping("/{matchId}/play")
   public PlayCardResponse playCard(
-    @PathVariable String matchId,
-    @RequestBody PlayCardRequest request
-  ) {
+      @PathVariable String matchId,
+      @RequestBody PlayCardRequest request) {
     return matchService.playCard(matchId, request);
   }
 

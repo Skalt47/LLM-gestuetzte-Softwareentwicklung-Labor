@@ -24,11 +24,10 @@ public class MatchService {
   private final LlmClient llmClient;
 
   public MatchService(
-    DinosaurRepository repo,
-    GameStateManager state,
-    PlayerService playerService,
-    LlmClient llmClient
-  ) {
+      DinosaurRepository repo,
+      GameStateManager state,
+      PlayerService playerService,
+      LlmClient llmClient) {
     this.repo = repo;
     this.state = state;
     this.playerService = playerService;
@@ -42,22 +41,22 @@ public class MatchService {
 
     // 2) Transforming Dinosaurs (Raw Data) to DinoCards
     var cards = dinos
-      .stream()
-      .map(d -> {
-        var c = new DinoCard();
-        c.dinosaurId = d.getId();
-        c.species = d.getSpecies();
-        c.groupCode = d.getGroupCode();
-        c.lifespanYears = optInt(d.getLifespanYears());
-        c.lengthM = opt(d.getLengthM());
-        c.speedKmh = opt(d.getSpeedKmh());
-        c.intelligence = optInt(d.getIntelligence());
-        c.attack = optInt(d.getAttack());
-        c.defense = optInt(d.getDefense());
-        c.imgUrl = d.getImgUrl();
-        return c;
-      })
-      .collect(Collectors.toList());
+        .stream()
+        .map(d -> {
+          var c = new DinoCard();
+          c.dinosaurId = d.getId();
+          c.species = d.getSpecies();
+          c.groupCode = d.getGroupCode();
+          c.lifespanYears = optInt(d.getLifespanYears());
+          c.lengthM = opt(d.getLengthM());
+          c.speedKmh = opt(d.getSpeedKmh());
+          c.intelligence = optInt(d.getIntelligence());
+          c.attack = optInt(d.getAttack());
+          c.defense = optInt(d.getDefense());
+          c.imgUrl = d.getImgUrl();
+          return c;
+        })
+        .collect(Collectors.toList());
 
     // 3) Mixing & Handing out cards to human and ai
     Collections.shuffle(cards, new Random());
@@ -67,27 +66,28 @@ public class MatchService {
     // 4) Create a new match state and store both decks in memory
     var ms = new MatchState();
     ms.setActivePlayer(null);
-    // Attach starter player (if provided) to match state so we can credit wins/losses later
+    // Attach starter player (if provided) to match state so we can credit
+    // wins/losses later
     ms.setPlayerId(playerId);
     ms.getHumanDeck().addAll(human);
     ms.getAiDeck().addAll(ai);
 
-    //Save MatchState (current Game) in Redis
+    // Save MatchState (current Game) in Redis
     state.put(ms);
 
-    // 5) Build the API response: include match ID, starting player, and the human's top card
+    // 5) Build the API response: include match ID, starting player, and the human's
+    // top card
     var top = ms.getHumanDeck().peekFirst();
     var view = new CardView(
-      top.species,
-      top.groupCode,
-      top.lifespanYears,
-      top.lengthM,
-      top.speedKmh,
-      top.intelligence,
-      top.attack,
-      top.defense,
-      top.imgUrl
-    );
+        top.species,
+        top.groupCode,
+        top.lifespanYears,
+        top.lengthM,
+        top.speedKmh,
+        top.intelligence,
+        top.attack,
+        top.defense,
+        top.imgUrl);
     return new StartMatchResponse(ms.getMatchId(), "HUMAN", view);
   }
 
@@ -119,8 +119,8 @@ public class MatchService {
     if (attribute == null || attribute.isBlank()) {
       // if it’s AI’s turn, use AI’s top card; otherwise use human’s top card
       var chooserCard = "AI".equalsIgnoreCase(ms.getActivePlayer())
-        ? aiCard
-        : humanCard;
+          ? aiCard
+          : humanCard;
       attribute = llmClient.chooseAttribute(chooserCard);
     }
     double humanValue = getAttributeValue(humanCard, attribute);
@@ -171,15 +171,14 @@ public class MatchService {
 
       // 6d) Return final game-over response
       return new PlayCardResponse(
-        finalWinner,
-        humanValue,
-        aiValue,
-        ms.getHumanDeck().size(),
-        ms.getAiDeck().size(),
-        null, // no next card
-        true, // gameOver=true
-        finalWinner
-      );
+          finalWinner,
+          humanValue,
+          aiValue,
+          ms.getHumanDeck().size(),
+          ms.getAiDeck().size(),
+          null, // no next card
+          true, // gameOver=true
+          finalWinner);
     }
 
     // 6) Save state back to Redis
@@ -188,30 +187,28 @@ public class MatchService {
     // 7) Prepare next top card view
     var next = ms.getHumanDeck().peekFirst();
     var nextView = next == null
-      ? null
-      : new CardView(
-        next.species,
-        next.groupCode,
-        next.lifespanYears,
-        next.lengthM,
-        next.speedKmh,
-        next.intelligence,
-        next.attack,
-        next.defense,
-        next.imgUrl
-      );
+        ? null
+        : new CardView(
+            next.species,
+            next.groupCode,
+            next.lifespanYears,
+            next.lengthM,
+            next.speedKmh,
+            next.intelligence,
+            next.attack,
+            next.defense,
+            next.imgUrl);
 
     // 8) Return the result
     return new PlayCardResponse(
-      winner,
-      humanValue,
-      aiValue,
-      ms.getHumanDeck().size(),
-      ms.getAiDeck().size(),
-      nextView,
-      false,
-      null
-    );
+        winner,
+        humanValue,
+        aiValue,
+        ms.getHumanDeck().size(),
+        ms.getAiDeck().size(),
+        nextView,
+        false,
+        null);
   }
 
   @Transactional(readOnly = true)
@@ -237,8 +234,7 @@ public class MatchService {
       case "attack" -> opt(card.attack);
       case "defense" -> opt(card.defense);
       default -> throw new IllegalArgumentException(
-        "Unknown attribute: " + attribute
-      );
+          "Unknown attribute: " + attribute);
     };
   }
 }
