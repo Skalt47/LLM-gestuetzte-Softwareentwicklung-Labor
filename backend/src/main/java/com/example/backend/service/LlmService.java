@@ -1,7 +1,10 @@
 package com.example.backend.service;
 
 import java.util.Map;
+
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -37,16 +40,32 @@ public class LlmService {
 
       HttpEntity<Map<String, Object>> entity = new HttpEntity<>(requestBody);
 
-      ResponseEntity<Map> response = restTemplate.postForEntity(
-          "http://localhost:11434/api/generate",
-          entity,
-          Map.class);
+      // ResponseEntity<Map> response = restTemplate.postForEntity(
+      //     "http://localhost:11434/api/generate",
+      //     entity,
+      //     Map.class);
+        
+      ResponseEntity<Map<String, Object>> response = restTemplate.exchange(
+        "http://localhost:11434/api/generate",
+        java.util.Objects.requireNonNull(java.util.Objects.requireNonNull(HttpMethod.POST)),
+        entity,
+        new ParameterizedTypeReference<Map<String, Object>>() {}
+      );
 
       if (response.getBody() == null) {
         return ATTRIBUTES[0]; // Default to first attribute
       }
 
-      String responseText = (String) response.getBody().get("response");
+      // String responseText = (String) response.getBody().get("response");
+      // int number = extractNumber(responseText);
+
+      Map<String, Object> body = response.getBody();
+      String responseText = "";
+
+      if (body != null && body.containsKey("response")) {
+          responseText = (String) body.get("response");
+      }
+
       int number = extractNumber(responseText);
 
       // Convert 1-6 to 0-5 index

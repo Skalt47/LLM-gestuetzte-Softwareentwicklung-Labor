@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
 
 /**
  * Debug-only endpoints for testing LLM integration.
@@ -38,13 +40,15 @@ public class DebugController {
       requestBody.put("prompt", prompt);
       requestBody.put("stream", false);
 
-      org.springframework.http.HttpEntity<Map<String, Object>> entity = new org.springframework.http.HttpEntity<>(
-          requestBody);
+      org.springframework.http.HttpEntity<Map<String, Object>> entity =
+        new org.springframework.http.HttpEntity<>(requestBody);
 
-      ResponseEntity<Map> response = restTemplate.postForEntity(
-          "http://localhost:11434/api/generate",
-          entity,
-          Map.class);
+      ResponseEntity<Map<String, Object>> response = restTemplate.exchange(
+        "http://localhost:11434/api/generate",
+        java.util.Objects.requireNonNull(java.util.Objects.requireNonNull(HttpMethod.POST)),
+        entity,
+        new ParameterizedTypeReference<Map<String, Object>>() {}
+      );
 
       return response.getBody();
     } catch (Exception e) {

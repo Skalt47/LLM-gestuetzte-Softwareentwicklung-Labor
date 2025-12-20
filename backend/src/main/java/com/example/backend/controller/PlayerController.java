@@ -4,6 +4,7 @@ import com.example.backend.model.Player;
 import com.example.backend.service.PlayerService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.lang.NonNull;
 
 @RestController
 @RequestMapping("/api/players")
@@ -30,7 +31,7 @@ public class PlayerController {
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<Player> getPlayer(@PathVariable Long id) {
+  public ResponseEntity<Player> getPlayer(@PathVariable @NonNull Long id) {
     return playerService.findById(id).map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
   }
 
@@ -40,7 +41,7 @@ public class PlayerController {
    * outcome: win | loss | draw
    */
   @PostMapping("/{id}/result")
-  public ResponseEntity<Player> recordResult(@PathVariable Long id, @RequestParam String outcome) {
+  public ResponseEntity<Player> recordResult(@PathVariable @NonNull Long id, @RequestParam String outcome) {
     if (outcome == null)
       return ResponseEntity.badRequest().build();
     switch (outcome.toLowerCase()) {

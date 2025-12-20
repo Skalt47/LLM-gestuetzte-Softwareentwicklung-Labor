@@ -24,8 +24,8 @@ public class LlmClient {
       @Value("${ollama.model:phi3:mini}") String model,
       @Value("${ollama.timeout-ms:60000}") long timeoutMs) {
     this.rest = builder
-        .setConnectTimeout(Duration.ofMillis(timeoutMs))
-        .setReadTimeout(Duration.ofMillis(timeoutMs))
+        .connectTimeout(Duration.ofMillis(timeoutMs))
+        .readTimeout(Duration.ofMillis(timeoutMs))
         .build();
     this.baseUrl = baseUrl;
     this.model = model;

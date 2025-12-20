@@ -165,11 +165,12 @@ public class MatchService {
       state.remove(ms.getMatchId());
 
       // 6c) Increase win/loss (call to PlayerService) if a player is associated
-      if (ms.getPlayerId() != null) {
-        playerService.applyMatchResult(ms.getPlayerId(), finalWinner);
+      var playerId = ms.getPlayerId();
+      if (playerId != null) {
+        playerService.applyMatchResult(playerId, finalWinner);
       }
 
-      // 6d) Return final game-over response
+      // 6d) Return final game-over respons
       return new PlayCardResponse(
           finalWinner,
           humanValue,

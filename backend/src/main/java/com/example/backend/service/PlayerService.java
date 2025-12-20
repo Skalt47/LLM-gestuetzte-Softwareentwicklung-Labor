@@ -4,6 +4,7 @@ import com.example.backend.model.Player;
 import com.example.backend.repository.PlayerRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.lang.NonNull;
 
 import java.util.Optional;
 
@@ -23,12 +24,12 @@ public class PlayerService {
   }
 
   @Transactional(readOnly = true)
-  public Optional<Player> findById(Long id) {
+  public Optional<Player> findById(@NonNull Long id) {
     return repo.findById(id);
   }
 
   @Transactional
-  public void applyMatchResult(Long playerId, String winner) {
+  public void applyMatchResult(@NonNull Long playerId, String winner) {
     if (winner.equals("HUMAN")) {
       recordWin(playerId);
     } else if (winner.equals("AI")) {
@@ -37,14 +38,14 @@ public class PlayerService {
   }
 
   @Transactional
-  public Player recordWin(Long id) {
+  public Player recordWin(@NonNull Long id) {
     var p = repo.findById(id).orElseThrow(() -> new IllegalArgumentException("Unknown player id: " + id));
     p.incrementWins();
     return repo.save(p);
   }
 
   @Transactional
-  public Player recordLoss(Long id) {
+  public Player recordLoss(@NonNull Long id) {
     var p = repo.findById(id).orElseThrow(() -> new IllegalArgumentException("Unknown player id: " + id));
     p.incrementLosses();
     return repo.save(p);
