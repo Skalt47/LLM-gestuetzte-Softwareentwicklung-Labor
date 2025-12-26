@@ -47,7 +47,7 @@ public class LlmService {
         
       ResponseEntity<Map<String, Object>> response = restTemplate.exchange(
         "http://localhost:11434/api/generate",
-        java.util.Objects.requireNonNull(java.util.Objects.requireNonNull(HttpMethod.POST)),
+        java.util.Objects.requireNonNull(HttpMethod.POST),
         entity,
         new ParameterizedTypeReference<Map<String, Object>>() {}
       );
