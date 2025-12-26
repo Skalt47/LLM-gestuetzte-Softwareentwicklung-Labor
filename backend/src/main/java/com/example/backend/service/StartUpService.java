@@ -25,7 +25,7 @@ public class StartUpService {
           String prompt = "Create an image of the dinosaur species: " +
               d.getSpecies() +
               ". Style: Cute anime/cartoon with bright/ strong colors." +
-              "Include characteristic features for each dinosaur and a background matching its natural habitat. Make the dinosaur easy to recognize, give a small realistic charcteristic"
+              "Include characteristic features for each dinosaur and a background matching its natural habitat. Make the dinosaur easy to recognize by using some realistic charcteristic features."
               +
               "The image should be suitable for a quartett card game, similar in layout to a Pokémon card.";
           String url = dinoImageService.generateImage(
