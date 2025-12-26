@@ -104,6 +104,45 @@ h1 {
   padding: 12px;
 }
 
+.suggestion-panel {
+  margin: 14px auto;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+}
+
+.suggestion-panel .suggestion-button {
+  padding: 10px 18px;
+  border-radius: 999px;
+  border: none;
+  background: #16c7b7;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 8px 18px rgba(22, 199, 183, 0.5);
+}
+
+.suggestion-panel .suggestion-button:disabled {
+  background: #8edbcd;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.suggestion-panel .suggestion-button:not(:disabled):hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 20px rgba(22, 199, 183, 0.6);
+}
+
+.suggestion-info {
+  font-size: 0.95rem;
+  color: #1f5b4a;
+  margin: 0;
+}
+
 .deck-info {
   display: flex;
   justify-content: space-around;

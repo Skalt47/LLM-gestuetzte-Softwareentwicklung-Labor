@@ -61,6 +61,7 @@ function App() {
   const [error, setError] = useState<string | null>(null);
   const [suggested, setSuggested] = useState<string | null>(null);
   const [suggestLoading, setSuggestLoading] = useState(false);
+  const [suggestUsesLeft, setSuggestUsesLeft] = useState(3);
   const [aiThinking, setAiThinking] = useState(false);
 
   const startMatch = async () => {
@@ -79,6 +80,8 @@ function App() {
       if (!response.ok) throw new Error("Failed to start match");
       const data = await response.json();
       setMatchState(data);
+      setSuggested(null);
+      setSuggestUsesLeft(3);
       setPlayResult(null);
     } catch (err) {
       setAiThinking(false);
@@ -120,11 +123,13 @@ function App() {
     }
   }
 
-  const playCard = async (attribute: string) => {
+  const isHumanTurn = matchState?.activePlayer?.toUpperCase() === "HUMAN";
+  const attributeButtonsDisabled = !isHumanTurn || loading;
+
+  const playCard = async (attribute: string | null) => {
     if (!matchState) return;
     setLoading(true);
     setError(null);
-    setSuggested(null);
     try {
       const response = await fetch(
         `http://localhost:8080/api/matches/${matchState.matchId}/play`,
@@ -148,28 +153,10 @@ function App() {
       });
 
       // AUTO-ADVANCE AI TURNS: if AI won and game not over, let AI play again
+
       if (!result.gameOver && result.winner === "AI") {
         setAiThinking(true);
-        // Wait 2 seconds, then AI picks and plays automatically
-        setTimeout(async () => {
-          try {
-            const suggestRes = await fetch(
-              `http://localhost:8080/api/matches/${matchState.matchId}/suggest-attribute`,
-              {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-              }
-            );
-            if (suggestRes.ok) {
-              const suggestData = await suggestRes.json();
-              // Recursively play the AI's chosen attribute
-              await playCard(suggestData.attribute);
-            }
-          } catch (err) {
-            console.error("AI auto-play failed:", err);
-            setAiThinking(false);
-          }
-        }, 2000);
+        setTimeout(() => void playCard(null), 2000);
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : "Unknown error");
@@ -178,8 +165,21 @@ function App() {
     }
   };
 
+  const handleAttributeSelect = (attribute: string) => {
+    setSuggested(null);
+    playCard(attribute);
+  };
+
   const suggestAttribute = async () => {
-    if (!matchState) return;
+    if (
+      !matchState ||
+      !isHumanTurn ||
+      suggestUsesLeft <= 0 ||
+      suggestLoading
+    ) {
+      return;
+    }
+
     setSuggestLoading(true);
     setError(null);
     try {
@@ -192,16 +192,16 @@ function App() {
       );
       if (!res.ok) throw new Error("Failed to get suggestion");
       const data = await res.json(); // { attribute: "attack" }
-      setSuggested(data.attribute);
+      const attribute = data.attribute;
+      setSuggested(attribute);
+      setSuggestUsesLeft((prev) => Math.max(prev - 1, 0));
+      await playCard(attribute);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Unknown error");
     } finally {
       setSuggestLoading(false);
     }
   };
-
-  const isHumanTurn = matchState?.activePlayer?.toUpperCase() === "HUMAN";
-  const attributeButtonsDisabled = !isHumanTurn || loading;
 
   return (
     <div className="App">
@@ -279,6 +279,31 @@ function App() {
                     />
                   )}
                   <p>Group: {matchState.topCard.groupCode}</p>
+                  <div className="suggestion-panel">
+                    <button
+                      className="suggestion-button"
+                      onClick={suggestAttribute}
+                      disabled={
+                        !isHumanTurn ||
+                        suggestLoading ||
+                        suggestUsesLeft <= 0 ||
+                        loading
+                      }
+                    >
+                      {suggestLoading
+                        ? "Asking the LLM..."
+                        : `Ask the LLM (${suggestUsesLeft} use${
+                            suggestUsesLeft === 1 ? "" : "s"
+                          } left)`}
+                    </button>
+                    <p className="suggestion-info">
+                      {suggested
+                        ? `LLM chose ${suggested} for you.`
+                        : `Let the LLM decide when you're unsure (${suggestUsesLeft} use${
+                            suggestUsesLeft === 1 ? "" : "s"
+                          } left).`}
+                    </p>
+                  </div>
                   {aiThinking && (
                     <div className="ai-thinking">
                       <div className="ai-spinner">
@@ -291,37 +316,37 @@ function App() {
                   )}
                   <div className="attributes">
                     <button
-                      onClick={() => playCard("lifespan")}
+                      onClick={() => handleAttributeSelect("lifespan")}
                       disabled={attributeButtonsDisabled}
                     >
                       ⏱️ Lifespan: {matchState.topCard.lifespanYears} years
                     </button>
                     <button
-                      onClick={() => playCard("length")}
+                      onClick={() => handleAttributeSelect("length")}
                       disabled={attributeButtonsDisabled}
                     >
                       📏 Length: {matchState.topCard.lengthM}m
                     </button>
                     <button
-                      onClick={() => playCard("speed")}
+                      onClick={() => handleAttributeSelect("speed")}
                       disabled={attributeButtonsDisabled}
                     >
                       💨 Speed: {matchState.topCard.speedKmh} km/h
                     </button>
                     <button
-                      onClick={() => playCard("intelligence")}
+                      onClick={() => handleAttributeSelect("intelligence")}
                       disabled={attributeButtonsDisabled}
                     >
                       🧠 Intelligence: {matchState.topCard.intelligence}
                     </button>
                     <button
-                      onClick={() => playCard("attack")}
+                      onClick={() => handleAttributeSelect("attack")}
                       disabled={attributeButtonsDisabled}
                     >
                       ⚔️ Attack: {matchState.topCard.attack}
                     </button>
                     <button
-                      onClick={() => playCard("defense")}
+                      onClick={() => handleAttributeSelect("defense")}
                       disabled={attributeButtonsDisabled}
                     >
                       🛡️ Defense: {matchState.topCard.defense}
