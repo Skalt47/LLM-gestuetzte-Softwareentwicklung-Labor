@@ -30,7 +30,7 @@ type CardView = {
 
 interface MatchState {
   matchId: string;
-  activePlayer: string;
+  activePlayer: string | null;
   topCard: Card;
 }
 
@@ -41,6 +41,7 @@ interface PlayResult {
   humanDeckSize: number;
   aiDeckSize: number;
   nextTopCard: Card | null;
+  activePlayer: string;
   gameOver?: boolean;
   matchWinner?: string | null;
 }
@@ -133,11 +134,14 @@ function App() {
       if (!response.ok) throw new Error("Failed to play card");
       const result = await response.json();
       setPlayResult(result);
-      setMatchState((prev) =>
-        prev && result.nextTopCard
-          ? { ...prev, topCard: result.nextTopCard }
-          : prev
-      );
+      setMatchState((prev) => {
+        if (!prev) return prev;
+        return {
+          ...prev,
+          activePlayer: result.activePlayer ?? prev.activePlayer,
+          topCard: result.nextTopCard ?? prev.topCard,
+        };
+      });
 
       // AUTO-ADVANCE AI TURNS: if AI won and game not over, let AI play again
       if (!result.gameOver && result.winner === "AI") {
@@ -189,6 +193,9 @@ function App() {
       setSuggestLoading(false);
     }
   };
+
+  const isHumanTurn = matchState?.activePlayer?.toUpperCase() === "HUMAN";
+  const attributeButtonsDisabled = !isHumanTurn || loading;
 
   return (
     <div className="App">
@@ -267,22 +274,40 @@ function App() {
                   )}
                   <p>Group: {matchState.topCard.groupCode}</p>
                   <div className="attributes">
-                    <button onClick={() => playCard("lifespan")}>
+                    <button
+                      onClick={() => playCard("lifespan")}
+                      disabled={attributeButtonsDisabled}
+                    >
                       ⏱️ Lifespan: {matchState.topCard.lifespanYears} years
                     </button>
-                    <button onClick={() => playCard("length")}>
+                    <button
+                      onClick={() => playCard("length")}
+                      disabled={attributeButtonsDisabled}
+                    >
                       📏 Length: {matchState.topCard.lengthM}m
                     </button>
-                    <button onClick={() => playCard("speed")}>
+                    <button
+                      onClick={() => playCard("speed")}
+                      disabled={attributeButtonsDisabled}
+                    >
                       💨 Speed: {matchState.topCard.speedKmh} km/h
                     </button>
-                    <button onClick={() => playCard("intelligence")}>
+                    <button
+                      onClick={() => playCard("intelligence")}
+                      disabled={attributeButtonsDisabled}
+                    >
                       🧠 Intelligence: {matchState.topCard.intelligence}
                     </button>
-                    <button onClick={() => playCard("attack")}>
+                    <button
+                      onClick={() => playCard("attack")}
+                      disabled={attributeButtonsDisabled}
+                    >
                       ⚔️ Attack: {matchState.topCard.attack}
                     </button>
-                    <button onClick={() => playCard("defense")}>
+                    <button
+                      onClick={() => playCard("defense")}
+                      disabled={attributeButtonsDisabled}
+                    >
                       🛡️ Defense: {matchState.topCard.defense}
                     </button>
                   </div>

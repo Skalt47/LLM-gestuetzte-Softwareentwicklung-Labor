@@ -65,7 +65,7 @@ public class MatchService {
 
     // 4) Create a new match state and store both decks in memory
     var ms = new MatchState();
-    ms.setActivePlayer(null);
+    ms.setActivePlayer("HUMAN");
     // Attach starter player (if provided) to match state so we can credit
     // wins/losses later
     ms.setPlayerId(playerId);
@@ -88,7 +88,7 @@ public class MatchService {
         top.attack,
         top.defense,
         top.imgUrl);
-    return new StartMatchResponse(ms.getMatchId(), "HUMAN", view);
+    return new StartMatchResponse(ms.getMatchId(), ms.getActivePlayer(), view);
   }
 
   private static double opt(Number n) {
@@ -115,16 +115,17 @@ public class MatchService {
       throw new IllegalStateException("One of the decks is empty.");
     }
     // 3) Get the chosen attribute value from human or ai
-    String attribute = request.getAttribute();
-    if (attribute == null || attribute.isBlank()) {
+    String attributeCategory = request.getAttribute();
+    if (attributeCategory == null || attributeCategory.isBlank()) {
+      // if no attribute provided by human player/ frontend then check whose turn it is, but use AI anyways
       // if it’s AI’s turn, use AI’s top card; otherwise use human’s top card
       var chooserCard = "AI".equalsIgnoreCase(ms.getActivePlayer())
           ? aiCard
           : humanCard;
-      attribute = llmClient.chooseAttribute(chooserCard);
+      attributeCategory = llmClient.chooseAttribute(chooserCard);
     }
-    double humanValue = getAttributeValue(humanCard, attribute);
-    double aiValue = getAttributeValue(aiCard, attribute);
+    double humanValue = getAttributeValue(humanCard, attributeCategory);
+    double aiValue = getAttributeValue(aiCard, attributeCategory);
 
     // 4) Compare and determine the winner
     int result = Double.compare(humanValue, aiValue);
@@ -179,6 +180,7 @@ public class MatchService {
           ms.getAiDeck().size(),
           null, // no next card
           true, // gameOver=true
+          finalWinner,
           finalWinner);
     }
 
@@ -209,6 +211,7 @@ public class MatchService {
         ms.getAiDeck().size(),
         nextView,
         false,
+        ms.getActivePlayer(),
         null);
   }
 
