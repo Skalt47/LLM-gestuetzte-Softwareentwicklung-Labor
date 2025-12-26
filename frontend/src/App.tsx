@@ -61,10 +61,12 @@ function App() {
   const [error, setError] = useState<string | null>(null);
   const [suggested, setSuggested] = useState<string | null>(null);
   const [suggestLoading, setSuggestLoading] = useState(false);
+  const [aiThinking, setAiThinking] = useState(false);
 
   const startMatch = async () => {
     setLoading(true);
     setError(null);
+    setAiThinking(false);
     try {
       const playerParam = playerId ? `?playerId=${playerId}` : "";
       const response = await fetch(
@@ -79,6 +81,7 @@ function App() {
       setMatchState(data);
       setPlayResult(null);
     } catch (err) {
+      setAiThinking(false);
       setError(err instanceof Error ? err.message : "Unknown error");
     } finally {
       setLoading(false);
@@ -133,6 +136,7 @@ function App() {
       );
       if (!response.ok) throw new Error("Failed to play card");
       const result = await response.json();
+      setAiThinking(false);
       setPlayResult(result);
       setMatchState((prev) => {
         if (!prev) return prev;
@@ -145,6 +149,7 @@ function App() {
 
       // AUTO-ADVANCE AI TURNS: if AI won and game not over, let AI play again
       if (!result.gameOver && result.winner === "AI") {
+        setAiThinking(true);
         // Wait 2 seconds, then AI picks and plays automatically
         setTimeout(async () => {
           try {
@@ -162,6 +167,7 @@ function App() {
             }
           } catch (err) {
             console.error("AI auto-play failed:", err);
+            setAiThinking(false);
           }
         }, 2000);
       }
@@ -273,6 +279,16 @@ function App() {
                     />
                   )}
                   <p>Group: {matchState.topCard.groupCode}</p>
+                  {aiThinking && (
+                    <div className="ai-thinking">
+                      <div className="ai-spinner">
+                        <span role="img" aria-label="dinosaur">
+                          🦖
+                        </span>
+                      </div>
+                      <span>AI opponent is thinking...</span>
+                    </div>
+                  )}
                   <div className="attributes">
                     <button
                       onClick={() => playCard("lifespan")}
