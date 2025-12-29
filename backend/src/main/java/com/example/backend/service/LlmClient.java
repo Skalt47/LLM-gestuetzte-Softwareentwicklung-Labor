@@ -34,7 +34,8 @@ public class LlmClient {
   public String chooseAttribute(DinoCard card) {
     String prompt = """
         You are playing a Top Trumps style game. Choose the SINGLE attribute key that maximizes winning.
-        Allowed keys: lifespan, length, speed, intelligence, attack, defense. 0 is lowest and 100 is highest possible value.
+        Allowed keys: lifespan, length, speed, intelligence, attack, defense.
+        The lowest and highest values of this dinoset are: attack=40-98, defense=30-99, intelligence=18-78, speed=7.0-60.0, length=1.6-30.0 m, lifespan=16-90.
         Reply with only the key.
         Card:
         species=%s
