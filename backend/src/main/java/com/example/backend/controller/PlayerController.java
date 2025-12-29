@@ -1,6 +1,6 @@
 package com.example.backend.controller;
 
-import com.example.backend.model.Player;
+import com.example.backend.model.PlayerModel;
 import com.example.backend.service.PlayerService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +22,7 @@ public class PlayerController {
   }
 
   @PostMapping
-  public ResponseEntity<Player> createPlayer(@RequestBody CreatePlayerRequest req) {
+  public ResponseEntity<PlayerModel> createPlayer(@RequestBody CreatePlayerRequest req) {
     if (req == null || req.name == null || req.name.isBlank()) {
       return ResponseEntity.badRequest().build();
     }
@@ -31,7 +31,7 @@ public class PlayerController {
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<Player> getPlayer(@PathVariable @NonNull Long id) {
+  public ResponseEntity<PlayerModel> getPlayer(@PathVariable @NonNull Long id) {
     return playerService.findById(id).map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
   }
 
@@ -41,7 +41,7 @@ public class PlayerController {
    * outcome: win | loss | draw
    */
   @PostMapping("/{id}/result")
-  public ResponseEntity<Player> recordResult(@PathVariable @NonNull Long id, @RequestParam String outcome) {
+  public ResponseEntity<PlayerModel> recordResult(@PathVariable @NonNull Long id, @RequestParam String outcome) {
     if (outcome == null)
       return ResponseEntity.badRequest().build();
     switch (outcome.toLowerCase()) {

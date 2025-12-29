@@ -1,10 +1,10 @@
 package com.example.backend.dto;
 
-public class OllamaRequest {
+public class OllamaRequestDto {
   private String model;
   private String prompt;
 
-  public OllamaRequest(String model, String prompt) {
+  public OllamaRequestDto(String model, String prompt) {
     this.model = model;
     this.prompt = prompt;
   }

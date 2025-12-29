@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-import com.example.backend.dto.PlayCardRequest;
-import com.example.backend.dto.PlayCardResponse;
-import com.example.backend.dto.StartMatchResponse;
+import com.example.backend.dto.PlayCardRequestDto;
+import com.example.backend.dto.PlayCardResponseDto;
+import com.example.backend.dto.StartMatchResponseDto;
 import com.example.backend.service.MatchService;
 
 @RestController
@@ -26,15 +26,15 @@ public class MatchController {
   }
 
   @PostMapping("/start")
-  public StartMatchResponse startMatch(
+  public StartMatchResponseDto startMatch(
       @RequestParam(name = "playerId", required = false) Long playerId) {
     return matchService.startNewMatch(playerId);
   }
 
   @PostMapping("/{matchId}/play")
-  public PlayCardResponse playCard(
+  public PlayCardResponseDto playCard(
       @PathVariable String matchId,
-      @RequestBody PlayCardRequest request) {
+      @RequestBody PlayCardRequestDto request) {
     return matchService.playCard(matchId, request);
   }
 

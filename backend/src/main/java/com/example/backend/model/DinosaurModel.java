@@ -7,7 +7,7 @@ import jakarta.persistence.*;
     @UniqueConstraint(name = "uq_dinosaurs_species", columnNames = "species"),
     @UniqueConstraint(name = "uq_dinosaurs_group_code", columnNames = "group_code"),
 })
-public class Dinosaur {
+public class DinosaurModel {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

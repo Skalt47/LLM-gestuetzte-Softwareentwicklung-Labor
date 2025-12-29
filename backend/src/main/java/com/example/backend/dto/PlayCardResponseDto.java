@@ -1,24 +1,24 @@
 package com.example.backend.dto;
 
-public class PlayCardResponse {
+public class PlayCardResponseDto {
 
   private String winner;
   private double humanValue;
   private double aiValue;
   private int humanDeckSize;
   private int aiDeckSize;
-  private StartMatchResponse.CardView nextTopCard;
+  private StartMatchResponseDto.CardView nextTopCard;
   private boolean gameOver;
   private String activePlayer;
   private String matchWinner;
 
-  public PlayCardResponse(
+  public PlayCardResponseDto(
       String winner,
       double humanValue,
       double aiValue,
       int humanDeckSize,
       int aiDeckSize,
-      StartMatchResponse.CardView nextTopCard,
+      StartMatchResponseDto.CardView nextTopCard,
       boolean gameOver,
       String activePlayer,
       String matchWinner) {
@@ -53,7 +53,7 @@ public class PlayCardResponse {
     return aiDeckSize;
   }
 
-  public StartMatchResponse.CardView getNextTopCard() {
+  public StartMatchResponseDto.CardView getNextTopCard() {
     return nextTopCard;
   }
 

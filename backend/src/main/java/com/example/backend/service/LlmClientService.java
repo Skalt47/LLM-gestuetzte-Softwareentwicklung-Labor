@@ -8,17 +8,17 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
-import com.example.backend.model.DinoCard;
+import com.example.backend.model.DinoCardModel;
 
 @Component
-public class LlmClient {
+public class LlmClientService {
   private static final Set<String> ALLOWED = Set.of("lifespan", "length", "speed", "intelligence", "attack", "defense");
 
   private final RestTemplate rest;
   private final String baseUrl;
   private final String model;
 
-  public LlmClient(
+  public LlmClientService(
       RestTemplateBuilder builder,
       @Value("${ollama.base-url:http://localhost:8080}") String baseUrl,
       @Value("${ollama.model:phi3:mini}") String model,
@@ -31,7 +31,7 @@ public class LlmClient {
     this.model = model;
   }
 
-  public String chooseAttribute(DinoCard card) {
+  public String chooseAttribute(DinoCardModel card) {
     String prompt = """
         You are playing a Top Trumps style game. Choose the SINGLE attribute key that maximizes winning.
         Allowed keys: lifespan, length, speed, intelligence, attack, defense.
@@ -70,7 +70,7 @@ public class LlmClient {
     return pick;
   }
 
-  private String fallback(DinoCard c) {
+  private String fallback(DinoCardModel c) {
     Map<String, Double> vals = Map.of(
         "lifespan", (double) c.lifespanYears,
         "length", c.lengthM,

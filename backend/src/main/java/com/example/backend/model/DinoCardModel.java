@@ -2,7 +2,7 @@ package com.example.backend.model;
 
 import java.io.Serializable;
 
-public class DinoCard implements Serializable {
+public class DinoCardModel implements Serializable {
 
   public long dinosaurId;
   public String species;

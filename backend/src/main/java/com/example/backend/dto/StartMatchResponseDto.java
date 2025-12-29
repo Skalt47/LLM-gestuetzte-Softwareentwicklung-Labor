@@ -2,7 +2,7 @@ package com.example.backend.dto;
 
 import java.util.UUID;
 
-public record StartMatchResponse(
+public record StartMatchResponseDto(
     UUID matchId,
     String activePlayer,
     CardView topCard) {

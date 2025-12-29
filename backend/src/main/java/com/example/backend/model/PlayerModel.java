@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "players")
-public class Player {
+public class PlayerModel {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,10 +20,10 @@ public class Player {
   @Column(nullable = false)
   private int losses = 0;
 
-  public Player() {
+  public PlayerModel() {
   }
 
-  public Player(String name) {
+  public PlayerModel(String name) {
     this.name = name;
   }
 
