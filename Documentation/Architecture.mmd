@@ -19,9 +19,9 @@ architecture-beta
     model:L -- R:db
 
     group helpers[Helpers]
-    service cache(aws:res-amazon-elasticache-cache-node)[Cache] in helpers
+    service redis(aws:arch-amazon-memorydb-for-redis)[Redis] in helpers
     service ollama(aws:arch-aws-deep-learning-containers)[Ollama LLM] in helpers
     service pictureGerator(aws:res-camera)[Picture Generator] in helpers
-    serviceLayer:B -- T:cache
+    serviceLayer:B -- T:redis
     serviceLayer:B -- T:ollama
     serviceLayer:B -- T:pictureGerator
