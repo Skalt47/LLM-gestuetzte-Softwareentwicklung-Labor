@@ -1,6 +1,6 @@
 package com.example.backend.service;
 
-import com.example.backend.model.Dinosaur;
+import com.example.backend.model.DinosaurModel;
 import com.example.backend.repository.DinosaurRepository;
 import jakarta.annotation.PostConstruct;
 import java.util.List;
@@ -18,8 +18,8 @@ public class StartUpService {
 
   @PostConstruct
   public void generateMissingDinoImages() {
-    List<Dinosaur> dinos = dinosaurRepository.findAll();
-    for (Dinosaur d : dinos) {
+    List<DinosaurModel> dinos = dinosaurRepository.findAll();
+    for (DinosaurModel d : dinos) {
       if (d.getImageUrl() == null) {
         try {
           String prompt = "Create an image of the dinosaur species: " +

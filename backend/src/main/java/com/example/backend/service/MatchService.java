@@ -1,11 +1,11 @@
 package com.example.backend.service;
 
-import com.example.backend.dto.PlayCardRequest;
-import com.example.backend.dto.PlayCardResponse;
-import com.example.backend.dto.StartMatchResponse;
-import com.example.backend.dto.StartMatchResponse.CardView;
-import com.example.backend.model.DinoCard;
-import com.example.backend.model.MatchState;
+import com.example.backend.dto.PlayCardRequestDto;
+import com.example.backend.dto.PlayCardResponseDto;
+import com.example.backend.dto.StartMatchResponseDto;
+import com.example.backend.dto.StartMatchResponseDto.CardView;
+import com.example.backend.model.DinoCardModel;
+import com.example.backend.model.MatchStateModel;
 import com.example.backend.repository.DinosaurRepository;
 import java.util.ArrayDeque;
 import java.util.Collections;
@@ -19,15 +19,15 @@ import org.springframework.transaction.annotation.Transactional;
 public class MatchService {
 
   private final DinosaurRepository repo;
-  private final GameStateManager state;
+  private final GameStateManagerService state;
   private final PlayerService playerService;
-  private final LlmClient llmClient;
+  private final LlmClientService llmClient;
 
   public MatchService(
       DinosaurRepository repo,
-      GameStateManager state,
+      GameStateManagerService state,
       PlayerService playerService,
-      LlmClient llmClient) {
+      LlmClientService llmClient) {
     this.repo = repo;
     this.state = state;
     this.playerService = playerService;
@@ -35,7 +35,7 @@ public class MatchService {
   }
 
   @Transactional(readOnly = true)
-  public StartMatchResponse startNewMatch(Long playerId) {
+  public StartMatchResponseDto startNewMatch(Long playerId) {
     // 1) Retrieving all dinosaurs from the database
     var dinos = repo.findAll();
 
@@ -43,7 +43,7 @@ public class MatchService {
     var cards = dinos
         .stream()
         .map(d -> {
-          var c = new DinoCard();
+          var c = new DinoCardModel();
           c.dinosaurId = d.getId();
           c.species = d.getSpecies();
           c.groupCode = d.getGroupCode();
@@ -60,11 +60,11 @@ public class MatchService {
 
     // 3) Mixing & Handing out cards to human and ai
     Collections.shuffle(cards, new Random());
-    var human = new ArrayDeque<DinoCard>(cards.subList(0, 16));
-    var ai = new ArrayDeque<DinoCard>(cards.subList(16, 32));
+    var human = new ArrayDeque<DinoCardModel>(cards.subList(0, 16));
+    var ai = new ArrayDeque<DinoCardModel>(cards.subList(16, 32));
 
     // 4) Create a new match state and store both decks in memory
-    var ms = new MatchState();
+    var ms = new MatchStateModel();
     ms.setActivePlayer("HUMAN");
     // Attach starter player (if provided) to match state so we can credit
     // wins/losses later
@@ -88,7 +88,7 @@ public class MatchService {
         top.attack,
         top.defense,
         top.imgUrl);
-    return new StartMatchResponse(ms.getMatchId(), ms.getActivePlayer(), view);
+    return new StartMatchResponseDto(ms.getMatchId(), ms.getActivePlayer(), view);
   }
 
   private static double opt(Number n) {
@@ -100,7 +100,7 @@ public class MatchService {
   }
 
   @Transactional
-  public PlayCardResponse playCard(String matchId, PlayCardRequest request) {
+  public PlayCardResponseDto playCard(String matchId, PlayCardRequestDto request) {
     // 1) Load the match state from Redis
     var ms = state.get(UUID.fromString(matchId));
     if (ms == null) {
@@ -172,7 +172,7 @@ public class MatchService {
       }
 
       // 6d) Return final game-over respons
-      return new PlayCardResponse(
+      return new PlayCardResponseDto(
           finalWinner,
           humanValue,
           aiValue,
@@ -203,7 +203,7 @@ public class MatchService {
             next.imgUrl);
 
     // 8) Return the result
-    return new PlayCardResponse(
+    return new PlayCardResponseDto(
         winner,
         humanValue,
         aiValue,
@@ -229,7 +229,7 @@ public class MatchService {
     return llmClient.chooseAttribute(card);
   }
 
-  private double getAttributeValue(DinoCard card, String attribute) {
+  private double getAttributeValue(DinoCardModel card, String attribute) {
     return switch (attribute.toLowerCase()) {
       case "lifespan" -> opt(card.lifespanYears);
       case "length" -> opt(card.lengthM);
