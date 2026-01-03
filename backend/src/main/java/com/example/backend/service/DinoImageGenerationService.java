@@ -38,28 +38,27 @@ public class DinoImageGenerationService {
 
         // Add parameters to improve image quality
         Map<String, Object> parameters = Map.of(
-            "num_inference_steps", NUM_INFERENCE_STEPS,
-            "guidance_scale", GUIDANCE_SCALE
-        );
+                "num_inference_steps", NUM_INFERENCE_STEPS,
+                "guidance_scale", GUIDANCE_SCALE);
 
         Map<String, Object> jsonMap = Map.of(
-            "inputs", prompt,
-            "parameters", parameters
-        );
+                "inputs", prompt,
+                "parameters", parameters);
 
         String jsonBody = objectMapper.writeValueAsString(jsonMap);
 
         HttpRequest request = HttpRequest.newBuilder()
-            .uri(URI.create(apiUrl))
-            .header("Authorization", "Bearer " + apiKey)
-            .header("Content-Type", "application/json")
-            .POST(HttpRequest.BodyPublishers.ofString(jsonBody))
-            .build();
+                .uri(URI.create(apiUrl))
+                .header("Authorization", "Bearer " + apiKey)
+                .header("Content-Type", "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString(jsonBody))
+                .build();
 
         HttpResponse<byte[]> response = client.send(request, HttpResponse.BodyHandlers.ofByteArray());
 
         if (response.statusCode() != 200) {
-            throw new RuntimeException("HF API returned: " + response.statusCode() + " - " + new String(response.body()));
+            throw new RuntimeException(
+                    "HF API returned: " + response.statusCode() + " - " + new String(response.body()));
         }
 
         Path path = Path.of("src/main/resources/images/" + fileName + ".png");

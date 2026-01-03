@@ -55,7 +55,7 @@ Typescript, React
 
 == Backend, Datenbank und Schnittstellen
 
-Java, Spring Boot, REST API, PostgreSQL and Redis, Docker, Flyway
+Java, Spring Boot, REST API, PostgreSQL and Redis, Docker, Flyway, Ollama, phi3:mini
 
 == LLM-Integration (MCP, Wrapper, API)
 

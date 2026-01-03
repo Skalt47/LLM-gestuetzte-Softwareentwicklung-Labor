@@ -1,9 +1,10 @@
 package com.example.backend.controller;
 
-import com.example.backend.model.Dinosaur;
+import com.example.backend.model.DinosaurModel;
 import com.example.backend.repository.DinosaurRepository;
 import java.util.List;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.lang.NonNull;
 
 @RestController
 @RequestMapping("/api/dinosaurs")
@@ -17,12 +18,12 @@ public class DinosaurController {
   }
 
   @GetMapping
-  public List<Dinosaur> all() {
+  public List<DinosaurModel> all() {
     return repo.findAll();
   }
 
   @GetMapping("/{id}")
-  public Dinosaur one(@PathVariable Long id) {
+  public DinosaurModel one(@PathVariable @NonNull Long id) {
     return repo.findById(id).orElseThrow();
   }
 

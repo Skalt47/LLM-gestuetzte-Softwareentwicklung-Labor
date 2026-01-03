@@ -1,27 +1,26 @@
 package com.example.backend.service;
 
-import com.example.backend.model.MatchState;
+import com.example.backend.model.MatchStateModel;
 import java.util.UUID;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
 @Component
-public class GameStateManager {
+public class GameStateManagerService {
 
-  private final RedisTemplate<String, MatchState> redisMatchesTemplate;
+  private final RedisTemplate<String, MatchStateModel> redisMatchesTemplate;
   private static final String KEY_PREFIX = "match:";
 
-  public GameStateManager(
-    RedisTemplate<String, MatchState> redisMatchesTemplate
-  ) {
+  public GameStateManagerService(
+      RedisTemplate<String, MatchStateModel> redisMatchesTemplate) {
     this.redisMatchesTemplate = redisMatchesTemplate;
   }
 
-  public MatchState get(UUID matchId) {
+  public MatchStateModel get(UUID matchId) {
     return redisMatchesTemplate.opsForValue().get(KEY_PREFIX + matchId);
   }
 
-  public void put(MatchState s) {
+  public void put(MatchStateModel s) {
     redisMatchesTemplate.opsForValue().set(KEY_PREFIX + s.getMatchId(), s);
   }
 

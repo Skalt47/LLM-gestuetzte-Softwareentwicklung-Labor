@@ -1,12 +1,13 @@
 package com.example.backend.dto;
 
-public class PlayCardRequest {
+public class PlayCardRequestDto {
 
   private String attribute;
 
-  public PlayCardRequest() {}
+  public PlayCardRequestDto() {
+  }
 
-  public PlayCardRequest(String attribute) {
+  public PlayCardRequestDto(String attribute) {
     this.attribute = attribute;
   }
 
