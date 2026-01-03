@@ -96,7 +96,10 @@ Java, Spring Boot, REST API, PostgreSQL and Redis, Docker, Flyway, Ollama, phi3:
 
 == LLM-Integration (MCP, Wrapper, API)
 
+REST-Wrapper auf Ollama.
+
 == Sicherheits- und Authentifizierungsmechanismen
+Entfallen, da kein Login oder sensible Daten verarbeitet werden.
 
 == Sonstiges
 Dokumentation mit Typst, Versionskontrolle mit Git und GitHub und Mermaid Chart für Architekturdiagramme
