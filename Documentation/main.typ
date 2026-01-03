@@ -6,7 +6,12 @@
   title: "LLM-gestuetzte-Softwareentwicklung-Labor",
   authors: (
     (name: "Tim Jauch", student-id: "763086", course: "SWB", course-of-studies: "LLM-gestuetzte-Softwareentwicklung"),
-    (name: "Annabel Heberle", student-id: "770677", course: "SWB", course-of-studies: "LLM-gestuetzte-Softwareentwicklung"),
+    (
+      name: "Annabel Heberle",
+      student-id: "770677",
+      course: "SWB",
+      course-of-studies: "LLM-gestuetzte-Softwareentwicklung",
+    ),
   ),
   acronyms: acronyms, // displays the acronyms defined in the acronyms dictionary
   at-university: true, // if true the company name on the title page and the confidentiality statement are hidden
@@ -34,8 +39,12 @@
 #project-name ist ein Softwareprojekt, welches mit Hilfe von LLMs entwickelt und dokumentiert wird. Das Ziel des Projekts ist es, eine Online Version des beliebten Quartett Kartenspiels zu erstellen. Hierbei gilt es den Aufwand bei der Erstellung der Software mithilfe von LLMs zu minimieren und gleichzeitig eine qualitativ hochwertige Software zu entwickeln.
 
 == Zielsetzung und Relevanz
+Ziel dieses Softwareprojekts ist der Einsatz von LLMs zur Unterstützung bei der Softwareentwicklung und die Integration in selbigen. Durch den Einsatz von LLMs soll der Entwicklungsprozess effizienter gestaltet werden mit gleichbleibender Qualität.
+
+Wichtig und relevant ist das Arbeiten mit LLMs, da von einer Steigerung der Produktivität ausgegangen wird. Dadurch kann der Aufwand und somit in der realen Welt kosten verringert werden. Außerdem ist der Vergleich von statischem Code, welcher eine Entscheidung trifft und dynamischen Entscheidungen durch LLMs betrachtenswert hinsichtlich Performance und Qualität.
 
 == Aufbau der Arbeit
+Nach einer Projektbeschreibung folgt die Softwarearchitektur und die Vorstellung der verwendeten Technologien. Im Zuge der Implementierung wird noch detailierter auf den Einsatz der LLMs und Prompt Engineering eingegangen. Abschließend geht es noch um Erfahrungen, Herausforderungen, Reflexion, sowie eine Zusammenfassung und das Fazit.
 
 // ~3 Pages
 = Projektbeschreibung
@@ -59,7 +68,7 @@ Java, Spring Boot, REST API, PostgreSQL and Redis, Docker, Flyway, Ollama, phi3:
 
 == LLM-Integration (MCP, Wrapper, API)
 
-== Sicherheits- und Authentifizierungsmechanismen 
+== Sicherheits- und Authentifizierungsmechanismen
 
 // ~3 Pages
 = Implementierung
