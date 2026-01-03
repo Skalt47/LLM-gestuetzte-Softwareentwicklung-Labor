@@ -1,0 +1,29 @@
+architecture-beta
+
+    group frontend(internet)[Frontend]
+    service web(logos:aws:arch-category-games)[WebApp] in frontend
+    web:L -- R:controller
+
+    group backend(server)[Backend]
+    service controller(logos:aws-api-gateway)[controller] in backend
+    service serviceLayer(aws:res-gear)[Service Layer] in backend
+    service model(aws:res-amazon-sagemaker-notebook)[Model] in backend
+    service repositoryLayer(aws:res-aws-key-management-service-external-key-store)[Repository Layer] in backend
+    controller:L -- R:serviceLayer
+    serviceLayer:T -- B:model
+    serviceLayer:L -- R:repositoryLayer
+
+    group database(database)[Database]
+    service db(database)[MyPostgreSQL] in database
+    repositoryLayer:L -- R:db
+    model:L -- R:db
+
+    group helpers[Helpers]
+    service cache(aws:res-amazon-elasticache-cache-node)[Cache] in helpers
+    service ollama(aws:arch-aws-deep-learning-containers)[Ollama LLM] in helpers
+    service pictureGerator(aws:res-camera)[Picture Generator] in helpers
+    serviceLayer:B -- T:cache
+    serviceLayer:B -- T:ollama
+    serviceLayer:B -- T:pictureGerator
+
+%% Client <-> Controller Layer <-> Service Layer  
