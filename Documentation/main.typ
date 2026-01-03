@@ -78,10 +78,17 @@ Schmerzpunkte: unklare Modellgrenzen, Halluzinationen ohne Kennzeichnung, fehlen
 = Softwarearchitektur und Technologie
 
 == Gesamtübersicht der Architektur
-#link("https://example.com")[
-  See example.com
+#link("https://github.com/Skalt47/LLM-gestuetzte-Softwareentwicklung-Labor/tree/main/Documentation/Architecture.mmd")[
+  Mermaid Chart der Softwarearchitektur in Github
 ]
-Hier Diagramm einfügen mit mermaidchart VSCode Erweiterung und das Chart in Github docu speichern.
+
+#figure(
+  image("/documentation/assets/Architecture_V1.png", width: 100%),
+  caption: [
+    Architektur der Software
+  ],
+)
+
 == Frontend/Benutzeroberfläche
 
 Von dem Startscreen aus kann ein Spiel gestartet werden. Nach dem Start, kann aber auch jederzeit ein neues Spiel begonnen werden. Im Spiel sind oben die Anzahl der Karte pro Deck zu sehen. Darunter die obersterste Karte des Spielers, diese beinhaltet Infos zu dem Dino. Dazu gehören, Name, Bild und die 6 Attribute (Lifespan in years, length, speed in km/h, Intelligence, Attack, Defense) für die Spielmechanik. Diese Attribute können durch einen Klick für den Vergleich ausgewählt werden. 
