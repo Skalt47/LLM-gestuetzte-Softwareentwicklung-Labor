@@ -62,6 +62,7 @@ function App() {
   const [suggested, setSuggested] = useState<string | null>(null);
   const [suggestLoading, setSuggestLoading] = useState(false);
   const [suggestUsesLeft, setSuggestUsesLeft] = useState(3);
+  const [jokerActive, setJokerActive] = useState(false);
   const [aiThinking, setAiThinking] = useState(false);
 
   const startMatch = async () => {
@@ -82,6 +83,7 @@ function App() {
       setMatchState(data);
       setSuggested(null);
       setSuggestUsesLeft(3);
+      setJokerActive(false);
       setPlayResult(null);
     } catch (err) {
       setAiThinking(false);
@@ -124,7 +126,8 @@ function App() {
   }
 
   const isHumanTurn = matchState?.activePlayer?.toUpperCase() === "HUMAN";
-  const attributeButtonsDisabled = !isHumanTurn || loading;
+  const attributeButtonsDisabled =
+    !isHumanTurn || loading || jokerActive;
 
   const playCard = async (attribute: string | null) => {
     if (!matchState) return;
@@ -175,12 +178,14 @@ function App() {
       !matchState ||
       !isHumanTurn ||
       suggestUsesLeft <= 0 ||
-      suggestLoading
+      suggestLoading ||
+      jokerActive
     ) {
       return;
     }
 
     setSuggestLoading(true);
+    setJokerActive(true);
     setError(null);
     try {
       const res = await fetch(
@@ -200,6 +205,7 @@ function App() {
       setError(err instanceof Error ? err.message : "Unknown error");
     } finally {
       setSuggestLoading(false);
+      setJokerActive(false);
     }
   };
 
@@ -287,7 +293,8 @@ function App() {
                         !isHumanTurn ||
                         suggestLoading ||
                         suggestUsesLeft <= 0 ||
-                        loading
+                        loading ||
+                        jokerActive
                       }
                     >
                       {suggestLoading
