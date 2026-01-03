@@ -48,10 +48,31 @@ Nach einer Projektbeschreibung folgt die Softwarearchitektur und die Vorstellung
 
 // ~3 Pages
 = Projektbeschreibung
-
 == Problemstellung und Anforderungen
+Die Problemstellung besteht darin, eine Online Version des Kartenspiels Quartett zu erstellen und gegen eine LLM spielen zu können.  Die Anforderungen umfassen die Erstellung einer benutzerfreundlichen Oberfläche, die Implementierung der Spiellogik und die Integration einer LLM als Gegner.
 
 == Zielgruppe und Personas
+Die Zielgruppe sind Kinder und Erwachsene, welche gerne Quartett spielen und Dinos mögen. Für die Kinder steht das Spielen und Lernen im Vordergrund, während Erwachsene konkret efahren können, was kleine LLM-Modelle leisten können. Dabei kann die Qualität und Performance ganz gut beobachtet werden.
+
+Von LLM erstelle passende Personas:
+Persona 1: Dino-begeistertes Kind
+
+Alter: 9-12
+Motivation: spielen, lernen, Spaß an Dinos und gewinnen.
+Ziele: neue Dino-Arten entdecken; Spielregeln schnell verstehen; Erfolgserlebnisse im Spiel.
+Technik: Tablet/Smartphone, einfache Bedienung, wenig Geduld für komplexe Menüs.
+Bedürfnisse: klare Anleitung, kurze Texte, große Buttons, bunte Visuals; schnelle Antworten; unkompliziert.
+Schmerzpunkte: zu viel Text, langsame Ladezeiten, unklare Regeln, schwierige Begriffe.
+
+Persona 2: Technik-affiner Erwachsener (z.B. Elternteil oder Lehrkraft)
+
+Alter: 30-45; 
+Motivation: Qualität und Performance kleiner LLM-Modelle beurteilen; Lern-/Unterhaltungswert für Kinder testen.
+Ziele: sehen, wie stabil und fix die LLM-Antworten sind; Inhalte auf Korrektheit prüfen; didaktischen Nutzen für Unterricht/Spieleinsätze bewerten.
+Technik: Desktop/Laptop/Tablet; erwartet Transparenz zu Modell, Daten und Limits.
+Bedürfnisse: übersichtliches Monitoring (Antwortzeiten, Qualität), nachvollziehbare Quellen/Erklärungen, einfache Einrichtung (Docker/Setup), Datenschutz/Kinderschutz-Hinweise.
+Schmerzpunkte: unklare Modellgrenzen, Halluzinationen ohne Kennzeichnung, fehlende Logs/Statistiken, aufwendiges Setup.
+
 
 // ~3 Pages
 = Softwarearchitektur und Technologie
