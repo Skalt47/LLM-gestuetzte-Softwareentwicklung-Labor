@@ -1,53 +1,14 @@
 import { useState, useEffect } from "react";
 import "./App.css";
+import { Navbar } from "./components/NavBar";
+import { HomePage } from "./pages/HomePage";
+import { ProfilePage } from "./pages/ProfilePage";
+import { GamePageAi } from "./pages/GamePageAi";
+import type { MatchState, PlayResult } from "./types/game";
 
-// Card DTO
-type Card = {
-  id: number;
-  species: string;
-  groupCode: string;
-  lifespanYears?: number;
-  lengthM?: number;
-  speedKmh?: number;
-  intelligence?: number;
-  attack?: number;
-  defense?: number;
-  imgUrl?: string;
-};
-
-// Match DTOs
-type CardView = {
-  species: string;
-  groupCode: string;
-  lifespanYears: number;
-  lengthM: number;
-  speedKmh: number;
-  intelligence: number;
-  attack: number;
-  defense: number;
-  imgUrl: string;
-};
-
-interface MatchState {
-  matchId: string;
-  activePlayer: string | null;
-  topCard: Card;
-}
-
-interface PlayResult {
-  winner: string;
-  humanValue: number;
-  aiValue: number;
-  humanDeckSize: number;
-  aiDeckSize: number;
-  nextTopCard: Card | null;
-  activePlayer: string;
-  gameOver?: boolean;
-  matchWinner?: string | null;
-}
+type PageView = "home" | "game" | "profile";
 
 function App() {
-  // player stored in localStorage: id and name
   const [playerId, setPlayerId] = useState<string | null>(() =>
     localStorage.getItem("playerId")
   );
@@ -64,6 +25,9 @@ function App() {
   const [suggestUsesLeft, setSuggestUsesLeft] = useState(3);
   const [jokerActive, setJokerActive] = useState(false);
   const [aiThinking, setAiThinking] = useState(false);
+  const [activePage, setActivePage] = useState<PageView>("home");
+
+  const navigate = (page: PageView) => setActivePage(page);
 
   const startMatch = async () => {
     setLoading(true);
@@ -85,6 +49,7 @@ function App() {
       setSuggestUsesLeft(3);
       setJokerActive(false);
       setPlayResult(null);
+      navigate("game");
     } catch (err) {
       setAiThinking(false);
       setError(err instanceof Error ? err.message : "Unknown error");
@@ -94,7 +59,6 @@ function App() {
   };
 
   useEffect(() => {
-    // sync localStorage -> state if user manually changed storage elsewhere
     const id = localStorage.getItem("playerId");
     const name = localStorage.getItem("playerName");
     if (id && !playerId) setPlayerId(id);
@@ -155,8 +119,6 @@ function App() {
         };
       });
 
-      // AUTO-ADVANCE AI TURNS: if AI won and game not over, let AI play again
-
       if (!result.gameOver && result.winner === "AI") {
         setAiThinking(true);
         setTimeout(() => void playCard(null), 2000);
@@ -196,7 +158,7 @@ function App() {
         }
       );
       if (!res.ok) throw new Error("Failed to get suggestion");
-      const data = await res.json(); // { attribute: "attack" }
+      const data = await res.json();
       const attribute = data.attribute;
       setSuggested(attribute);
       setSuggestUsesLeft((prev) => Math.max(prev - 1, 0));
@@ -211,40 +173,28 @@ function App() {
 
   return (
     <div className="App">
-      {/* Player name modal (blocks game until a name is provided) */}
+      <Navbar
+        playerName={playerName}
+        activePage={activePage}
+        onNavigate={navigate}
+      />
       {!playerId && (
-        <div
-          style={{
-            position: "fixed",
-            inset: 0,
-            background: "rgba(0,0,0,0.5)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            zIndex: 1000,
-          }}
-        >
-          <div
-            style={{
-              background: "white",
-              padding: 24,
-              borderRadius: 8,
-              width: 320,
-            }}
-          >
-            <h3>Enter your player name</h3>
+        <div className="player-modal-backdrop">
+          <div className="player-modal">
+            <h3 className="player-modal-title">
+              <span className="dino-emoji" role="img" aria-label="dino">
+                🦖
+              </span>
+              Enter your player name
+            </h3>
             <input
+              className="player-modal-input"
               value={nameInput}
               onChange={(e) => setNameInput(e.target.value)}
               placeholder="Your name"
-              style={{ width: "100%", padding: 8, marginBottom: 12 }}
             />
-            <div style={{ display: "flex", justifyContent: "flex-end" }}>
-              <button
-                onClick={createPlayer}
-                disabled={loading}
-                style={{ padding: "8px 12px" }}
-              >
+            <div className="player-modal-actions">
+              <button className="save" onClick={createPlayer} disabled={loading}>
                 {loading ? "Saving..." : "Save"}
               </button>
             </div>
@@ -252,144 +202,36 @@ function App() {
         </div>
       )}
 
-      <h1>🦕 Stack Attack 🦕</h1>
-
-      {!matchState ? (
-        <div className="start-section">
-          <button onClick={startMatch} disabled={loading}>
-            {loading ? "Starting..." : "Start New Match"}
-          </button>
-        </div>
-      ) : (
-        <div className="game-section">
-          {/* non-game-over UI */}
-          {!playResult?.gameOver ? (
-            <>
-              <div className="deck-info">
-                <p>Your Deck: {playResult?.humanDeckSize ?? 16} cards</p>
-                <p>AI Deck: {playResult?.aiDeckSize ?? 16} cards</p>
-              </div>
-
-              {matchState.topCard && (
-                <div className="card">
-                  <h2>{matchState.topCard.species}</h2>
-                  {matchState.topCard.imgUrl && (
-                    <img
-                      src={`http://localhost:8080${matchState.topCard.imgUrl}`}
-                      alt={matchState.topCard.species}
-                      style={{
-                        width: "300px",
-                        borderRadius: "8px",
-                        marginBottom: "12px",
-                      }}
-                    />
-                  )}
-                  <p>Group: {matchState.topCard.groupCode}</p>
-                  <div className="suggestion-panel">
-                    <button
-                      className="suggestion-button"
-                      onClick={suggestAttribute}
-                      disabled={
-                        !isHumanTurn ||
-                        suggestLoading ||
-                        suggestUsesLeft <= 0 ||
-                        loading ||
-                        jokerActive
-                      }
-                    >
-                      {suggestLoading
-                        ? "Asking the LLM..."
-                        : `Ask the LLM (${suggestUsesLeft} use${
-                            suggestUsesLeft === 1 ? "" : "s"
-                          } left)`}
-                    </button>
-                    <p className="suggestion-info">
-                      {suggested
-                        ? `LLM chose ${suggested} for you.`
-                        : `Let the LLM decide when you're unsure (${suggestUsesLeft} use${
-                            suggestUsesLeft === 1 ? "" : "s"
-                          } left).`}
-                    </p>
-                  </div>
-                  {aiThinking && (
-                    <div className="ai-thinking">
-                      <div className="ai-spinner">
-                        <span role="img" aria-label="dinosaur">
-                          🦖
-                        </span>
-                      </div>
-                      <span>AI opponent is thinking...</span>
-                    </div>
-                  )}
-                  <div className="attributes">
-                    <button
-                      onClick={() => handleAttributeSelect("lifespan")}
-                      disabled={attributeButtonsDisabled}
-                    >
-                      ⏱️ Lifespan: {matchState.topCard.lifespanYears} years
-                    </button>
-                    <button
-                      onClick={() => handleAttributeSelect("length")}
-                      disabled={attributeButtonsDisabled}
-                    >
-                      📏 Length: {matchState.topCard.lengthM}m
-                    </button>
-                    <button
-                      onClick={() => handleAttributeSelect("speed")}
-                      disabled={attributeButtonsDisabled}
-                    >
-                      💨 Speed: {matchState.topCard.speedKmh} km/h
-                    </button>
-                    <button
-                      onClick={() => handleAttributeSelect("intelligence")}
-                      disabled={attributeButtonsDisabled}
-                    >
-                      🧠 Intelligence: {matchState.topCard.intelligence}
-                    </button>
-                    <button
-                      onClick={() => handleAttributeSelect("attack")}
-                      disabled={attributeButtonsDisabled}
-                    >
-                      ⚔️ Attack: {matchState.topCard.attack}
-                    </button>
-                    <button
-                      onClick={() => handleAttributeSelect("defense")}
-                      disabled={attributeButtonsDisabled}
-                    >
-                      🛡️ Defense: {matchState.topCard.defense}
-                    </button>
-                  </div>
-                </div>
-              )}
-
-              {/* round result */}
-              {playResult && !playResult.gameOver && (
-                <div className={`result ${playResult.winner.toLowerCase()}`}>
-                  <h3>
-                    {playResult.winner === "DRAW"
-                      ? "It's a Draw!"
-                      : `${playResult.winner} Wins!`}
-                  </h3>
-                  <p>Your Value: {playResult.humanValue}</p>
-                  <p>AI Value: {playResult.aiValue}</p>
-                  <button onClick={startMatch}>Play Next Round</button>
-                </div>
-              )}
-            </>
-          ) : (
-            /* game-over panel */
-            <div className="game-over">
-              <h2>Game Over!</h2>
-              <p>
-                {playResult?.matchWinner === "AI"
-                  ? "You lost all your cards!"
-                  : "You won all the cards!"}
-              </p>
-              <button onClick={startMatch}>Play Again</button>
-            </div>
-          )}
-        </div>
-      )}
+      <main className="content-shell">
+        {activePage === "home" && (
+          <HomePage onPlay={startMatch} loading={loading} />
+        )}
+        {activePage === "profile" && (
+          <ProfilePage
+            playerName={playerName}
+            playerId={playerId}
+            onHome={() => navigate("home")}
+            onPlay={() => navigate("game")}
+          />
+        )}
+        {activePage === "game" && (
+          <GamePageAi
+            matchState={matchState}
+            playResult={playResult}
+            loading={loading}
+            startMatch={startMatch}
+            handleAttributeSelect={handleAttributeSelect}
+            suggestAttribute={suggestAttribute}
+            suggested={suggested}
+            suggestLoading={suggestLoading}
+            suggestUsesLeft={suggestUsesLeft}
+            attributeButtonsDisabled={attributeButtonsDisabled}
+            isHumanTurn={isHumanTurn}
+            aiThinking={aiThinking}
+            jokerActive={jokerActive}
+          />
+        )}
+      </main>
 
       {error && <div className="error">{error}</div>}
     </div>

@@ -1,0 +1,287 @@
+.game-stage {
+  display:flex;
+  flex:1;
+  margin: 2rem auto;
+  width: 100%;
+}
+
+.game-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.deck-info {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.deck-pill {
+  flex: 1;
+  padding: 0.65rem 1rem;
+  border-radius: 999px;
+  font-weight: 700;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.8);
+  box-shadow: inset 0 0 0 2px rgba(22, 199, 183, 0.45);
+}
+
+.deck-pill.ai {
+  background: rgba(20, 62, 67, 0.08);
+  box-shadow: inset 0 0 0 2px rgba(243, 76, 92, 0.5);
+}
+
+.card-image {
+  width: 100%;
+  max-width: 420px;
+  border-radius: 12px;
+  box-shadow: 0 15px 35px rgba(3, 27, 28, 0.25);
+}
+
+.card {
+  border: 2px solid #3498db;
+  border-radius: 16px;
+  padding: 2rem;
+  background: linear-gradient(180deg, #f0f5f5 0%, #e8f1f1 100%);
+  box-shadow: 0 30px 45px rgba(8, 19, 23, 0.25);
+}
+
+.card-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  margin-bottom: 15px;
+  /* Verhindert Umbrüche, egal was passiert */
+  flex-wrap: nowrap; 
+}
+
+.card-header h2 {
+  margin: 0;
+  white-space: nowrap;
+  /* Dynamic size using Clamp: Minimum 1.1rem, Ideal value 4vw (4% der Breite), Maximum 1.6rem */
+  font-size: clamp(1.1rem, 4vw, 1.6rem); 
+}
+
+.card-group {
+  margin: 0;
+  font-weight: bold;
+  white-space: nowrap;
+  
+  /* Dynamic size */
+  font-size: clamp(1rem, 3.5vw, 1.4rem);
+  
+  /* Button like background */
+  background-color: #16c7b7;
+  color: white;
+  padding: 0.2em 0.8em; /* em passt sich der Schriftgröße an! */
+  border-radius: 50px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.suggestion-panel {
+  margin: 14px auto;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+}
+
+.suggestion-panel .suggestion-button {
+  padding: 10px 18px;
+  border-radius: 999px;
+  border: none;
+  background: #16c7b7;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 8px 18px rgba(22, 199, 183, 0.5);
+}
+
+.suggestion-panel .suggestion-button:disabled {
+  background: #8edbcd;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.suggestion-panel .suggestion-button:not(:disabled):hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 20px rgba(22, 199, 183, 0.6);
+}
+
+.suggestion-info {
+  font-size: 0.95rem;
+  color: #1f5b4a;
+  margin: 0;
+}
+
+.attributes {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.85rem;
+  margin-top: 1.25rem;
+}
+
+.attributes button {
+  width: 100%;
+  padding: 0.9rem 1rem;
+  border-radius: 12px;
+  border: 2px solid transparent;
+  background: white;
+  text-align: left;
+  cursor: pointer;
+  font-weight: 600;
+  color: #153e36;
+  box-shadow: 0 9px 18px rgba(7, 25, 27, 0.15);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.attributes button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 25px rgba(7, 25, 27, 0.25);
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.result {
+  border: 2px solid #27ae60;
+  border-radius: 12px;
+  padding: 18px;
+  text-align: center;
+  background-color: #d5f4e6;
+}
+
+.result.ai {
+  border-color: #e74c3c;
+  background-color: #fadbd8;
+}
+
+.result.draw {
+  border-color: #f39c12;
+  background-color: #fde8c8;
+}
+
+.game-over {
+  border: 3px solid #2c3e50;
+  border-radius: 12px;
+  padding: 2rem;
+  text-align: center;
+  background-color: #bdc3c7;
+}
+
+.ai-thinking {
+  width:100%;
+  margin: 14px auto;
+  padding: 10px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #16c7b7, #3498db);
+  color: #f6fffb;
+  display: inline-flex;
+  flex-direction: row;
+  text-align: center;
+  align-items: center;
+  gap: 14px;
+  font-weight: 600;
+  box-shadow: 0 12px 30px rgba(18, 56, 49, 0.35);
+}
+
+.ai-spinner {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 4px solid rgba(255, 255, 255, 0.45);
+  border-top-color: #fbd14b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: ai-spin 1.5s linear infinite;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.ai-spinner span {
+  font-size: 20px;
+  animation: ai-bob 1s ease-in-out infinite;
+}
+
+@keyframes ai-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes ai-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+@media (max-width: 1100px) {
+  .card {
+    padding: 1.5rem;
+  }
+
+  .deck-info {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 400px) {
+  .attributes {
+    grid-template-columns: 1fr; /* 1 col for attributes */
+  }
+  
+  .card {
+    padding: 1rem; 
+  }
+}
+
+@media(max-width: 600px) {
+  .attributes button {
+    padding: 0.9rem 0rem;
+  }
+}
+
+.start-section {
+  display: flex;
+  justify-content: center;
+  margin: 2rem 0;
+}
+
+.start-section button {
+  padding: 0.9rem 1.6rem;
+  border-radius: 12px;
+  border: none;
+  background: #1b8ec2;
+  color: white;
+  font-weight: 600;
+  box-shadow: 0 12px 25px rgba(27, 142, 194, 0.4);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.start-section button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 30px rgba(27, 142, 194, 0.5);
+}
+
+.start-section button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  box-shadow: none;
+}
