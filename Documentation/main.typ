@@ -91,25 +91,24 @@ Schmerzpunkte: unklare Modellgrenzen, Halluzinationen ohne Kennzeichnung, fehlen
 
 == Frontend/Benutzeroberfläche
 
-Von dem Startscreen aus kann ein Spiel gestartet werden. Nach dem Start, kann aber auch jederzeit ein neues Spiel begonnen werden. Im Spiel sind oben die Anzahl der Karte pro Deck zu sehen. Darunter die obersterste Karte des Spielers, diese beinhaltet Infos zu dem Dino. Dazu gehören, Name, Bild und die 6 Attribute (Lifespan in years, length, speed in km/h, Intelligence, Attack, Defense) für die Spielmechanik. Diese Attribute können durch einen Klick für den Vergleich ausgewählt werden. 
+Beim ersten Aufruf blockiert ein kleines Dialogfenster das Spiel, bis ein Spielername eingetragen und gespeichert ist. Name und Profil bleiben für spätere Sitzungen erhalten. Von dort lässt sich jederzeit ein neues Match über den Startknopf beginnen. Während des Spiels stehen oben die aktuellen Kartenzahlen beider Decks, darunter die oberste Spielerkarte mit Name, Bild, Gruppencode und den sechs spielrelevanten Attributen Lifespan, Length, Speed, Intelligence, Attack und Defense, die du per Klick zum Vergleich auswählst. Ist der Mensch am Zug, sind die Buttons aktiv. Gewinnt die KI eine Runde und das Spiel läuft weiter, spielt sie nach kurzer Bedenkzeit automatisch erneut. Auf Wunsch holst du dir bis zu dreimal pro Match per Ask the LLM Knopf einen Tipp, der angezeigt und direkt genutzt wird. Nach jedem Zug zeigt die Oberfläche das Rundenergebnis, beide Werte und die aktualisierten Deckgrößen. Ist das Spiel vorbei, erscheint ein Game Over Bereich mit Gesamtsieger und Play Again Option. Lade und Fehlersituationen machen sich durch deaktivierte Buttons und eine sichtbare Fehlermeldung bemerkbar. Typescript und React bilden das Fundament.
 
-...Spielabflauf weiter beschreiben...
-
-Typescript, React
 
 == Backend, Datenbank und Schnittstellen
+
+Im Backend läuft eine Java Spring Boot Anwendung, die ihre REST API bereitstellt und den Spielablauf steuert. Persistente Daten wie Dinosaurier und Spieler landen in PostgreSQL, während laufende Matches im schnellen Redis In Memory State gehalten werden. Die Infrastruktur startet bequem über Docker, inklusive Adminer zur Datenbankinspektion. Datenbankänderungen werden mit Flyway versioniert. Für Entscheidungen im Spiel fragt der Server ein Ollama Modell (phi3:mini) an, und greift so auf LLM Unterstützung zurück. Insgesamt bildet das Backend das Fundament zwischen Frontend, Datenbank und KI Helfer.
 
 Java, Spring Boot, REST API, PostgreSQL and Redis, Docker, Flyway, Ollama, phi3:mini, Adminer
 
 == LLM-Integration (MCP, Wrapper, API)
 
-REST-Wrapper auf Ollama.
+Die LLM-Integration sitzt im LlmClientService.java: Das Backend ruft über einen konfigurierten RestTemplate den Ollama-Container an, der das Modell phi3:mini bereitstellt. Für jede Entscheidung baut der Service einen klaren Prompt mit den sechs zulässigen Attributen (lifespan, length, speed, intelligence, attack, defense) und schickt ihn an die Chat-API des Containers. Falls die LLM eine unbrauchbare Antwort liefert, was bei LLMs eine zu berücksichtigende Möglichkeit ist, so greift die Fallback-Logik. Fallback-Logik wählt den höchsten Wert, sollte auch dies nicht funktionieren, so wird einfach das Angriffs-Attribut ausgewählt. Das Timeout ist auf 2 Minuten (120000 ms) gesetzt, wodurch phi3:mini die Inferenz durchzuführen und eine Antwort zu generieren. Kommt etwas Unerwartetes zurück oder gar nichts, greift die bereits erwähnte Fallback-Logik, sodass das Spiel auch ohne LLM-Antwort weiterläuft.
 
 == Sicherheits- und Authentifizierungsmechanismen
-Entfallen, da kein Login oder sensible Daten verarbeitet werden.
+Entfallen, da kein Login sondern bisher nur Spielername eingegeben werden kann und keine sensible Daten verarbeitet werden.
 
 == Sonstiges
-Dokumentation mit Typst, Versionskontrolle mit Git und GitHub und Mermaid Chart für Architekturdiagramme
+Die Dokumentation erfolgt mit Typst, Versionskontrolle mit Git/GitHub und Mermaid Chart für das Architekturdiagramm.
 
 // ~3 Pages
 = Implementierung
