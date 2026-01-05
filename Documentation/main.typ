@@ -108,32 +108,45 @@ Die LLM-Integration sitzt im LlmClientService.java: Das Backend ruft über einen
 Entfallen, da kein Login sondern bisher nur Spielername eingegeben werden kann und keine sensible Daten verarbeitet werden.
 
 == Sonstiges
-Die Dokumentation erfolgt mit Typst, Versionskontrolle mit Git/GitHub und Mermaid Chart für das Architekturdiagramm.
+Die Dokumentation erfolgt mit Typst und Mermaid Chart für das Architekturdiagramm.
 
 // ~3 Pages
 = Implementierung
 
 == Vorgehensmodell und Projektmanagement
+Iteratives Vorgehen mit wöchentlichen Meetings zur Planung und Review.
 
 == Code-Generierung und Entwicklung
 
 == Datenmodelle und Schnittstellenimplementierung
 
 == Versionskontrolle, Build- und CI-Prozesse
+Versionskontrolle mit Git/GitHub
 
 // ~4 Pages
 = Einsatz der LLMs und Prompt Engineering
 
 == Auswahl der LLMs und Dienste
+phi3:mini als LLM für die Spiellogik
+Github Copilot, Codex und ChatGPT 5.2 für die Codegenerierung
 
 == Aufbau und Dokumentation der Prompts
 
 == Generierte Assets (Code, Bilder, Audio, Video, Text)
-Stammdaten in Form von JSON, Bilder für die Karten
+Code, Stammdaten in Form von JSON, Bilder für die Karten
 
 == Fehleranalyse und Optimierung
+Frontend Code: Anpassung durch visuelle Überprüfung und manuelles testen. Fehlertoleranz bei Stammdaten, Bilder manuelle Überprüfung auf Halluzinationen
 
 == Qualitätssicherung bei der LLM-Nutzung
+
+// ~1 Page
+= Anpassungen nach der Präsentation
+In Zuge der Präsentation gab es wertvolles Feedback, welches in die Weiterentwicklung des Projekts einfloss. Basierend auf den Anregungen wurden folgende Anpassungen vorgenommen:
+== Frontend
+
+== Backend
+In den Prompt für die LLM-Entscheidung, wurden mehr Infos hinzugefügt, damit die LLM bessere Entscheidungen treffen kann (Max- und Min-Werte des jeweiligen Attributs).
 
 // ~3 Pages
 = Erfahrung, Herausforderungen und Reflexion
@@ -142,15 +155,16 @@ Stammdaten in Form von JSON, Bilder für die Karten
 Schneller Einstieg in Technologien, durch den Einsatz von LLMs
 
 == Schwierigkeiten und Problemstellung
+Falschinformationen durch LLMs und unklare Grenzen der LLMs, da bei fast immer eine Antwort generiert wird, auch wenn diese falsch ist.
 
 == Grenzen und Risiken von LLMs
-Kreislauf des Todes bei Problemen
+Kreislauf des Todes bei Problemen. Löse das Problem "Ja, klar ich hier die verbesserte Version" und es ist dann entweder genau der gegebene Code, es ist ein zuvor gegebener Code mit Fehler oder es ist neuer Code mit neuen Fehlern.
 
 == Lessons Learned und Empfehlungen
-Fantastisch beim Einstieg in neue Technologien, aber nicht als alleinige Lösung geeignet
+Fantastisch beim Einstieg in neue Technologien, aber nicht als alleinige Lösung geeignet.
 
 == Zukunft der LLM-gestützten Entwicklung
-Hauptsächlich als Unterstützung für Entwickler, nicht als Ersatz
+Hauptsächlich als Unterstützung für Entwickler, nicht als Ersatz (Effizienzsteigerung, Ideenfindung, Dokumentationserstellung).
 
 // 1-2 Pages
 = Zusammenfassung und Fazit
