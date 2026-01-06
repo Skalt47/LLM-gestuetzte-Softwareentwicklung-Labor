@@ -119,7 +119,7 @@ function App() {
         };
       });
 
-      if (!result.gameOver && result.winner === "AI") {
+      if (!result.gameOver && (result.winner === "AI" || (result.activePlayer === "AI" && result.winner === "DRAW"))) {
         setAiThinking(true);
         setTimeout(() => void playCard(null), 2000);
       }
