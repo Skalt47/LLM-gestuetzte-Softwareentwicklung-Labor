@@ -25,9 +25,29 @@ function App() {
   const [suggestUsesLeft, setSuggestUsesLeft] = useState(3);
   const [jokerActive, setJokerActive] = useState(false);
   const [aiThinking, setAiThinking] = useState(false);
+  const [wins, setWins] = useState(0);
+  const [losses, setLosses] = useState(0);
   const [activePage, setActivePage] = useState<PageView>("home");
 
   const navigate = (page: PageView) => setActivePage(page);
+
+  const fetchPlayer = async () => {
+    if (!playerId) return;
+    try {
+      const res = await fetch(`http://localhost:8080/api/players/${playerId}`);
+      if (res.ok) {
+        const player = await res.json();
+        setWins(player.wins || 0);
+        setLosses(player.losses || 0);
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Unknown error");
+    }
+  };
+
+  useEffect(() => {
+    fetchPlayer();
+  }, [playerId]);
 
   const startMatch = async () => {
     setLoading(true);
@@ -81,6 +101,8 @@ function App() {
       localStorage.setItem("playerName", player.name);
       setPlayerId(String(player.id));
       setPlayerName(player.name);
+      setWins(player.wins || 0);
+      setLosses(player.losses || 0);
       setNameInput("");
     } catch (e) {
       setError(e instanceof Error ? e.message : "Unknown error");
@@ -212,6 +234,8 @@ function App() {
             playerId={playerId}
             onHome={() => navigate("home")}
             onPlay={() => navigate("game")}
+            wins={wins}
+            losses={losses}
           />
         )}
         {activePage === "game" && (

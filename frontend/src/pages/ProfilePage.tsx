@@ -18,11 +18,11 @@ export const ProfilePage = ({
   wins,
   losses,
 }: ProfilePageProps) => {
-  // Berechne den Maximalwert für die Skalierung der Y-Achse
-  const maxValue = Math.max(wins, losses, 5); // Mindestens 5 für die Optik
+  // Calc max value for y axis
+  const maxValue = Math.max(wins, losses, 5); 
   const yTicks = [maxValue, Math.round(maxValue / 2), 0];
 
-  // Berechnung der Höhe in Prozent
+  // calc height in %
   const getBarHeight = (value: number) => (value / maxValue) * 100;
 
   return (
@@ -35,25 +35,21 @@ export const ProfilePage = ({
             {playerId ? `ID: ${playerId}` : "No ID assigned"}
           </p>
         </header>
-
         <div className="stats-container">
           <h3>Battle Statistics</h3>
           
           <div className="chart-wrapper">
-            {/* Y-Achse Beschriftung */}
             <div className="y-axis">
               {yTicks.map((tick) => (
                 <span key={tick}>{tick}</span>
               ))}
             </div>
-
             <div className="chart-area">
               <div className="grid-lines">
                 <div className="grid-line"></div>
                 <div className="grid-line"></div>
                 <div className="grid-line"></div>
               </div>
-
               <div className="bars-container">
                 <div className="bar-group">
                   <div className="bar-wrapper">
