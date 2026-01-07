@@ -129,11 +129,21 @@ Versionskontrolle mit Git/GitHub
 == Auswahl der LLMs und Dienste
 phi3:mini als LLM für die Spiellogik
 Github Copilot, Codex und ChatGPT 5.2 für die Codegenerierung
+Bei der Entwicklung des Codes wurden die KI-Agenten Codex und GitHub Copilot verwendet, die er Unterstützung während des Programmierens dienten. Des Weiteren war Ziel dieses Projektes LLM für zwei verschiedene Gebiete zu verwenden. Zum Einen sollte ein LLM-Modell über einen API-Punkt erreichbar sein und dadurch die Bilder der Quartettkarten mittels eines gesetzten Prompts für alle Dinosaurier erstellt werden. Zum Anderen sollte ein KI-Gegner eine der Hauptfunktionen des Spiels darstellen.Bei der Wahl dieser LLMs war das ausschlaggebenste Kriterium, dass sie kostenlos verwendbar sein mussten, was sich schnell als Herausforderung erwies.
+
+Um den KI-Gegener zu realisieren, wurde das kleine lokale Modell phi3:mini gewählt. Die Bereitstellung des Modells erfolgt über Ollama, eine Framework zur Ausführung verschiedener Sprachmodelle auf lokaler Hardware. Wobei um die Skalierbarkeit zu erhöhen Ollama in einen Docker-Container gekapselt wurde. 
+
+Ollama fungiert hierbei als Schnittstelle, über die das Backend Spielzustände an das phi3:mini Modell sendet und darauf Entscheidungen der KI zurückerhält. Phi3:mini hat sich für dieses Projekt geeignet da es sowohl kostenlos, sowie relativ kompakt und somit von unserer Hardware stemmbar war.
+
+Die Wahl eines API-Endpunktes war etwas eingeschränkt, da nicht viele kostenlos zur Verfügung stehen. Prinzipiell war die Wahl allerdings nicht von zu großer Bedeutung, da der Code so strukturiert wurde, dass lediglich der API-Endpunkt geändert werden muss, um ein anderes Modell nach Belieben zu verwenden.
+
+
 
 == Aufbau und Dokumentation der Prompts
 
 == Generierte Assets (Code, Bilder, Audio, Video, Text)
 Code, Stammdaten in Form von JSON, Bilder für die Karten
+Hier Abschnitt der Dino JSON einfügen.
 
 == Fehleranalyse und Optimierung
 Frontend Code: Anpassung durch visuelle Überprüfung und manuelles testen. Fehlertoleranz bei Stammdaten, Bilder manuelle Überprüfung auf Halluzinationen
