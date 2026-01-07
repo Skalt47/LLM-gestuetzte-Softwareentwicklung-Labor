@@ -15,6 +15,7 @@ export type MatchState = {
   matchId: string;
   activePlayer: string | null;
   topCard: Card;
+  aiTopCard: Card | null;
 };
 
 export interface PlayResult {
@@ -24,6 +25,7 @@ export interface PlayResult {
   humanDeckSize: number;
   aiDeckSize: number;
   nextTopCard: Card | null;
+  nextTopAiCard: Card | null;
   activePlayer: string;
   gameOver?: boolean;
   matchWinner?: string | null;

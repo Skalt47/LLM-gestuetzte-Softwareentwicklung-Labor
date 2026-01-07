@@ -18,6 +18,7 @@ function App() {
   const [nameInput, setNameInput] = useState("");
   const [matchState, setMatchState] = useState<MatchState | null>(null);
   const [playResult, setPlayResult] = useState<PlayResult | null>(null);
+  const [currentRoundResult, setCurrentRoundResult] = useState<PlayResult | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [suggested, setSuggested] = useState<string | null>(null);
@@ -69,6 +70,7 @@ function App() {
       setSuggestUsesLeft(3);
       setJokerActive(false);
       setPlayResult(null);
+      setCurrentRoundResult(null);
       navigate("game");
     } catch (err) {
       setAiThinking(false);
@@ -117,6 +119,7 @@ function App() {
 
   const playCard = async (attribute: string | null) => {
     if (!matchState) return;
+    setAiThinking(true);
     setLoading(true);
     setError(null);
     try {
@@ -132,18 +135,38 @@ function App() {
       const result = await response.json();
       setAiThinking(false);
       setPlayResult(result);
+      setCurrentRoundResult(result);
+
+      // If game over, fetch updated player stats
+      if (result.gameOver && playerId) {
+        fetchPlayer();
+      }
+
       setMatchState((prev) => {
         if (!prev) return prev;
         return {
           ...prev,
           activePlayer: result.activePlayer ?? prev.activePlayer,
-          topCard: result.nextTopCard ?? prev.topCard,
         };
       });
+      setTimeout(() => {
+        setMatchState((prev) => {
+          if (!prev) return prev;
+          return {
+            ...prev,
+            topCard: result.nextTopCard ? result.nextTopCard : prev.topCard,
+            aiTopCard: result.nextTopAiCard ? result.nextTopAiCard : prev.aiTopCard,
+          } as MatchState;
+        });
+        setCurrentRoundResult(null);
+        setPlayResult(null);
+      }, 3000);
 
       if (!result.gameOver && (result.winner === "AI" || (result.activePlayer === "AI" && result.winner === "DRAW"))) {
-        setAiThinking(true);
-        setTimeout(() => void playCard(null), 2000);
+        setTimeout(() => {
+          setAiThinking(true);
+          void playCard(null);
+        }, 3000);
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : "Unknown error");
@@ -242,6 +265,7 @@ function App() {
           <GamePageAi
             matchState={matchState}
             playResult={playResult}
+            currentRoundResult={currentRoundResult}
             loading={loading}
             startMatch={startMatch}
             handleAttributeSelect={handleAttributeSelect}

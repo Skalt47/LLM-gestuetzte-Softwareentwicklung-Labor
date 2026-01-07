@@ -4,6 +4,7 @@ import "./GamePageAi.css";
 type GamePageProps = {
   matchState: MatchState | null;
   playResult: PlayResult | null;
+  currentRoundResult: PlayResult | null;
   loading: boolean;
   startMatch: () => Promise<void>;
   handleAttributeSelect: (attribute: string) => void;
@@ -20,6 +21,7 @@ type GamePageProps = {
 export const GamePageAi = ({
   matchState,
   playResult,
+  currentRoundResult,
   loading,
   startMatch,
   handleAttributeSelect,
@@ -42,101 +44,164 @@ export const GamePageAi = ({
     ) : (
       <div className="game-section">
         {!playResult?.gameOver ? (
-          <>
-            <div className="deck-info">
-              <p className="deck-pill human">Your Deck: {playResult?.humanDeckSize ?? 16} cards</p>
-              <p className="deck-pill ai">AI Deck: {playResult?.aiDeckSize ?? 16} cards</p>
-            </div>
-
-            {matchState.topCard && (
-              <div className="card">
-                <div className="card-header">
-                  <h2>{matchState.topCard.species}</h2>
-                  <p className="card-group">{matchState.topCard.groupCode}</p>
-                </div>
-                {matchState.topCard.imgUrl && (
-                  <img
-                    src={`http://localhost:8080${matchState.topCard.imgUrl}`}
-                    alt={matchState.topCard.species}
-                    className="card-image"
-                  />
-                )}
-                <div className="suggestion-panel">
-                  <button
-                    className="suggestion-button"
-                    onClick={suggestAttribute}
-                    disabled={
-                      !isHumanTurn ||
-                      suggestLoading ||
-                      suggestUsesLeft <= 0 ||
-                      loading ||
-                      jokerActive
-                    }
-                  >
-                    {suggestLoading
-                      ? "Asking the LLM..."
-                      : `Ask the LLM (${suggestUsesLeft} use${
-                          suggestUsesLeft === 1 ? "" : "s"
-                        } left)`}
-                  </button>
-                  <p className="suggestion-info">
-                    {suggested
-                      ? `LLM chose ${suggested} for you.`
-                      : `Let the LLM decide when you're unsure (${suggestUsesLeft} use${
-                          suggestUsesLeft === 1 ? "" : "s"
-                        } left).`}
-                  </p>
-                </div>
-                {aiThinking && (
-                  <div className="ai-thinking">
-                    <div className="ai-spinner">
-                      <span role="img" aria-label="dinosaur">
-                        🦖
-                      </span>
-                    </div>
-                    <span>AI opponent is thinking...</span>
+          <>        
+        <div className="deck-status-container">
+        <div className="deck-pill human">
+          Your Deck: {playResult?.humanDeckSize ?? 16} cards
+        </div>
+        <div className="deck-pill ai">
+          AI Deck: {playResult?.aiDeckSize ?? 16} cards
+        </div>
+      </div>
+        <div className="cards-container">
+                <div className={`card human ${currentRoundResult ? (currentRoundResult.winner === "HUMAN" ? "win" : currentRoundResult.winner === "AI" ? "lose" : "draw") : ""}`}>
+          <div className="card-header">
+            <h2>{matchState.topCard.species}</h2>
+            <p className="card-group">{matchState.topCard.groupCode}</p>
+          </div>
+          {matchState.topCard.imgUrl && (
+            <img
+              src={`http://localhost:8080${matchState.topCard.imgUrl}`}
+              alt={matchState.topCard.species}
+              className="card-image"
+            />
+          )}
+          <div className="suggestion-panel">
+            <button
+              className="suggestion-button"
+              onClick={suggestAttribute}
+              disabled={
+                !isHumanTurn ||
+                suggestLoading ||
+                suggestUsesLeft <= 0 ||
+                loading ||
+                jokerActive
+              }
+            >
+              {suggestLoading
+                ? "Asking the LLM..."
+                : `Ask the LLM (${suggestUsesLeft} use${
+                    suggestUsesLeft === 1 ? "" : "s"
+                  } left)`}
+            </button>
+            <p className="suggestion-info">
+              {suggested
+                ? `LLM chose ${suggested} for you.`
+                : `Let the LLM decide when you're unsure (${suggestUsesLeft} use${
+                    suggestUsesLeft === 1 ? "" : "s"
+                  } left).`}
+            </p>
+          </div>
+          <div className="attributes">
+            <button
+              onClick={() => handleAttributeSelect("lifespan")}
+              disabled={attributeButtonsDisabled}
+            >
+              ⏱️ Lifespan: {matchState.topCard.lifespanYears} years
+            </button>
+            <button
+              onClick={() => handleAttributeSelect("length")}
+              disabled={attributeButtonsDisabled}
+            >
+              📏 Length: {matchState.topCard.lengthM}m
+            </button>
+            <button
+              onClick={() => handleAttributeSelect("speed")}
+              disabled={attributeButtonsDisabled}
+            >
+              💨 Speed: {matchState.topCard.speedKmh} km/h
+            </button>
+            <button
+              onClick={() => handleAttributeSelect("intelligence")}
+              disabled={attributeButtonsDisabled}
+            >
+              🧠 Intelligence: {matchState.topCard.intelligence}
+            </button>
+            <button
+              onClick={() => handleAttributeSelect("attack")}
+              disabled={attributeButtonsDisabled}
+            >
+              ⚔️ Attack: {matchState.topCard.attack}
+            </button>
+            <button
+              onClick={() => handleAttributeSelect("defense")}
+              disabled={attributeButtonsDisabled}
+            >
+              🛡️ Defense: {matchState.topCard.defense}
+            </button>
+          </div>
+        </div>
+        {matchState.aiTopCard && (
+          <div className={`card ai ${currentRoundResult ? (currentRoundResult.winner === "AI" ? "win" : currentRoundResult.winner === "HUMAN" ? "lose" : "draw") : ""}`}>
+            <div className={`blur-layer ${(aiThinking || !playResult) ? "is-blurred" : ""}`}>
+                  <div className="card-header">
+                    <h2>{matchState.aiTopCard.species}</h2>
+                    <p className="card-group">{matchState.aiTopCard.groupCode}</p>
                   </div>
-                )}
-                <div className="attributes">
-                  <button
-                    onClick={() => handleAttributeSelect("lifespan")}
-                    disabled={attributeButtonsDisabled}
-                  >
-                    ⏱️ Lifespan: {matchState.topCard.lifespanYears} years
-                  </button>
-                  <button
-                    onClick={() => handleAttributeSelect("length")}
-                    disabled={attributeButtonsDisabled}
-                  >
-                    📏 Length: {matchState.topCard.lengthM}m
-                  </button>
-                  <button
-                    onClick={() => handleAttributeSelect("speed")}
-                    disabled={attributeButtonsDisabled}
-                  >
-                    💨 Speed: {matchState.topCard.speedKmh} km/h
-                  </button>
-                  <button
-                    onClick={() => handleAttributeSelect("intelligence")}
-                    disabled={attributeButtonsDisabled}
-                  >
-                    🧠 Intelligence: {matchState.topCard.intelligence}
-                  </button>
-                  <button
-                    onClick={() => handleAttributeSelect("attack")}
-                    disabled={attributeButtonsDisabled}
-                  >
-                    ⚔️ Attack: {matchState.topCard.attack}
-                  </button>
-                  <button
-                    onClick={() => handleAttributeSelect("defense")}
-                    disabled={attributeButtonsDisabled}
-                  >
-                    🛡️ Defense: {matchState.topCard.defense}
-                  </button>
+                  {matchState.aiTopCard.imgUrl && (
+                    <img
+                      src={`http://localhost:8080${matchState.aiTopCard.imgUrl}`}
+                      alt={matchState.aiTopCard.species}
+                      className={`card-image ${(aiThinking || !playResult) ? "blurred" : ""}`}
+                    />
+                  )}
+            </div>
+            <div className="ai-status-area">
+              {aiThinking ? (
+                <div className="ai-thinking">
+                  <div className="ai-spinner">
+                    <span role="img" aria-label="dinosaur">🦖</span>
+                  </div>
+                  <span>AI opponent is thinking...</span>
                 </div>
+              ) : (
+                <div className="suggestion-spacer"></div>
+              )}
+            </div>
+            
+            <div className={`blur-layer ${!playResult ? "is-blurred" : ""}`}>
+              <div className="attributes">
+                <button
+                  onClick={() => handleAttributeSelect("lifespan")}
+                  disabled={attributeButtonsDisabled}
+                >
+                  ⏱️ Lifespan: {matchState.aiTopCard.lifespanYears} years
+                </button>
+                <button
+                  onClick={() => handleAttributeSelect("length")}
+                  disabled={attributeButtonsDisabled}
+                >
+                  📏 Length: {matchState.aiTopCard.lengthM}m
+                </button>
+                <button
+                  onClick={() => handleAttributeSelect("speed")}
+                  disabled={attributeButtonsDisabled}
+                >
+                  💨 Speed: {matchState.aiTopCard.speedKmh} km/h
+                </button>
+                <button
+                  onClick={() => handleAttributeSelect("intelligence")}
+                  disabled={attributeButtonsDisabled}
+                >
+                  🧠 Intelligence: {matchState.aiTopCard.intelligence}
+                </button>
+                <button
+                  onClick={() => handleAttributeSelect("attack")}
+                  disabled={attributeButtonsDisabled}
+                >
+                  ⚔️ Attack: {matchState.aiTopCard.attack}
+                </button>
+                <button
+                  onClick={() => handleAttributeSelect("defense")}
+                  disabled={attributeButtonsDisabled}
+                >
+                  🛡️ Defense: {matchState.aiTopCard.defense}
+                </button>
               </div>
-            )}
+          </div>
+        </div>
+        )}
+      </div>
 
             {playResult && !playResult.gameOver && (
               <div className={`result ${playResult.winner.toLowerCase()}`}>

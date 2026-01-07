@@ -5,7 +5,8 @@ import java.util.UUID;
 public record StartMatchResponseDto(
     UUID matchId,
     String activePlayer,
-    CardView topCard) {
+    CardView topCard,
+    CardView aiTopCard) {
   public record CardView(
       String species,
       String groupCode,

@@ -1,31 +1,55 @@
 .game-stage {
   display:flex;
   flex:1;
-  margin: 2rem auto;
+  margin: 1rem auto;
   width: 100%;
 }
 
 .game-section {
   display: flex;
   flex-direction: column;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
   gap: 1.2rem;
+  width: 100%;
 }
 
-.deck-info {
+.cards-container {
+  display: flex;
+  gap: 1rem;
+  max-width: 950px;
+  margin: 0 auto;
+  align-items: stretch;
+}
+
+.card-section {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.deck-status-container {
   display: flex;
   justify-content: space-between;
+  width: 100%;
+  max-width: 950px;
+  margin: 0 auto;
   gap: 1rem;
-  flex-wrap: wrap;
 }
 
 .deck-pill {
   flex: 1;
-  padding: 0.65rem 1rem;
-  border-radius: 999px;
   font-weight: 700;
   text-align: center;
   background: rgba(255, 255, 255, 0.8);
-  box-shadow: inset 0 0 0 2px rgba(22, 199, 183, 0.45);
+  width: 220px;
+  padding: 0.6rem;
+  border-radius: 50px;
+  font-weight: bold;
+  text-align: center;
+  background: white;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
 .deck-pill.ai {
@@ -33,11 +57,41 @@
   box-shadow: inset 0 0 0 2px rgba(243, 76, 92, 0.5);
 }
 
-.card-image {
-  width: 100%;
-  max-width: 420px;
-  border-radius: 12px;
-  box-shadow: 0 15px 35px rgba(3, 27, 28, 0.25);
+/* MOBILE*/
+@media (max-width: 500px) {
+
+  .deck-status-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .deck-pill {
+    width: 100%;
+    max-width: 400px;
+  }
+}
+
+@media (max-width: 760px) {
+  .card-section .deck-pill {
+    display: none;
+  }
+  .cards-container {
+    flex-direction: column;
+  }
+}
+
+@media (min-width: 760px) {
+  .cards-container {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+  }
+  .card {
+    /* force both cards on exact same basis*/
+    flex: 1 1 0px; 
+    min-width: 0; 
+  }
 }
 
 .card {
@@ -46,6 +100,12 @@
   padding: 2rem;
   background: linear-gradient(180deg, #f0f5f5 0%, #e8f1f1 100%);
   box-shadow: 0 30px 45px rgba(8, 19, 23, 0.25);
+
+  /*same sizing */
+  width: 100%;
+  max-width: 100%;  /* cant grow over parent */
+  min-width: 0;
+  box-sizing: border-box;
 }
 
 .card-header {
@@ -55,7 +115,6 @@
   gap: 1rem;
   width: 100%;
   margin-bottom: 15px;
-  /* Verhindert Umbrüche, egal was passiert */
   flex-wrap: nowrap; 
 }
 
@@ -63,7 +122,15 @@
   margin: 0;
   white-space: nowrap;
   /* Dynamic size using Clamp: Minimum 1.1rem, Ideal value 4vw (4% der Breite), Maximum 1.6rem */
-  font-size: clamp(1.1rem, 4vw, 1.6rem); 
+  font-size: clamp(1rem, 1.5vw, 1.5rem);
+  min-width: 0;
+  flex: 1;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  hyphens: auto;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .card-group {
@@ -77,11 +144,61 @@
   /* Button like background */
   background-color: #16c7b7;
   color: white;
-  padding: 0.2em 0.8em; /* em passt sich der Schriftgröße an! */
+  padding: 0.2em 0.8em;
   border-radius: 50px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
+.card-image {
+  width: 100%;
+  max-width: 420px;
+  border-radius: 12px;
+  box-shadow: 0 15px 35px rgba(3, 27, 28, 0.25);
+  position: center;
+}
+
+.card-image.blurred {
+  filter: blur(40px) grayscale(100%);
+}
+
+/*win/loss color animation*/
+.card.win {
+  border-color: #7df4c3;
+  animation: glow-green 1s ease-in-out infinite alternate;
+}
+
+.card.lose {
+  border-color: #fa8e82;
+  animation: glow-red 1s ease-in-out infinite alternate;
+}
+
+.card.draw {
+  border-color: #f5bf68;
+  animation: glow-yellow 1s ease-in-out infinite alternate;
+}
+
+@keyframes glow-green {
+  0% { box-shadow: 0 0 3px #41e7a2; }
+  100% { box-shadow: 0 0 7px #41e7a2, 0 0 30px #41e7a2; }
+}
+
+@keyframes glow-red {
+  0% { box-shadow: 0 0 3px #fa8e82; }
+  100% { box-shadow: 0 0 7px #fd7566, 0 0 30px #fd7566; }
+}
+
+@keyframes glow-yellow {
+  0% { box-shadow: 0 0 3px #f5bf68; }
+  100% { box-shadow: 0 0 7px #f5bf68, 0 0 30px #f5bf68; }
+}
+
+.card.ai{
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/*Human card Ai joker*/
 .suggestion-panel {
   margin: 14px auto;
   max-width: 480px;
@@ -121,6 +238,12 @@
   margin: 0;
 }
 
+/*Ai Card spacer*/
+.suggestion-spacer {
+  margin: 14px auto;
+  height: 68px;
+}
+
 .attributes {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -153,15 +276,16 @@ button:disabled {
 }
 
 .result {
-  border: 2px solid #27ae60;
+  border: 2px solid #41e7a2;
   border-radius: 12px;
   padding: 18px;
   text-align: center;
   background-color: #d5f4e6;
+  margin: 0;
 }
 
 .result.ai {
-  border-color: #e74c3c;
+  border-color: #fa8e82;
   background-color: #fadbd8;
 }
 
@@ -178,18 +302,43 @@ button:disabled {
   background-color: #bdc3c7;
 }
 
+/* Die Layer für Bild/Header und Attribute */
+.blur-layer {
+  transition: filter 0.4s ease;
+  width: 100%;
+}
+
+/* Der Blur-Effekt */
+.blur-layer.is-blurred {
+  filter: blur(20px);
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Die Status-Area (Thinking-Button) */
+.ai-status-area {
+  /* Hier keine absolute Positionierung! */
+  /* Sie bleibt im Fluss zwischen Bild und Attributen */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  z-index: 5; /* Liegt über dem Blur, falls dieser leicht ausfranst */
+}
+
 .ai-thinking {
-  width:100%;
-  margin: 14px auto;
-  padding: 10px;
+  /* margin: 14px auto; */
+  margin: 1rem;
+  margin-bottom: 2rem;
+  padding: 5px 10px;
   border-radius: 999px;
   background: linear-gradient(135deg, #16c7b7, #3498db);
   color: #f6fffb;
-  display: inline-flex;
+  display: flex;
   flex-direction: row;
   text-align: center;
   align-items: center;
-  gap: 14px;
+  gap: 10px;
   font-weight: 600;
   box-shadow: 0 12px 30px rgba(18, 56, 49, 0.35);
 }
@@ -251,7 +400,7 @@ button:disabled {
   }
 }
 
-@media(max-width: 600px) {
+@media(max-width: 800px) {
   .attributes button {
     padding: 0.9rem 0rem;
   }
