@@ -1,72 +1,190 @@
 .profile-view {
   display: flex;
   justify-content: center;
-  margin: 2rem auto;
-  padding: 1rem;
+  align-items: center;
+  min-height: 80vh;
+  padding: 20px;
+  font-family: 'Inter', system-ui, sans-serif;
 }
 
 .profile-card {
-  width: min(480px, 95%);
-  padding: 2rem;
-  border-radius: 22px;
-  background: #fefefe;
-  box-shadow: 0 22px 60px rgba(16, 46, 43, 0.25);
-  border: 1px solid rgba(16, 46, 43, 0.08);
+  width: min(500px, 100%);
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 40px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
   text-align: center;
 }
 
-.profile-card h2 {
-  margin-top: 0;
-  color: #0d2f2c;
+.profile-header h2 {
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #888;
+  margin-bottom: 10px;
 }
 
 .profile-name {
-  font-size: 1.4rem;
-  font-weight: 700;
-  margin: 0.5rem 0;
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #1a1a1a;
+  margin: 0;
 }
 
 .profile-id {
-  color: #25504d;
-  margin-bottom: 1.25rem;
+  font-size: 0.85rem;
+  color: #aaa;
+  margin-top: 5px;
 }
 
+/* Diagramm Styling */
+.stats-container {
+  margin: 40px 0;
+  background: #f8f9fa;
+  padding: 25px;
+  border-radius: 20px;
+}
+
+.stats-container h3 {
+  font-size: 1.1rem;
+  margin-bottom: 30px;
+  color: #333;
+}
+
+.chart-wrapper {
+  display: flex;
+  height: 200px;
+  gap: 15px;
+}
+
+.y-axis {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-bottom: 25px;
+  color: #999;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-align: right;
+  width: 30px;
+}
+
+.chart-area {
+  flex-grow: 1;
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+}
+
+.grid-lines {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 25px; /* Alignment with X-Labels */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  pointer-events: none;
+}
+
+.grid-line {
+  border-top: 1px solid rgba(0,0,0,0.05);
+  width: 100%;
+}
+
+.bars-container {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.bar-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 60px;
+  height: 100%;
+}
+
+.bar-wrapper {
+  flex-grow: 1;
+  width: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 5px;
+}
+
+.bar {
+  width: 100%;
+  border-radius: 8px 8px 4px 4px;
+  position: relative;
+  transition: height 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.win-bar {
+  background: linear-gradient(180deg, #4facfe 0%, #00f2fe 100%);
+  box-shadow: 0 4px 15px rgba(79, 172, 254, 0.3);
+}
+
+.loss-bar {
+  background: linear-gradient(180deg, #ff0844 0%, #ffb199 100%);
+  box-shadow: 0 4px 15px rgba(255, 8, 68, 0.3);
+}
+
+.value-tooltip {
+  position: absolute;
+  top: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #333;
+}
+
+.x-label {
+  height: 25px;
+  display: flex;
+  align-items: center;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #666;
+}
+
+/* Buttons */
 .profile-actions {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-  justify-content: center;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.primary-button {
+  color: white;
+  border: none;
+  padding: 16px;
+  border-radius: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.primary-button:hover {
+  transform: scale(1.02);
+  background: #333;
 }
 
 .ghost-button {
-  padding: 0.85rem 1.5rem;
-  border-radius: 999px;
-  border: 2px solid #16c7b7;
-  background: transparent;
-  color: #16c7b7;
+  border: 1px solid #eee;
+  padding: 14px;
+  border-radius: 14px;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.2s, color 0.2s;
 }
 
 .ghost-button:hover {
-  background: rgba(22, 199, 183, 0.1);
-  color: #0a2b27;
-}
-.primary-button {
-  padding: 0.95rem 1.6rem;
-  border-radius: 999px;
-  background: linear-gradient(135deg, #16c7b7, #1b8ec2);
-  border: none;
-  color: white;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  box-shadow: 0 12px 30px rgba(22, 199, 183, 0.45);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
-
-.primary-button:not(:disabled):hover {
-  transform: translateY(-2px);
-  box-shadow: 0 18px 32px rgba(22, 199, 183, 0.55);
+  background: #f9f9f9;
+  color: #333;
 }
