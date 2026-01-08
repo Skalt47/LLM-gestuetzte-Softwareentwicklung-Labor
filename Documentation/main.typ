@@ -122,7 +122,7 @@ Nach anfänglicher Konfiguration und testen, wurde anhand von abgesprochenen Use
 == Datenmodelle und Schnittstellenimplementierung
 
 === Domain Model Diagramm
-Bei den Datenmodellen wird zwischen persistenten und nicht persistenten Daten unterschieden. Persistente Dtaen werden in der PostgreSQL Datenbank gespeichert,während die nicht peristeneten Daten in Redis gespeichert werden oder nur In-memory verwendet werden. Zu den persistenten Daten zählen die Spieler Daten aus der Player Entität und die einzelnen Dino. Nicht persistent sind die Matchstates, welche Informationen über ein laufendes Spiel enthalten und nach Beenden eines Spiels wieder gelöscht werden, sowie die Dino-Karten die aus der Dinaósaurier Entität entstehen und innerhalb des Matchstates gespeichert werden.
+Bei den Datenmodellen wird zwischen persistenten und nicht persistenten Daten unterschieden. Persistente Dtaen werden in der PostgreSQL Datenbank gespeichert,während die nicht peristeneten Daten in Redis gespeichert werden oder nur In-memory verwendet werden. Zu den persistenten Daten zählen die Spieler Daten aus der Player Entität und die einzelnen Dinosaurier. Nicht persistent sind die Matchstates, welche Informationen über ein laufendes Spiel enthalten und nach Beenden eines Spiels wieder gelöscht werden, sowie die Dino-Karten die aus der Dinaósaurier Entität entstehen und innerhalb des Matchstates gespeichert werden.
 
 #link("https://github.com/Skalt47/LLM-gestuetzte-Softwareentwicklung-Labor/tree/main/Documentation/DomainModel.mmd")[
   Mermaid Chart des Domain Model Diagramms in Github
@@ -137,6 +137,84 @@ Bei den Datenmodellen wird zwischen persistenten und nicht persistenten Daten un
 
 === Schnittstellenimplemnetierung
 
+#table(
+  columns: (0.72fr, 1.2fr, 1fr, 1.6fr, 0.6fr),
+  inset: (x: 8pt, y: 12pt),
+  stroke: none, // Keine harten Gitterlinien
+  align: horizon,
+  
+  // Header Design
+  fill: (x, y) => 
+    if y == 0 { rgb("#d9dadb") } // Dunkler GitHub-Style Header
+    else if calc.even(y) { rgb("#f6f8fa") }, // Zebra-Streifen für bessere Lesbarkeit
+    
+  // Header-Text Styling
+  table.header(
+    [*Methode*], [*Endpunkt*], [*Payload*], [*Beschreibung*],[*Daten*]
+  ),
+  
+  // Custom Styling für die Methoden (Tags)
+  // Hier nutzen wir Funktionen für den "Code-Look"
+  
+  text(fill: rgb("#2cbe4e"), weight: "bold")[POST], 
+  raw("/players"), 
+  [CreatePlayerRequest],
+  [Eintrag eines neuen #linebreak() Spielers], 
+  [DB],
+
+
+  text(fill: rgb("#2cbe4e"), weight: "bold")[GET], 
+  raw("/players/{id}"),
+  [-],
+  [Abrufen Spielerdaten], 
+  [DB],
+
+  text(fill: rgb("#005cc5"), weight: "bold")[POST], 
+  raw("/players/{id}/result"),
+  [Id, outcome],
+  [Spielergebnis eines #linebreak() Spielers dokumentieren], 
+  [DB],
+
+  text(fill: rgb("#2cbe4e"), weight: "bold")[GET], 
+  raw("/dinosaurs"),
+  [-],
+  [Abrufen aller Dinosaurier], 
+  [DB],
+
+  text(fill: rgb("#2cbe4e"), weight: "bold")[GET], 
+  raw("/dinosaurs/{id}"),
+  [-],
+  [Abrufen eines #linebreak() Dinosauriers], 
+  [DB],
+
+  text(fill: rgb("#005cc5"), weight: "bold")[POST], 
+  raw("/matches/start"), 
+  [PlayerId],
+  [Erstellen eines #linebreak() MatchStates], 
+  [Redis],
+
+  text(fill: rgb("#005cc5"), weight: "bold")[POST], 
+  raw("/matches/{matchId}/play"),
+  [PlayCardRequestDto],
+  [Spielen einer Karte & #linebreak() Kartenvergleich ], 
+  [Redis],
+
+  text(fill: rgb("#005cc5"), weight: "bold")[POST], 
+  raw("/matches/{matchId}/suggest-attribute"),
+  [-],
+  [Joker: AI spielt für User], 
+  [Redis],
+)
+
+// Styling für den Header-Text (weiß machen)
+#show table.cell: it => {
+  if it.y == 0 {
+    set text(fill: white)
+    it
+  } else {
+    it
+  }
+}
 
 == Versionskontrolle, Build- und CI-Prozesse
 Als Versionskontrolle werden Git und GitHub verwendet.
