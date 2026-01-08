@@ -150,14 +150,21 @@ Frontend Code: Anpassung durch visuelle Überprüfung und manuelles testen. Fehl
 
 // ~1 Page
 = Anpassungen nach der Präsentation
-In Zuge der Präsentation gab es wertvolles Feedback, welches in die Weiterentwicklung des Projekts einfloss. Basierend auf den Anregungen wurden folgende Anpassungen vorgenommen:
+Im Zuge der Präsentation gab es wertvolles Feedback, welches in die Weiterentwicklung des Projekts einfloss. Basierend auf den Anregungen der Präsentation, sowie eigener Ideen wurden folgende Anpassungen vorgenommen:
 == Frontend
+Zum Zeitpunkt der Präsentation hatte das Frontend Ausbaupotential. Ursprünglich wurde nach jedem Spielzug ein Feld angezeigt, in welchem der Gewinner, die vergleichten Attribute und deren Werte angezeigt wurden, nicht aber die gesamte Gegnerkarte. Durch Anregung aus dem Feedback wurde das Frontend weitgehend optimiert, sodass nun auch die Karte des KI-Gegners angezeigt wird. Während jeder Matchrunde wird die Karte dabei verschwommen angezeigt und nach Matchentscheidung offenbart, sodass der User die Karten vergleichen kann.
 
+Um die User Experience zu optimieren wurden des Weiteren Animationen der Kartenränder eingefügt, um ganz einfach Matchgewinner und Verlierer zu erkennen. Darüber hinaus wurde das Layout des Frontends angepasst um ansprechender zu sein.  Zusätzlich wurde ein Responsive-Design eingeführt, sodass das Spiel auf kleinen und großen Bildschirmen funktionert. Hinzu kommt eine Userseite auf welcher ein User Profil angezeigt wird, welches ein Diagramm über die totalen Gewinne und Verluste anzeigt.
 
 == Backend
 Damit der KI-Gegner eine fundierte Entscheidung treffen kann, müssen dem LLM die möglichen Minimum- und Maximumwerte der Attribute bekannt sein, wie dem Feedback der Präsentation entnommen wurde. Daher wurde der Prompt, der an das LLM-Modell weitergereicht wird in dieser Hinsicht optmiert. Bei erstmaliger Optimierung erhielten alle Attribute die Minimum- und Maximumwerte 0 bis 100.
 
 Eine detaillierte Analyse der zugrundeliegenden DinoData.json Datei ergab jedoch, dass die tatsächlichen Wertebereiche stark variieren. So liegt beispielsweise der Wert für „Speed“ konstant zwischen 18 und 60, während das Attribut „Angriff“ Werte zwischen 40 und 98 aufweist. Ohne diese Information würde die KI eine Fehlentscheidung treffen: Ein Geschwindigkeitswert von 60 stellt das absolute Maximum dar und garantiert einen Sieg, wohingegen ein Angriffswert von 70 lediglich im mittleren Bereich liegt. Bei Beibehalten der starren Grenzen von 0-100 im Prompt, würde das Modell die Siegwahrscheinlichkeit von Geschwindigkeit niedriger einschätzen als die von Angriff, was fehlerhaft wäre. Um die Entscheidungsqualität zu optimieren, wurden die Minimum- und Maximumwerte eines jeden Attributs einzeln im Prompt definiert. Erst durch diesen Kontext ist das Modell dazu in der Lage eine fundierte Entscheidung zu treffen. Diese Promptanpassung funktioniert allerdings nur, da es in dieser Version nur ein zu spielendes Dinoset gibt.
+
+== Allgemein
+Im Anschluss an die Präsentation erfolgte neben der Optimierung der Features eine umfassende Optimierung der Codestruktur und der Namenskonventionen. Ein kritischer Punkt war die ursprüngliche Architektur des Frontends, bei der die gesamte Programmlogik in einer einzigen, unübersichtlichen Datei konzentriert war.
+
+Um die Wartbarkeit und Lesbarkeit zu verbessern, wurde ein Refactoring durchgeführt. Dabei wurde die Logik in modulare Komponenten unterteilt und eine klare Verzeichnisstruktur eingeführt.
 
 // ~3 Pages
 = Erfahrung, Herausforderungen und Reflexion
