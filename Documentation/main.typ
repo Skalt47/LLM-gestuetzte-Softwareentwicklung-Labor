@@ -132,11 +132,19 @@ Als Versionskontrolle werden Git und GitHub verwendet.
 == Auswahl der LLMs und Dienste
 phi3:mini als LLM für die Spiellogik
 Github Copilot, Codex und ChatGPT 5.2 für die Codegenerierung
+Bei der Entwicklung des Codes wurden die KI-Agenten Codex und GitHub Copilot verwendet, die der Unterstützung während des Programmierens dienten. Ein zentrales Ziel des Projekts war die Implementierung von Large Language Models (LLMs) in zwei verschiedenen Anwendungsbereichen: Erstens die automatisierte Generierung von Dinosaurier-Abbildungen für die Quartettkarten über eine externe API und zweitens die Realisierung eines KI-Gegners als Kernfunktion des Spiels. Bei der Wahl dieser LLMs war das ausschlaggebenste Kriterium, dass sie kostenlos verwendbar sein mussten, was sich schnell als Herausforderung erwies.
+
+Um den KI-Gegener zu realisieren, wurde das kleine lokale Modell phi3:mini gewählt. Die Bereitstellung des Modells erfolgt über Ollama, ein Framework zur Ausführung verschiedener Sprachmodelle auf lokaler Hardware. Wobei um die Skalierbarkeit zu erhöhen Ollama in einen Docker-Container gekapselt wurde. 
+
+Ollama fungiert hierbei als Schnittstelle, über die das Backend Spielzustände an das phi3:mini Modell sendet und darauf Entscheidungen der KI zurückerhält. Phi3:mini hat sich für dieses Projekt geeignet da es sowohl kostenlos, sowie relativ kompakt und somit von unserer Hardware stemmbar war.
+
+Die Wahl eines API-Endpunktes war etwas eingeschränkt, da nicht viele kostenlos zur Verfügung stehen. Prinzipiell war die Wahl allerdings nicht von zu großer Bedeutung, da der Code so strukturiert wurde, dass lediglich der API-Endpunkt geändert werden muss, um ein anderes Modell nach Belieben zu verwenden. Über Huggingface-Inference-API wurde das Modell Stable Diffusion XL (SDXL) 1.0 von Stabilityai für die Dinosaurier-Bildgenerierung angebunden. Huggingface ist ein tokenbasierter Service, der API-Endpunkte für verschiedene Modelle zur Verfügung stellt. Das SDXL Modell erzeugt eine hohe Ausgabequlität und ist aufgeteilt in ein Base und ein Refiner Modell. Das Base Modell erzeugt die erste Grundlage des Bildes und kann optional durch das Refiner-Modell hinischtlich Detailgrad und Prompttreue optimiert werden. Da Huggingface tokenbasiert ist und somit die Bildgenerierung limitiert war, erwies sich SDXL als effizient, da das Base Modell ausreichend war und gezielt einzelne Bilder durch den Refiner optimiert werden konnten, um das Token-Kontingent zu schonen.
 
 == Aufbau und Dokumentation der Prompts
 
 == Generierte Assets (Code, Bilder, Audio, Video, Text)
 Code, Stammdaten in Form von JSON, Bilder für die Karten
+Hier Abschnitt der Dino JSON einfügen.
 
 == Fehleranalyse und Optimierung
 Frontend Code: Anpassung durch visuelle Überprüfung und manuelles testen. Fehlertoleranz bei Stammdaten, Bilder manuelle Überprüfung auf Halluzinationen
@@ -148,8 +156,11 @@ Frontend Code: Anpassung durch visuelle Überprüfung und manuelles testen. Fehl
 In Zuge der Präsentation gab es wertvolles Feedback, welches in die Weiterentwicklung des Projekts einfloss. Basierend auf den Anregungen wurden folgende Anpassungen vorgenommen:
 == Frontend
 
+
 == Backend
-In den Prompt für die LLM-Entscheidung, wurden mehr Infos hinzugefügt, damit die LLM bessere Entscheidungen treffen kann (Max- und Min-Werte des jeweiligen Attributs).
+Damit der KI-Gegner eine fundierte Entscheidung treffen kann, müssen dem LLM die möglichen Minimum- und Maximumwerte der Attribute bekannt sein, wie dem Feedback der Präsentation entnommen wurde. Daher wurde der Prompt, der an das LLM-Modell weitergereicht wird in dieser Hinsicht optmiert. Bei erstmaliger Optimierung erhielten alle Attribute die Minimum- und Maximumwerte 0 bis 100.
+
+Eine detaillierte Analyse der zugrundeliegenden DinoData.json Datei ergab jedoch, dass die tatsächlichen Wertebereiche stark variieren. So liegt beispielsweise der Wert für „Speed“ konstant zwischen 18 und 60, während das Attribut „Angriff“ Werte zwischen 40 und 98 aufweist. Ohne diese Information würde die KI eine Fehlentscheidung treffen: Ein Geschwindigkeitswert von 60 stellt das absolute Maximum dar und garantiert einen Sieg, wohingegen ein Angriffswert von 70 lediglich im mittleren Bereich liegt. Bei Beibehalten der starren Grenzen von 0-100 im Prompt, würde das Modell die Siegwahrscheinlichkeit von Geschwindigkeit niedriger einschätzen als die von Angriff, was fehlerhaft wäre. Um die Entscheidungsqualität zu optimieren, wurden die Minimum- und Maximumwerte eines jeden Attributs einzeln im Prompt definiert. Erst durch diesen Kontext ist das Modell dazu in der Lage eine fundierte Entscheidung zu treffen. Diese Promptanpassung funktioniert allerdings nur, da es in dieser Version nur ein zu spielendes Dinoset gibt.
 
 // ~3 Pages
 = Erfahrung, Herausforderungen und Reflexion
