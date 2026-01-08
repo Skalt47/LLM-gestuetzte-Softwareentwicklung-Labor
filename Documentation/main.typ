@@ -105,8 +105,8 @@ Java, Spring Boot, REST API, PostgreSQL and Redis, Docker, Flyway, Ollama, phi3:
 Die LLM-Integration sitzt im LlmClientService.java: Das Backend ruft über einen konfigurierten RestTemplate den Ollama-Container an, der das Modell phi3:mini bereitstellt. Für jede Entscheidung baut der Service einen klaren Prompt mit den sechs zulässigen Attributen (lifespan, length, speed, intelligence, attack, defense) und schickt ihn an die Chat-API des Containers. Falls die LLM eine unbrauchbare Antwort liefert, was bei LLMs eine zu berücksichtigende Möglichkeit ist, so greift die Fallback-Logik. Fallback-Logik wählt den höchsten Wert, sollte auch dies nicht funktionieren, so wird einfach das Angriffs-Attribut ausgewählt. Das Timeout ist auf 2 Minuten (120000 ms) gesetzt, wodurch phi3:mini die Inferenz durchzuführen und eine Antwort zu generieren. Kommt etwas Unerwartetes zurück oder gar nichts, greift die bereits erwähnte Fallback-Logik, sodass das Spiel auch ohne LLM-Antwort weiterläuft.
 
 == Sicherheits- und Authentifizierungsmechanismen
-Im Rahmen dieses Projektes wurden keine speziellen Sicherheits- oder Authentifizierungsmechanismen implementiert, da es sich um eine einfache Spielanwendung handelt, die keine sensiblen Daten verarbeitet. Von anderen kleinen Online-Games ist die Funktionweise bekannt, dass Username und minimale Spieldaten über den Erfolg gespeichert werden ohne je ein Passwort festuzulegen. Ziel war, dass einem User ein am laufendes Spiel zugeordnet werden kann und auf einer ProfilPage Informationen über die Anzahl an Siegen und Verlusten angezeigt werden können. Lokal werden Spielername und Id als einziges gespeichert, sodass diese Ziele ohne Authentifizierung erreicht werden können.
-
+Entfallen, da kein Login sondern bisher nur Spielername eingegeben werden kann und keine sensible Daten verarbeitet werden.
+-
 == Sonstiges
 Die Dokumentation erfolgt mit Typst und Mermaid Chart für das Architekturdiagramm.
 
@@ -114,14 +114,17 @@ Die Dokumentation erfolgt mit Typst und Mermaid Chart für das Architekturdiagra
 = Implementierung
 
 == Vorgehensmodell und Projektmanagement
-Iteratives Vorgehen mit wöchentlichen Meetings zur Planung und Review.
+Während dieses Projektes wurden keine festen Vorgehensmodelle und Projektmanagement-Tools eingesetzt und stattdessen mehr auf flexibles Arbeiten gesetzt. In wöchentlichen Meetings wurden die nächsten Schritte geplant, Aufgaben verteilt und der Fortschritt überprüft. Während der Entwicklung wurde der main Branch geschützt,sodass nur Änderungen eines überprüften Pull Requests durch ein anderes Teammitglied in diesen zusammengeführt werden konnten. Dadurch konnte zudem eine höhere Codequalität gewährleistet werden.
 
 == Code-Generierung und Entwicklung
+Nach anfänglicher Konfiguration und testen, wurde anhand von abgesprochenen User Stories zunächst die Grundfunktionen des Spiels implementiert. Hierbei wurde der Fokus auf die Spiellogik und die Kommunikation zwischen Frontend und Backend gelegt. Die Backendfunktionen, also die Spiellogik ist das Herzstück und wurde dementsprechend auch so behandelt. Das Frontend wurde dann häufig, abhängig von dem Backend, mit LLMs zunächst Test mäßig generiert. Anschließend wurde die LLM-Integration implementiert und getestet. Während der Entwicklung wurden immer wieder kleinere Anpassungen vorgenommen, um die Benutzerfreundlichkeit zu verbessern und Fehler zu beheben.
 
 == Datenmodelle und Schnittstellenimplementierung
+Rest-API und ER-Diagramm einfügen.
+Die Kommunikation zwischen dem React-Fronend
 
 == Versionskontrolle, Build- und CI-Prozesse
-Versionskontrolle mit Git/GitHub
+Als Versionskontrolle werden Git und GitHub verwendet.
 
 // ~4 Pages
 = Einsatz der LLMs und Prompt Engineering
