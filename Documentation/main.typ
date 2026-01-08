@@ -120,8 +120,19 @@ Während dieses Projektes wurden keine festen Vorgehensmodelle und Projektmanage
 Nach anfänglicher Konfiguration und testen, wurde anhand von abgesprochenen User Stories zunächst die Grundfunktionen des Spiels implementiert. Hierbei wurde der Fokus auf die Spiellogik und die Kommunikation zwischen Frontend und Backend gelegt. Die Backendfunktionen, also die Spiellogik ist das Herzstück und wurde dementsprechend auch so behandelt. Das Frontend wurde dann häufig, abhängig von dem Backend, mit LLMs zunächst Test mäßig generiert. Anschließend wurde die LLM-Integration implementiert und getestet. Während der Entwicklung wurden immer wieder kleinere Anpassungen vorgenommen, um die Benutzerfreundlichkeit zu verbessern und Fehler zu beheben.
 
 == Datenmodelle und Schnittstellenimplementierung
-Rest-API und ER-Diagramm einfügen.
-Die Kommunikation zwischen dem React-Fronend
+
+=== Domain Model Diagramm
+
+#link("https://github.com/Skalt47/LLM-gestuetzte-Softwareentwicklung-Labor/tree/main/Documentation/DomainModel.mmd")[
+  Mermaid Chart des Domain Model Diagramms in Github
+]
+
+#figure(
+  image("/documentation/assets/Domain_Model_Diagramm_Color.png", width: 100%),
+  caption: [
+    Domain Model Diagramm
+  ],
+)
 
 == Versionskontrolle, Build- und CI-Prozesse
 Als Versionskontrolle werden Git und GitHub verwendet.
