@@ -174,19 +174,33 @@ Um die Wartbarkeit und Lesbarkeit zu verbessern, wurde ein Refactoring durchgef�
 = Erfahrung, Herausforderungen und Reflexion
 
 == Positive Erfahrungen und Erfolgsgeschichten
-Schneller Einstieg in Technologien, durch den Einsatz von LLMs
+Durch den gezielten und bewussten Einsatz von LLMs ist ein schneller Einstieg in neue Technologien möglich gewesen, insbesondere auch bei der Technologienfindung hat der Einsatz der LLMs sich als positiv erwiesen. Bei simplen Fehlern konnten LLMs schnell Abhilfe schaffen und den Entwicklungsprozess beschleunigen. 
+
+Als überwiegend positiv hat sich auch die Frage nach Beispielen herausgestellt, wenn es beispielsweise darum ging wie man eine neue Technologie einsetzt.
+
 
 == Schwierigkeiten und Problemstellung
-Falschinformationen durch LLMs und unklare Grenzen der LLMs, da bei fast immer eine Antwort generiert wird, auch wenn diese falsch ist.
+Falschinformationen durch LLMs und unklare Grenzen der LLMs haben zu Schwierigkeiten und teils längeren Umwegen geführt. Diese Umwege mussten dann menschlich korrigiert werden und die Fehlerbehebung fand dann mithilfe der traditionellen Fehlersuche statt (Google, Stackoverflow, Reddit usw.). Als Problematisch hat sich deshalb erwiesen, das die LLM bei fast jeder Frage eine Antwort generiert wird, auch wenn diese falsch ist oder die Antwort unbekannt. Daher haben wir auch gezielt eine Überprüfung der Antworten von phi3:mini vorgenommen, sowie deren Fallback-Logik, damit das Spiel nicht einfach in der Mitte eines Durchlaufs stehen bleibt.
 
 == Grenzen und Risiken von LLMs
-Kreislauf des Todes bei Problemen. Löse das Problem "Ja, klar ich hier die verbesserte Version" und es ist dann entweder genau der gegebene Code, es ist ein zuvor gegebener Code mit Fehler oder es ist neuer Code mit neuen Fehlern.
+Besonders beim debugging und der Fehlersuche wurden die Schwächen und Grenzen der LLMs deutlich. Hierbei ist ein Kreislauf des Todes bei Problemen nicht unüblich. Exemplarisch Darstellung dieser Prompts: 
+- "Bitte löse das Problem ...""
+- "Ja, klar ich hier die verbesserte Version:" 
+Und es ist dann entweder genau der gegebene Code, es ist ein zuvor gegebener Code mit Fehlern oder es ist neuer Code mit neuen Fehlern.
+
+Deutlich wurde die Fehlerhäufigkeit bei größerem Scope, also z.B. langen Codeabschnitten. Hierbei ist unserer Beobachtung nach die Fehlerquote deutlich höher als bei kleineren Codeabschnitten.
 
 == Lessons Learned und Empfehlungen
-Fantastisch beim Einstieg in neue Technologien, aber nicht als alleinige Lösung geeignet.
+Fantastisch beim Einstieg in neue Technologien, Brainstorming, einfachen kreativen Aufgaben aber nicht als alleinige Lösung geeignet.
+
+Ist allerdings ein bereits fertiges Backend vorhanden und man möchte sich die Arbeit für das Frontend sparen, so ist der Einsatz von LLMs durchaus sinnvoll. Wichtig ist dabei in kleinen Schritten vorzugehen und klare Anweisungen zu geben. 
+
+Ist man in einer Technologie versiert/erfahren, so kann man sich den Einsatz von LLMs durchaus sparen, da der Aufwand den man für die Qualitätssicherung und Fehlerbehebung betreiben muss, den Nutzen übersteigt.
 
 == Zukunft der LLM-gestützten Entwicklung
-Hauptsächlich als Unterstützung für Entwickler, nicht als Ersatz (Effizienzsteigerung, Ideenfindung, Dokumentationserstellung).
+Kurzfristig: Hauptsächlich als Unterstützung für Entwickler, nicht als Ersatz (Effizienzsteigerung, Ideenfindung, Dokumentationserstellung).
+
+Mittel- bis langfristig: LLM als hauptsächlicher Entwickler (Code-Generierung) und Entwickler als Architekt und Qualitätsmanager
 
 // 1-2 Pages
 = Zusammenfassung und Fazit
