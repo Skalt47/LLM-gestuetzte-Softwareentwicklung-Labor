@@ -1,6 +1,7 @@
 #import "static/lib.typ": *
 #import "acronyms.typ": acronyms
 #import "glossary.typ": glossary
+#import "@preview/showybox:2.0.1": showybox
 
 #show: supercharged-dhbw.with(
   title: "LLM-gestuetzte-Softwareentwicklung-Labor",
@@ -13,12 +14,12 @@
       course-of-studies: "LLM-gestuetzte-Softwareentwicklung",
     ),
   ),
-  acronyms: acronyms, // displays the acronyms defined in the acronyms dictionary
+  acronyms: none, // displays the acronyms defined in the acronyms dictionary
   at-university: true, // if true the company name on the title page and the confidentiality statement are hidden
   city: "Esslingen",
   bibliography: bibliography("sources.bib"),
   date: datetime.today(),
-  glossary: glossary, // displays the glossary terms defined in the glossary dictionary
+  glossary: none, // displays the glossary terms defined in the glossary dictionary
   language: "de", // en, de
   // supervisor: (company: "John Appleseed"),
   supervisor: (university: "Prof. Dr. Jörg Nitzsche, Dr. Stefan Kaufmann, Klemens Morbe"),
@@ -270,12 +271,148 @@ Bei der Code-Generierung wurde ein iteratives Prompting-Vorgehen angewendet. Dab
 == Generierte Assets (Code, Bilder, Audio, Video, Text)
 Im Projekt wurden verschiedene Assets generiert, dazu gehören: Code, Stammdaten in Form von JSON und Bilder von Dinos für die Karten.
 
+=== Stammdaten in JSON-Format
+Die Basis dieses Projektes bilden die Dinosaurierdaten, aus welchen die einzelnen Katren im Quartettspiel erstelt werden. Da keiner der Teammitglieder ausgiebiges Wissen über Dinosaurier hatte, beauftragten wir ein LLM über einen Prompt ein JSON-Objekt zu erstellen, welches später dazu verwendet wurde diese Daten in die Datenbank zu übertragen.
+
 #figure(
-  image("/documentation/assets/Spinosaurus_aegyptiacus.png", width: 70%),
-  caption: [
-    Spinosaurus aegyptiacus
-  ],
+  block(
+    width: 100%,
+    fill: luma(250),
+    inset: 12pt,
+    radius: 4pt,
+    [
+      #align(left)[
+        Create a JSON-Object that conatins 32 dinosaurs. Choose 32 dinosaurs where a group of 4 are in a similar dinosaur family, where aech dinosaur has a group value, consisting of the group number and a letter. For  example 1A-1D. Each dinosaur has the 6 attributes lifespan, length, speed, intelligence, attack and defense. Choose fitting values for these attributes in range 0 to 100, by looking up characteristic traits of the dinosaurs.
+      ]
+
+    ]
+  ),
+  caption: [Prompt für die Erstellung der DinoData.json],
+  kind: raw,
+  supplement: [Code] 
 )
+
+#figure(
+  block(
+    width: 100%,
+    fill: luma(250),
+    inset: 12pt,
+    radius: 4pt,
+    [
+      #place(top + right, text(size: 8pt, fill: gray.darken(20%), weight: "bold")[JSON])
+      
+      #align(left)[
+        ```json
+        [
+          {
+            "species": "Tyrannosaurus rex",
+            "group": "1A",
+            "lifespan_years": 28,
+            "length_m": 12.3,
+            "speed_kmh": 27,
+            "intelligence": 58,
+            "attack": 98,
+            "defense": 70
+          },
+        ]
+        ```
+      ]
+    ]
+  ),
+  caption: [Auszug aus dem Dinosaurier-Datensatz],
+  kind: raw, 
+  supplement: [Code]
+)
+
+=== Bildgenerierung
+Für die Bildgenerierung wird in einem Startup-Service überprüft, ob ein Dinosaurier in der Datenbank noch keinen Bildvermerk hat und im falle dessen für diesen Dinosaurier ein Prompt an das Modell gesendet.
+#figure(
+  block(
+    width: 100%,
+    fill: luma(250),
+    inset: 15pt,
+    radius: 5pt,
+    [
+      #place(top + right, text(size: 8pt, fill: gray.darken(20%), weight: "bold", font: "sans-serif")[PROMPT])
+      
+      #align(left)[
+        ```java
+          String prompt = "Create an image of the dinosaur species: " 
+            + d.getSpecies() 
+            + ". Style: Cute anime/cartoon with bright/strong colors. "
+            + "Include characteristic features for each dinosaur and a "
+            + "background matching its natural habitat. Make the dinosaur "
+            + "easy to recognize by using some realistic characteristic "
+            + "features. The image should be suitable for a quartett "
+            + "card game, similar in layout to a Pokémon card.";
+        ```
+      ]
+
+    ]
+  ),
+  caption: [Promt für die Generierung eines Bildes],
+  kind: raw,
+  supplement: [Code] 
+)
+
+Der obige Prompt wurde im Allgemeinen verwendet  um die Bilder zu generieren und erzielte im Großen und Ganzen die besten Ergebnisse. Allerdings gab es Einzelfälle, für die der Prompt angepasst werden musste, damit ein passendes Bild entsteht. Aufgrund der begrenzten Tokens war das Experimentieren mit verschiedenen Prompts eingeschränkt. Die unteren Bilder zeigen gute Ergebnisse, die mit diesem Prompt generiert wurden.
+
+
+#figure(
+  grid(
+    columns: (1fr, 1fr),
+    gutter: 15pt,
+    // Linkes Bild
+    figure(
+      image("/Documentation/assets/Spinosaurus_aegyptiacus.png", width: 100%),
+      caption: [Der Spinosaurus],
+    ),
+    // Rechtes Bild
+    figure(
+      image("assets/Dino_cute.png", width: 100%),
+      caption: [Der Spinosaurus],
+    ),
+   ),
+)
+
+Aber auch mit diesem Prompt wurden gelegentlich fehlerhafte Bilder generiert, beispielsweise Dinosaurier mit zu vielen oder zu wenigen Gliedmaßen, die in einander verschmolzen waren. Um diese Bilder zu verbessern wurde der obige Prompt für Einzelfälle angepasst.
+
+#figure(
+  grid(
+    columns: (1fr, 1fr),
+    gutter: 15pt,
+    // Linkes Bild
+    figure(
+      image("assets/Dino_vor_Optimierung.png", width: 100%),
+      caption: [Dinosaurier vor Promptanpassung],
+    ),
+    //Rechtes Bild
+    figure(
+      image("/Documentation/assets/Dino_nach_Optimierung.png", width: 100%),
+      caption: [Dinosaurier nach Promptanpassung mit Ergänzung: "Nicht fusioniert"],
+    ),
+   ),
+)
+
+Bevor allerdings der obige Prompt verwendet wurde, gab es einen großen Fehlschlag, der die Dinosaurier zu realistisch aussehen laßen mit einem unschönen Farbschema. Dieser Prompt wurde durch dei Schlüsselworte "cute", "bright/strong colors" und "some realistic characteristic features" erweitert. Ergebnisse ogne diese Erweiterungen zeigen die unteren Abbildungen auf.
+
+#figure(
+  grid(
+    columns: (1fr, 1fr),
+    gutter: 15pt,
+    // Linkes Bild
+    figure(
+      image("assets/Dino_realistic1.png", width: 100%),
+      caption: [Zu realistischer Dinosaurier 1],
+    ),
+    //Rechtes Bild
+    figure(
+      image("/Documentation/assets/Dino_realistic2.png", width: 100%),
+      caption: [Zu realistischer Dinosaurier 2],
+    ),
+   ),
+)
+
 
 
 == Fehleranalyse und Optimierung
@@ -346,5 +483,3 @@ Mittel- bis langfristig: LLM als hauptsächlicher Entwickler (Code-Generierung) 
 == Zusammenfassung der Arbeit
 
 == Persönliche Reflexion und Fazit
-
-
