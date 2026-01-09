@@ -40,38 +40,38 @@
 #project-name ist ein Softwareprojekt, welches mit Hilfe von LLMs entwickelt und dokumentiert wird. Das Ziel des Projekts ist es, eine Online Version des beliebten Quartett Kartenspiels zu erstellen. Hierbei gilt es den Aufwand bei der Erstellung der Software mithilfe von LLMs zu minimieren und gleichzeitig eine qualitativ hochwertige Software zu entwickeln.
 
 == Zielsetzung und Relevanz
-Ziel dieses Softwareprojekts ist der Einsatz von LLMs zur Unterstützung bei der Softwareentwicklung und die Integration in selbigen. Durch den Einsatz von LLMs soll der Entwicklungsprozess effizienter gestaltet werden mit gleichbleibender Qualität.
+Ziel dieses Softwareprojekts ist der Einsatz von LLMs zur Unterstützung bei der Softwareentwicklung und die Integration in Selbiges. Durch den Einsatz von LLMs soll der Entwicklungsprozess effizienter gestaltet werden mit gleichbleibender Qualität.
 
-Wichtig und relevant ist das Arbeiten mit LLMs, da von einer Steigerung der Produktivität ausgegangen wird. Dadurch kann der Aufwand und somit in der realen Welt kosten verringert werden. Außerdem ist der Vergleich von statischem Code, welcher eine Entscheidung trifft und dynamischen Entscheidungen durch LLMs betrachtenswert hinsichtlich Performance und Qualität.
+Wichtig und relevant ist das Arbeiten mit LLMs, da von einer Steigerung der Produktivität ausgegangen wird. Dadurch kann der Aufwand und somit in der realen Welt Kosten verringert werden. Außerdem ist der Vergleich von statischem Code, welcher eine Entscheidung trifft und dynamischen Entscheidungen durch LLMs bsonders hinsichtlich Performance und Qualität beachtenswert.
 
 == Aufbau der Arbeit
-Nach einer Projektbeschreibung folgt die Softwarearchitektur und die Vorstellung der verwendeten Technologien. Im Zuge der Implementierung wird noch detailierter auf den Einsatz der LLMs und Prompt Engineering eingegangen. Abschließend geht es noch um Erfahrungen, Herausforderungen, Reflexion, sowie eine Zusammenfassung und das Fazit.
+Nach einer Projektbeschreibung folgt die Softwarearchitektur und im Zuge der Implementierung wird noch detailierter auf den Einsatz der LLMs und Prompt Engineering eingegangen. Abschließend geht es noch um Erfahrungen, Herausforderungen, Reflexion, sowie eine Zusammenfassung und das Fazit.
 
 // ~3 Pages
 = Projektbeschreibung
 == Problemstellung und Anforderungen
-Die Problemstellung besteht darin, eine Online Version des Kartenspiels Quartett zu erstellen und gegen eine LLM spielen zu können.  Die Anforderungen umfassen die Erstellung einer benutzerfreundlichen Oberfläche, die Implementierung der Spiellogik und die Integration einer LLM als Gegner.
+Die Problemstellung besteht darin, eine Online Version des Kartenspiels Quartett zu erstellen und gegen eine LLM spielen zu können. Die Anforderungen umfassen die Erstellung einer benutzerfreundlichen Oberfläche, die Implementierung der Spiellogik und die Integration einer LLM als Gegner.
 
 == Zielgruppe und Personas
 Die Zielgruppe sind Kinder und Erwachsene, welche gerne Quartett spielen und Dinos mögen. Für die Kinder steht das Spielen und Lernen im Vordergrund, während Erwachsene konkret efahren können, was kleine LLM-Modelle leisten können. Dabei kann die Qualität und Performance ganz gut beobachtet werden.
 
-Von LLM erstelle passende Personas:
+Von LLM erstellte passende Personas:
 Persona 1: Dino-begeistertes Kind
 
-Alter: 9-12
-Motivation: spielen, lernen, Spaß an Dinos und gewinnen.
-Ziele: neue Dino-Arten entdecken; Spielregeln schnell verstehen; Erfolgserlebnisse im Spiel.
+Alter: 9-12 Jahre; 
+Motivation: Spielen, Lernen, Spaß an Dinos und Gewinnen.
+Ziele: Neue Dino-Arten entdecken, Spielregeln schnell verstehen und Erfolgserlebnisse im Spiel.
 Technik: Tablet/Smartphone, einfache Bedienung, wenig Geduld für komplexe Menüs.
-Bedürfnisse: klare Anleitung, kurze Texte, große Buttons, bunte Visuals; schnelle Antworten; unkompliziert.
-Schmerzpunkte: zu viel Text, langsame Ladezeiten, unklare Regeln, schwierige Begriffe.
+Bedürfnisse: Klare Anleitung, kurze Texte, große Buttons, bunte Visuals, schnelle Antworten, unkompliziert.
+Schmerzpunkte: Zu viel Text, langsame Ladezeiten, unklare Regeln, schwierige Begriffe.
 
 Persona 2: Technik-affiner Erwachsener (z.B. Elternteil oder Lehrkraft)
 
-Alter: 30-45; 
-Motivation: Qualität und Performance kleiner LLM-Modelle beurteilen; Lern-/Unterhaltungswert für Kinder testen.
-Ziele: sehen, wie stabil und fix die LLM-Antworten sind; Inhalte auf Korrektheit prüfen; didaktischen Nutzen für Unterricht/Spieleinsätze bewerten.
-Technik: Desktop/Laptop/Tablet; erwartet Transparenz zu Modell, Daten und Limits.
-Bedürfnisse: übersichtliches Monitoring (Antwortzeiten, Qualität), nachvollziehbare Quellen/Erklärungen, einfache Einrichtung (Docker/Setup), Datenschutz/Kinderschutz-Hinweise.
+Alter: 30-45 Jahre; 
+Motivation: Qualität und Performance kleiner LLM-Modelle beurteilen, Lern-/Unterhaltungswert für Kinder testen.
+Ziele: Sehen, wie stabil und fix die LLM-Antworten sind, Inhalte auf Korrektheit prüfen, didaktischen Nutzen für Unterricht/Spieleinsätze bewerten.
+Technik: Desktop/Laptop/Tablet;
+Bedürfnisse: Übersichtliches Monitoring (Antwortzeiten, Qualität), nachvollziehbare Quellen/Erklärungen, einfache Einrichtung (Docker/Setup), Datenschutz/Kinderschutz-Hinweise.
 Schmerzpunkte: unklare Modellgrenzen, Halluzinationen ohne Kennzeichnung, fehlende Logs/Statistiken, aufwendiges Setup.
 
 
@@ -92,43 +92,40 @@ Schmerzpunkte: unklare Modellgrenzen, Halluzinationen ohne Kennzeichnung, fehlen
 
 == Frontend/Benutzeroberfläche
 
-Beim ersten Aufruf blockiert ein kleines Dialogfenster das Spiel, bis ein Spielername eingetragen und gespeichert ist. Name und Profil bleiben für spätere Sitzungen erhalten. Von dort lässt sich jederzeit ein neues Match über den Startknopf beginnen. Während des Spiels stehen oben die aktuellen Kartenzahlen beider Decks, darunter die oberste Spielerkarte mit Name, Bild, Gruppencode und den sechs spielrelevanten Attributen Lifespan, Length, Speed, Intelligence, Attack und Defense, die du per Klick zum Vergleich auswählst. Ist der Mensch am Zug, sind die Buttons aktiv. Gewinnt die KI eine Runde und das Spiel läuft weiter, spielt sie nach kurzer Bedenkzeit automatisch erneut. Auf Wunsch holst du dir bis zu dreimal pro Match per Ask the LLM Knopf einen Tipp, der angezeigt und direkt genutzt wird. Nach jedem Zug zeigt die Oberfläche das Rundenergebnis, beide Werte und die aktualisierten Deckgrößen. Ist das Spiel vorbei, erscheint ein Game Over Bereich mit Gesamtsieger und Play Again Option. Lade und Fehlersituationen machen sich durch deaktivierte Buttons und eine sichtbare Fehlermeldung bemerkbar. Typescript und React bilden das Fundament.
+Beim ersten Aufruf blockiert ein kleines Dialogfenster das Spiel, bis ein Spielername eingetragen und gespeichert ist. Name und Profil bleiben für spätere Sitzungen erhalten. Von dort lässt sich jederzeit ein neues Match über den Startknopf beginnen. Während des Spiels stehen oben die aktuellen Kartenzahlen beider Decks, darunter die oberste Spielerkarte mit Name, Bild, Gruppencode und den sechs spielrelevanten Attributen Lifespan, Length, Speed, Intelligence, Attack und Defense, die per Klick zum Vergleich ausgewählt werden. Ist der Mensch am Zug, sind die Buttons aktiv. Gewinnt die KI eine Runde und das Spiel läuft weiter, spielt sie nach kurzer Bedenkzeit automatisch erneut. Auf Wunsch kann bis zu dreimal pro Match der Joker verwendet werden, bei welchem der Ki-Gegner für den Menschen eine Wahl trifft.Nach jedem Zug zeigt die Oberfläche das Rundenergebnis, beide Werte und die aktualisierten Deckgrößen. Ist das Spiel vorbei, erscheint ein Game Over Bereich mit Gesamtsieger und Play Again Option. Lade und Fehlersituationen machen sich durch deaktivierte Buttons und eine sichtbare Fehlermeldung bemerkbar. Typescript und React bilden das Fundament.
 
 
 == Backend, Datenbank und Schnittstellen
 
-Im Backend läuft eine Java Spring Boot Anwendung, die ihre REST API bereitstellt und den Spielablauf steuert. Persistente Daten wie Dinosaurier und Spieler landen in PostgreSQL, während laufende Matches im schnellen Redis In Memory State gehalten werden. Die Infrastruktur startet bequem über Docker, inklusive Adminer zur Datenbankinspektion. Datenbankänderungen werden mit Flyway versioniert. Für Entscheidungen im Spiel fragt der Server ein Ollama Modell (phi3:mini) an, und greift so auf LLM Unterstützung zurück. Insgesamt bildet das Backend das Fundament zwischen Frontend, Datenbank und KI Helfer.
-
-Java, Spring Boot, REST API, PostgreSQL and Redis, Docker, Flyway, Ollama, phi3:mini, Adminer
+Im Backend läuft eine Java Spring Boot Anwendung, die ihre REST API bereitstellt und den Spielablauf steuert. Persistente Daten wie Dinosaurier und Spieler landen in PostgreSQL, während laufende Matches im schnellen Redis Cache gehalten werden. Die Infrastruktur startet über Docker, inklusive Adminer zur Datenbankinspektion. Datenbankänderungen werden mit Flyway versioniert. Für Entscheidungen im Spiel fragt der Server ein Ollama Modell (phi3:mini) an, und greift so auf LLM Unterstützung zurück. Insgesamt bildet das Backend das Fundament zwischen Frontend, Datenbank und KI Helfer.
 
 == LLM-Integration (MCP, Wrapper, API)
 
-Die LLM-Integration sitzt im LlmClientService.java: Das Backend ruft über einen konfigurierten RestTemplate den Ollama-Container an, der das Modell phi3:mini bereitstellt. Für jede Entscheidung baut der Service einen klaren Prompt mit den sechs zulässigen Attributen (lifespan, length, speed, intelligence, attack, defense) und schickt ihn an die Chat-API des Containers. Falls die LLM eine unbrauchbare Antwort liefert, was bei LLMs eine zu berücksichtigende Möglichkeit ist, so greift die Fallback-Logik. Fallback-Logik wählt den höchsten Wert, sollte auch dies nicht funktionieren, so wird einfach das Angriffs-Attribut ausgewählt. Das Timeout ist auf 2 Minuten (120000 ms) gesetzt, wodurch phi3:mini die Inferenz durchzuführen und eine Antwort zu generieren. Kommt etwas Unerwartetes zurück oder gar nichts, greift die bereits erwähnte Fallback-Logik, sodass das Spiel auch ohne LLM-Antwort weiterläuft.
+Die LLM-Integration sitzt im LlmClientService.java: Das Backend ruft über ein konfiguriertes RestTemplate den Ollama-Container an, der das Modell phi3:mini bereitstellt. Für jede Entscheidung baut der Service einen klaren Prompt mit den sechs zulässigen Attributen (lifespan, length, speed, intelligence, attack, defense) und schickt ihn an die Chat-API des Containers. Falls die LLM eine unbrauchbare Antwort liefert, was bei LLMs eine zu berücksichtigende Möglichkeit ist, so greift die Fallback-Logik. Fallback-Logik wählt den höchsten Wert, sollte auch dies nicht funktionieren, so wird einfach das Angriffs-Attribut ausgewählt. Das Timeout ist auf 2 Minuten (120000 ms) gesetzt, wodurch phi3:mini die Inferenz durchzuführen und eine Antwort zu generieren. Kommt etwas Unerwartetes zurück oder gar nichts, greift die bereits erwähnte Fallback-Logik, sodass das Spiel auch ohne LLM-Antwort weiterläuft.
 
 == Sicherheits- und Authentifizierungsmechanismen
-Im Rahmen dieses Projektes wurden keine speziellen Sicherheits- oder Authentifizierungsmechanismen implementiert, da es sich um eine einfache Spielanwendung handelt, die keine sensiblen Daten verarbeitet. Von anderen kleinen Online-Games ist die Funktionweise bekannt, dass Username und minimale Spieldaten über den Erfolg gespeichert werden ohne je ein Passwort festuzulegen. Ziel war, dass einem User ein am laufendes Spiel zugeordnet werden kann und auf einer ProfilPage Informationen über die Anzahl an Siegen und Verlusten angezeigt werden können. Lokal werden Spielername und Id als einziges gespeichert, sodass diese Ziele ohne Authentifizierung erreicht werden können.
+Im Rahmen dieses Projektes wurden keine speziellen Sicherheits- oder Authentifizierungsmechanismen implementiert, da es sich um eine einfache Spielanwendung handelt, die keine sensiblen Daten verarbeitet. Von anderen kleinen Online-Games ist die Funktionweise bekannt, dass Username und minimale Spieldaten über den Erfolg gespeichert werden ohne je ein Passwort festuzulegen. Ziel war, dass einem User ein am laufendes Spiel zugeordnet werden kann und auf einer Profil-Page Informationen über die Anzahl an Siegen und Verlusten angezeigt werden können. Lokal werden Spielername und Id als einziges gespeichert, sodass diese Ziele ohne Authentifizierung erreicht werden können.
 
 == Sonstiges
-Die Dokumentation erfolgt mit Typst und Mermaid Chart für das Architekturdiagramm.
+Die Dokumentation erfolgt mit Typst und Mermaid Chart für das Diagramme.
 
 // ~3 Pages
 = Implementierung
 
 == Vorgehensmodell und Projektmanagement
-Während dieses Projektes wurden keine festen Vorgehensmodelle und Projektmanagement-Tools eingesetzt und stattdessen mehr auf flexibles Arbeiten gesetzt. Dies ist bewusst und kein Fehler. Wir haben uns dazu entschieden um mehr Zeit für unseren Code zu haben da wir bei kleinen Projekten eine mündliche Planung für ausreichend befinden, wie auch bei diesem 2 ECTS Projekt. In wöchentlichen Meetings wurden die nächsten Schritte geplant, Aufgaben verteilt und der Fortschritt überprüft. Während der Entwicklung wurde der main Branch geschützt,sodass nur Änderungen eines überprüften Pull Requests durch ein anderes Teammitglied in diesen zusammengeführt werden konnten. Dadurch konnte eine höhere Codequalität gewährleistet werden.
+Während dieses Projektes wurden keine festen Vorgehensmodelle und Projektmanagement-Tools eingesetzt und stattdessen mehr auf flexibles Arbeiten gesetzt. Dies ist bewusst und kein Fehler. Das Team hat scih dazu entschieden, um mehr Zeit für die Generierung von Code zu haben, da bei kleinen Projekten eine mündliche Planung im Rahmen von Meetings für ausreichend befunden wurde. In wöchentlichen Meetings wurden die nächsten Schritte geplant, Aufgaben verteilt und der Fortschritt überprüft. Während der Entwicklung wurde der main Branch geschützt, sodass nur Änderungen eines überprüften Pull Requests durch ein anderes Teammitglied in diesen zusammengeführt werden konnten. Dadurch konnte eine höhere Codequalität gewährleistet werden.
 
 == Code-Generierung und Entwicklung
-Nach anfänglicher Konfiguration und testen, wurde anhand von abgesprochenen User Stories zunächst die Grundfunktionen des Spiels implementiert. Hierbei wurde der Fokus auf die Spiellogik und die Kommunikation zwischen Frontend und Backend gelegt. Die Backendfunktionen, also die Spiellogik ist das Herzstück und wurde dementsprechend auch so behandelt. Das Frontend wurde dann häufig, abhängig von dem Backend, mit LLMs zunächst Test mäßig generiert. Anschließend wurde die LLM-Integration implementiert und getestet. Während der Entwicklung wurden immer wieder kleinere Anpassungen vorgenommen, um die Benutzerfreundlichkeit zu verbessern und Fehler zu beheben.
+Der grundlegende Ablauf dieses projektes erfolgte sehr klassisch. Nach Planen des projekts und der Features, wurde mit dem Set-Up des projektes begonnen. Im Anschluss wurden die persistente Datenbank und das Backend eingerichtet. Nach anfänglicher Konfiguration und testen, wurde anhand von abgesprochenen User Stories zunächst die Grundfunktionen des Spiels implementiert. Hierbei wurde der Fokus auf die Spiellogik und die Kommunikation zwischen Frontend und Backend gelegt. Die Backendfunktionen, also die Spiellogik ist das Herzstück des Projekts und wurde dementsprechend auch so behandelt. Das Frontend wurde dann häufig, abhängig von dem Backend, mit LLMs zunächst testmäßig generiert. Anschließend wurde die LLM-Integration implementiert und getestet. Während der Entwicklung wurden immer wieder kleinere Anpassungen vorgenommen, um die Benutzerfreundlichkeit zu verbessern und Fehler zu beheben. Das Frontend wurde größtenteils nach Abschließen aller Funktionalitäten neu aufgebaut und optimiert.
 
 == Datenmodelle und Schnittstellenimplementierung
 
 === Domain Model Diagramm
-Bei den Datenmodellen wird zwischen persistenten und nicht persistenten Daten unterschieden. Persistente Dtaen werden in der PostgreSQL Datenbank gespeichert,während die nicht peristeneten Daten in Redis gespeichert werden oder nur In-memory verwendet werden. Zu den persistenten Daten zählen die Spieler Daten aus der Player Entität und die einzelnen Dinosaurier. Nicht persistent sind die Matchstates, welche Informationen über ein laufendes Spiel enthalten und nach Beenden eines Spiels wieder gelöscht werden, sowie die Dino-Karten die aus der Dinaósaurier Entität entstehen und innerhalb des Matchstates gespeichert werden.
+Bei den Datenmodellen wird zwischen persistenten und nicht persistenten Daten unterschieden. Persistente Daten werden in der PostgreSQL Datenbank gespeichert, während die nicht peristeneten Daten in Redis gespeichert werden oder nur In-memory verwendet werden. Zu den persistenten Daten zählen die Spieler Daten aus der Player Entität und die einzelnen Dinosaurier. Nicht persistent sind die Matchstates, welche Informationen über ein laufendes Spiel enthalten und nach Beenden eines Spiels wieder gelöscht werden, sowie die Dino-Karten die aus der Dinaósaurier Entität entstehen und innerhalb des Matchstates gespeichert werden. Das Domain Model Diagramm zeigt die Verbindung zwischen den Datenmodellen.
 
 #link("https://github.com/Skalt47/LLM-gestuetzte-Softwareentwicklung-Labor/tree/main/Documentation/DomainModel.mmd")[
   Mermaid Chart des Domain Model Diagramms in Github
 ]
-
 #figure(
   image("/documentation/assets/Domain_Model_Diagramm_Color.png", width: 100%),
   caption: [
@@ -234,8 +231,6 @@ Der Einsatz von LLMs bei dem Schreiben von Commit-Nachrichten wurde getestet, al
 = Einsatz der LLMs und Prompt Engineering
 
 == Auswahl der LLMs und Dienste
-phi3:mini als LLM für die Spiellogik
-Github Copilot, Codex und ChatGPT 5.2 für die Codegenerierung.
 Bei der Entwicklung des Codes wurden die KI-Agenten Codex und GitHub Copilot verwendet, die der Unterstützung während des Programmierens dienten. Ein zentrales Ziel des Projekts war die Implementierung von Large Language Models (LLMs) in zwei verschiedenen Anwendungsbereichen: Erstens die automatisierte Generierung von Dinosaurier-Abbildungen für die Quartettkarten über eine externe API und zweitens die Realisierung eines KI-Gegners als Kernfunktion des Spiels. Bei der Wahl dieser LLMs war das ausschlaggebenste Kriterium, dass sie kostenlos verwendbar sein mussten, was sich schnell als Herausforderung erwies.
 
 Um den KI-Gegener zu realisieren, wurde das kleine lokale Modell phi3:mini gewählt. Die Bereitstellung des Modells erfolgt über Ollama, ein Framework zur Ausführung verschiedener Sprachmodelle auf lokaler Hardware. Wobei um die Skalierbarkeit zu erhöhen Ollama in einen Docker-Container gekapselt wurde. 
@@ -373,6 +368,8 @@ Der obige Prompt wurde im Allgemeinen verwendet  um die Bilder zu generieren und
       caption: [Der Spinosaurus],
     ),
    ),
+   outlined: false,
+   caption: none
 )
 
 Aber auch mit diesem Prompt wurden gelegentlich fehlerhafte Bilder generiert, beispielsweise Dinosaurier mit zu vielen oder zu wenigen Gliedmaßen, die in einander verschmolzen waren. Um diese Bilder zu verbessern wurde der obige Prompt für Einzelfälle angepasst.
@@ -392,6 +389,8 @@ Aber auch mit diesem Prompt wurden gelegentlich fehlerhafte Bilder generiert, be
       caption: [Dinosaurier nach Promptanpassung mit Ergänzung: "Nicht fusioniert"],
     ),
    ),
+   outlined: false,
+   caption: none
 )
 
 Bevor allerdings der obige Prompt verwendet wurde, gab es einen großen Fehlschlag, der die Dinosaurier zu realistisch aussehen laßen mit einem unschönen Farbschema. Dieser Prompt wurde durch dei Schlüsselworte "cute", "bright/strong colors" und "some realistic characteristic features" erweitert. Ergebnisse ogne diese Erweiterungen zeigen die unteren Abbildungen auf.
@@ -411,6 +410,8 @@ Bevor allerdings der obige Prompt verwendet wurde, gab es einen großen Fehlschl
       caption: [Zu realistischer Dinosaurier 2],
     ),
    ),
+   outlined: false,
+   caption: none
 )
 
 
@@ -455,20 +456,22 @@ Als überwiegend positiv hat sich auch die Frage nach Beispielen herausgestellt,
 
 
 == Schwierigkeiten und Problemstellung
-Falschinformationen durch LLMs und unklare Grenzen der LLMs haben zu Schwierigkeiten und teils längeren Umwegen geführt. Diese Umwege mussten dann menschlich korrigiert werden und die Fehlerbehebung fand dann mithilfe der traditionellen Fehlersuche statt (Google, Stackoverflow, Reddit usw.). Als Problematisch hat sich deshalb erwiesen, das die LLM bei fast jeder Frage eine Antwort generiert wird, auch wenn diese falsch ist oder die Antwort unbekannt. Daher haben wir auch gezielt eine Überprüfung der Antworten von phi3:mini vorgenommen, sowie deren Fallback-Logik, damit das Spiel nicht einfach in der Mitte eines Durchlaufs stehen bleibt.
+Falschinformationen durch LLMs und unklare Grenzen der LLMs haben zu Schwierigkeiten und teils längeren Umwegen geführt. Diese Umwege mussten dann menschlich korrigiert werden und die Fehlerbehebung fand dann mithilfe der traditionellen Fehlersuche statt (Google, Stackoverflow, Reddit usw.). Als Problematisch hat sich deshalb erwiesen, dass die LLM bei fast jeder Frage eine Antwort generiert, auch wenn diese falsch ist oder die Antwort unbekannt ist. Daher wurde auch beispielsweise gezielt eine Überprüfung der Antworten von phi3:mini vorgenommen, sowie deren Fallback-Logik, damit das Spiel nicht einfach in der Mitte eines Durchlaufs stehen bleibt.
+
+Zusätzlich konnten die KI-Agenten mit kleineren Aufgabenpäckchen deutlich besser umgehen, sodasss es auch vorkam, dass diese das Ausführen von Anforderungen verweigerten aufgrund des Umfangs. Außerdem kam es des Öfteren vor, dass Anweisungen nicht genau befolgt wurden und ungefragt unerwünschte Sachen hinzugefügt wurden. Besonders bei der Optimierung des Frontends erwies sich dies als problematisch. Während das Grundgerüst sehr gut mit der Hilfe von KI-Agenten eingerichtet werden konnte, war die Abänderung dessen deutlich schwieriger. Besonders in spezifischen Stilwünschen und Anforderungen an das Responsive-Design, sodass eigenhändiges Optimieren schneller und effizienter war.
 
 == Grenzen und Risiken von LLMs
-Besonders beim debugging und der Fehlersuche wurden die Schwächen und Grenzen der LLMs deutlich. Hierbei ist ein Kreislauf des Todes bei Problemen nicht unüblich. Exemplarisch Darstellung dieser Prompts: 
+Besonders beim Debugging und der Fehlersuche wurden die Schwächen und Grenzen der LLMs deutlich. Hierbei ist ein Kreislauf des Todes bei Problemen nicht unüblich. Exemplarische Darstellung dieser Prompts: 
 - "Bitte löse das Problem ...""
 - "Ja, klar ich hier die verbesserte Version:" 
-Und es ist dann entweder genau der gegebene Code, es ist ein zuvor gegebener Code mit Fehlern oder es ist neuer Code mit neuen Fehlern.
+Dabei resultierte die Ausgabe oft in einer exakten Reproduktion des Quellcodes, einer fehlerbehafteten Variante des ursprünglichen Codes oder in vollständig neu generiertem Code, der wiederum neue Fehler aufweisen kann
 
 Deutlich wurde die Fehlerhäufigkeit bei größerem Scope, also z.B. langen Codeabschnitten. Hierbei ist unserer Beobachtung nach die Fehlerquote deutlich höher als bei kleineren Codeabschnitten.
 
 == Lessons Learned und Empfehlungen
-Fantastisch beim Einstieg in neue Technologien, Brainstorming, einfachen kreativen Aufgaben aber nicht als alleinige Lösung geeignet.
+LLMs sind fantastisch beim Einstieg in neue Technologien, Brainstorming, einfachen kreativen Aufgaben, allerdings nicht als alleinige Lösung geeignet.
 
-Ist allerdings ein bereits fertiges Backend vorhanden und man möchte sich die Arbeit für das Frontend sparen, so ist der Einsatz von LLMs durchaus sinnvoll. Wichtig ist dabei in kleinen Schritten vorzugehen und klare Anweisungen zu geben. 
+Ist aber ein bereits fertiges Backend vorhanden und man möchte sich die Arbeit für das Frontend sparen, so ist der Einsatz von LLMs durchaus sinnvoll, solange man genaue Angaben an die Struktur und Anforderungen des Frontends mitgibt. Wichtig ist dabei in kleinen Schritten vorzugehen und klare Anweisungen zu geben. 
 
 Ist man in einer Technologie versiert/erfahren, so kann man sich den Einsatz von LLMs durchaus sparen, da der Aufwand den man für die Qualitätssicherung und Fehlerbehebung betreiben muss, den Nutzen übersteigt.
 
