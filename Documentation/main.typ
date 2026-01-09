@@ -114,7 +114,7 @@ Die Dokumentation erfolgt mit Typst und Mermaid Chart für das Architekturdiagra
 = Implementierung
 
 == Vorgehensmodell und Projektmanagement
-Während dieses Projektes wurden keine festen Vorgehensmodelle und Projektmanagement-Tools eingesetzt und stattdessen mehr auf flexibles Arbeiten gesetzt. In wöchentlichen Meetings wurden die nächsten Schritte geplant, Aufgaben verteilt und der Fortschritt überprüft. Während der Entwicklung wurde der main Branch geschützt,sodass nur Änderungen eines überprüften Pull Requests durch ein anderes Teammitglied in diesen zusammengeführt werden konnten. Dadurch konnte zudem eine höhere Codequalität gewährleistet werden.
+Während dieses Projektes wurden keine festen Vorgehensmodelle und Projektmanagement-Tools eingesetzt und stattdessen mehr auf flexibles Arbeiten gesetzt. Dies ist bewusst und kein Fehler. Wir haben uns dazu entschieden um mehr Zeit für unseren Code zu haben da wir bei kleinen Projekten eine mündliche Planung für ausreichend befinden, wie auch bei diesem 2 ECTS Projekt. In wöchentlichen Meetings wurden die nächsten Schritte geplant, Aufgaben verteilt und der Fortschritt überprüft. Während der Entwicklung wurde der main Branch geschützt,sodass nur Änderungen eines überprüften Pull Requests durch ein anderes Teammitglied in diesen zusammengeführt werden konnten. Dadurch konnte eine höhere Codequalität gewährleistet werden.
 
 == Code-Generierung und Entwicklung
 Nach anfänglicher Konfiguration und testen, wurde anhand von abgesprochenen User Stories zunächst die Grundfunktionen des Spiels implementiert. Hierbei wurde der Fokus auf die Spiellogik und die Kommunikation zwischen Frontend und Backend gelegt. Die Backendfunktionen, also die Spiellogik ist das Herzstück und wurde dementsprechend auch so behandelt. Das Frontend wurde dann häufig, abhängig von dem Backend, mit LLMs zunächst Test mäßig generiert. Anschließend wurde die LLM-Integration implementiert und getestet. Während der Entwicklung wurden immer wieder kleinere Anpassungen vorgenommen, um die Benutzerfreundlichkeit zu verbessern und Fehler zu beheben.
@@ -217,14 +217,24 @@ Bei den Datenmodellen wird zwischen persistenten und nicht persistenten Daten un
 }
 
 == Versionskontrolle, Build- und CI-Prozesse
-Als Versionskontrolle werden Git und GitHub verwendet.
+Für die Versionskontrolle wurde Git in Kombination mit GitHub eingesetzt. Der gesamte Quellcode sowie die Projektdokumentation wurden in einem zentralen Repository verwaltet. Die Entwicklung erfolgte überwiegend auf Feature-Branches, die nach erfolgreicher Implementierung und lokaler Prüfung in den Hauptbranch (main) integriert wurden. Durch diese Vorgehensweise konnten einzelne Änderungen klar nachvollzogen und isoliert entwickelt werden.
+
+Commits wurden in kleinen, thematisch zusammenhängenden Schritten durchgeführt, um insbesondere bei der LLM-gestützten Codegenerierung eine transparente Entwicklungshistorie zu gewährleisten.
+
+Die Build-Prozesse wurden lokal durchgeführt und sind klar zwischen Frontend und Backend getrennt. Im Frontend erfolgt der Buildprozess über Node.js und npm. Das Backend wird über den Maven Wrapper gestartet. Für die genauen Befehle hilft ein Blick in die README-Datei.
+
+Zusätzlich ermöglichte Docker eine reproduzierbare Ausführung der gesamten Systemumgebung, einschließlich Datenbank, Redis, Adminer und LLM-Service. Dadurch konnte das Projekt unabhängig von der lokalen Entwicklungsumgebung konsistent betrieben werden.
+
+Auf einen vollautomatisierten Continuous-Integration-Prozess (CI) wurde im Rahmen dieses Projekts bewusst verzichtet. Aufgrund des begrenzten Projektumfangs und des prototypischen Charakters lag der Fokus auf der funktionalen Entwicklung und der Integration von LLMs. Die eingesetzten Build- und Versionskontrollmechanismen bilden jedoch eine solide Grundlage, um zukünftig automatisierte Tests, Linting oder Build-Pipelines (z. B. über GitHub Actions) zu ergänzen.
+
+Der Einsatz von LLMs bei dem Schreiben von Commit-Nachrichten wurde getestet, allerdings stellten wir schnell fest das diese nicht so gut verständlich waren wie menschliche und legten dies somit ab.
 
 // ~4 Pages
 = Einsatz der LLMs und Prompt Engineering
 
 == Auswahl der LLMs und Dienste
 phi3:mini als LLM für die Spiellogik
-Github Copilot, Codex und ChatGPT 5.2 für die Codegenerierung
+Github Copilot, Codex und ChatGPT 5.2 für die Codegenerierung.
 Bei der Entwicklung des Codes wurden die KI-Agenten Codex und GitHub Copilot verwendet, die der Unterstützung während des Programmierens dienten. Ein zentrales Ziel des Projekts war die Implementierung von Large Language Models (LLMs) in zwei verschiedenen Anwendungsbereichen: Erstens die automatisierte Generierung von Dinosaurier-Abbildungen für die Quartettkarten über eine externe API und zweitens die Realisierung eines KI-Gegners als Kernfunktion des Spiels. Bei der Wahl dieser LLMs war das ausschlaggebenste Kriterium, dass sie kostenlos verwendbar sein mussten, was sich schnell als Herausforderung erwies.
 
 Um den KI-Gegener zu realisieren, wurde das kleine lokale Modell phi3:mini gewählt. Die Bereitstellung des Modells erfolgt über Ollama, ein Framework zur Ausführung verschiedener Sprachmodelle auf lokaler Hardware. Wobei um die Skalierbarkeit zu erhöhen Ollama in einen Docker-Container gekapselt wurde. 
@@ -235,12 +245,47 @@ Die Wahl eines API-Endpunktes war etwas eingeschränkt, da nicht viele kostenlos
 
 == Aufbau und Dokumentation der Prompts
 
+Der Aufbau der Prompts folgte einem einheitlichen Grundschema. Zunächst wurde der Rolle des Modells ein klarer Kontext gegeben (z. B. Attributwahl). Anschließend wurde die konkrete Aufgabe beschrieben und durch explizite Einschränkungen ergänzt. Ziel war es, den Interpretationsspielraum des Modells möglichst gering zu halten und reproduzierbare Ergebnisse zu erzielen.
+
+Bei der Attributwahl wurde das Modell angewiesen, ausschließlich eines von sechs vorgegebenen Attributen zurückzugeben und keine erläuternden Texte zu generieren. Zusätzlich wurden die Kartendaten in strukturierter Form übergeben, um Fehlinterpretationen zu minimieren. Nach der Präsentation des Projekts wurde der Prompt weiter verfeinert, indem zusätzliche Informationen wie Minimal- und Maximalwerte der Attribute ergänzt wurden, um die Entscheidungsqualität zu verbessern.
+
+=== Prompt Grundstruktur
+Für die Codegenerierung hatten wir ein festes Schema für die Prompts das wir meistens angewendet haben.:
+
+*1. Kontext* (Worum geht es? Bsp.: React Frontend, Java Backend, LLM Integration)
+
+*2. Aufgabe* (Was soll generiert werden? Bsp.: Ein Button der eine REST-API GET Anfrage macht)
+
+*3. Einschränkungen* (Was muss beachtet werden? Bsp.: Nutze Typescript, aber verändere so wenig Code wie möglich)
+
+*4. Erwartetes Ausgabenformat* (Wie will ich das Ergebnis haben? Bsp.: Nur Code, oder JSON)
+
+*5. Fehler, Beispiele oder spezielle Hinweise (Optional)* (Was muss zusätzlich beachtet werden? Bsp.: Error oder Beispielcode)
+
+=== Prompt-Vorgehen
+
+Bei der Code-Generierung wurde ein iteratives Prompting-Vorgehen angewendet. Dabei wurden durch das LLM erzeugte Codevorschläge manuell überprüft, getestet und bei Bedarf durch gezielte Rückfragen oder Präzisierungen weiterentwickelt. Dieser Prozess folgt dem Human-in-the-Loop-Prinzip, bei dem der Mensch die Kontrolle über Entwurfsentscheidungen, Korrekturen und finale Implementierungen behält. Insbesondere bei komplexeren Codeabschnitten erwies sich dieses Vorgehen als notwendig, um fehlerhafte oder unpassende Vorschläge zu identifizieren und zu korrigieren.
+
+
 == Generierte Assets (Code, Bilder, Audio, Video, Text)
-Code, Stammdaten in Form von JSON, Bilder für die Karten
-Hier Abschnitt der Dino JSON einfügen.
+Im Projekt wurden verschiedene Assets generiert, dazu gehören: Code, Stammdaten in Form von JSON und Bilder von Dinos für die Karten.
+
+#figure(
+  image("/documentation/assets/Spinosaurus_aegyptiacus.png", width: 70%),
+  caption: [
+    Spinosaurus aegyptiacus
+  ],
+)
+
 
 == Fehleranalyse und Optimierung
-Frontend Code: Anpassung durch visuelle Überprüfung und manuelles testen. Fehlertoleranz bei Stammdaten, Bilder manuelle Überprüfung auf Halluzinationen
+Die Fehleranalyse erfolgte überwiegend durch manuelles Testen und das gezielte Durchspielen typischer Spielabläufe. Dabei wurden sowohl die Benutzeroberfläche als auch die Backend-Logik überprüft, indem komplette Matches gespielt und verschiedene Spielsituationen nachvollzogen wurden. Auf diese Weise konnten fehlerhafte Zustandswechsel, unerwartete Reaktionen auf API-Aufrufe sowie Darstellungsprobleme im Frontend identifiziert und behoben werden.
+
+Zusätzlich zur praktischen Erprobung wurde der Backend-Code anhand des vorhandenen Wissens über die eingesetzte Programmiersprache und das Framework überprüft. Durch das Lesen und Analysieren der Codeabschnitte konnten potenzielle Fehlerquellen, unklare Logik und ungünstige Implementierungsentscheidungen erkannt und verbessert werden. Dieses Vorgehen erwies sich insbesondere bei der Spiellogik und der Verarbeitung von LLM-Antworten als hilfreich.
+
+Ein weiterer Schwerpunkt lag auf der Behandlung fehlerhafter oder unvollständiger Daten. Stammdaten in Form von JSON-Dateien wurden manuell kontrolliert, um fehlende Felder oder unplausible Werte zu erkennen. Die zugehörigen Bilder wurden visuell geprüft, um mögliche Halluzinationen oder inhaltliche Abweichungen bei KI-generierten Assets zu identifizieren.
+
+Im Zusammenhang mit der LLM-Integration traten vereinzelt unerwartete Antwortformate oder inhaltlich unpassende Ergebnisse auf. Diese wurden durch Validierungslogik, klare Vorgaben im Prompt sowie durch Fallback-Mechanismen abgefangen. Die Optimierung erfolgte iterativ, indem sowohl Code als auch Prompts auf Basis der gemachten Beobachtungen angepasst wurden.
 
 == Qualitätssicherung bei der LLM-Nutzung
 Besonders bei der Nutzung der KI-Agenten musste auf Richtigkeit und Qualität des Codes geachtet werden. Um Qualität zu verbessern, erhielten die Agenten bei Verwendung nur kleinere Aufgabenpäckchen, da  das Ergebnis des Outputs dadurch verbessert werden konnte. Überreichen mehrerer Aufgaben gleichzeitig führte dazu, dass die Agenten eine Aufgabe besser und die andere schlechter beziehungsweise gar nicht bearbeiteten. Des Weiteren wurden die eingefügten Codeabschnitte überprüft und getestet bevor diese beibehalten wurden.
@@ -302,95 +347,4 @@ Mittel- bis langfristig: LLM als hauptsächlicher Entwickler (Code-Generierung) 
 
 == Persönliche Reflexion und Fazit
 
-/*
-= Acronyms
 
-Use the `acr` function to insert acronyms, which looks like this #acr("HTTP").
-
-#acrlpl("API") are used to define the interaction between different software systems.
-
-#acrs("REST") is an architectural style for networked applications.
-
-== Glossary
-
-Use the `gls` function to insert glossary terms, which looks like this:
-
-A #gls("Vulnerability") is a weakness in a system that can be exploited.
-
-== Lists
-
-Create bullet lists or numbered lists.
-
-- This
-- is a
-- bullet list
-
-+ It also
-+ works with
-+ numbered lists!
-
-== Figures and Tables
-
-Create figures or tables like this:
-
-=== Figures
-
-#figure(caption: "Image Example", image(width: 4cm, "assets/ts.svg"))
-
-=== Tables
-
-#figure(
-  caption: "Table Example",
-  table(
-    columns: (1fr, 50%, auto),
-    inset: 10pt,
-    align: horizon,
-    table.header(
-      [],
-      [*Area*],
-      [*Parameters*],
-    ),
-
-    text("cylinder.svg"),
-    $ pi h (D^2 - d^2) / 4 $,
-    [
-      $h$: height \
-      $D$: outer radius \
-      $d$: inner radius
-    ],
-
-    text("tetrahedron.svg"), $ sqrt(2) / 12 a^3 $, [$a$: edge length],
-  ),
-)<table>
-
-== Code Snippets
-
-Insert code snippets like this:
-
-#figure(
-  caption: "Codeblock Example",
-  sourcecode[```ts
-    const ReactComponent = () => {
-      return (
-        <div>
-          <h1>Hello World</h1>
-        </div>
-      );
-    };
-
-    export default ReactComponent;
-    ```],
-)
-
-#pagebreak()
-
-== References
-
-Cite like this #cite(form: "prose", <iso18004>).
-Or like this @iso18004.
-
-You can also reference by adding `<ref>` with the desired name after figures or headings.
-
-For example this @table references the table on the previous page.
-
-*/
