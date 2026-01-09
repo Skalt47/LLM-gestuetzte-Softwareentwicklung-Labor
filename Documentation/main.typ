@@ -481,5 +481,11 @@ Mittel- bis langfristig: LLM als hauptsächlicher Entwickler (Code-Generierung) 
 = Zusammenfassung und Fazit
 
 == Zusammenfassung der Arbeit
+Im Rahmen des Projekts 'Stack Attack' wurde eine Anwendung zur Erstellung eines Dinosaurier-Quartettspiels entwickelt, bei dem Spieler gegen einen KI-Gegner antreten können, welcher anhand seiner Karten-Daten eine alleinige Entscheidung über die Wahl des zu vergleichenden Attributs trifft.
 
 == Persönliche Reflexion und Fazit
+Die Arbeit an diesem Projekt bot einen wertvollen Einstieg in das Arbeiten und den Umgang mit KI-Agenten und vor allem Erkentniss darüber, welche KI-Agenten den einzelnen Teammitgliedern als Unterstützung besser gefallen haben. Im Großen und Ganzen konnten sich die Teammitglieder hierbei darauf einigen, dass GitHub Copilot deutlich effizienter ist und besonders die gestellten Problemstellungen und Aufgaben besser versteht und bearbeitet als Codex, zumindest nach persönlichem Empfinden des Teams.
+
+Des Weiteren war es interessant LLMs auf verschiedene Weisen in das Projekt einfließen zu lassen. Es wurde erstmals mit Modellen des lokalen Frameworks Ollama gearbeitet und dabei festgestellt, dass selbst kleine Modelle wie phi3:mini auf eigenem Laptop doch ziemlich viel Arbeitsspeicher und CPU benötigen, was die Geschwindigkeit des Modelles stark beeinträchtigt. Es war frustrierend, dass an Zuständen wie diesen nichts geändert werden konnte, da besonders die Geschwindigkeit den Spielfluss bei einem Quartettspiel beinträchtigt.
+
+Auch bei der Einbindung eines API-Endpunktes war es schade, dass der Prompt nicht unbegrenzt oft angepasst werden konnte, da die limitierten Tokens zur Bildergenerierung im Hinterkopf behalten werden mussten. Dieses Problem hätte vielleicht umgangen werden können, in dem lokale Modelle aus Ollama verwendet worden wären. Da die Einbindung der Bildergenerierung allerdings zuerst statt fand und das nicht mit Gedanken an den danch eingefügten KI-Gegner, war diese Option zu dem zeitpunkt nicht ersichtlich gewesen. Nichtsdestotrotz war es interessant LLM auf 2 verschiedene Wege einzubauen.
