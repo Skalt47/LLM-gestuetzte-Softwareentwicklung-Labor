@@ -16,6 +16,8 @@ type GamePageProps = {
   isHumanTurn: boolean;
   aiThinking: boolean;
   jokerActive: boolean;
+  humanDeckSize: number;
+  aiDeckSize: number;
 };
 
 export const GamePageAi = ({
@@ -33,6 +35,8 @@ export const GamePageAi = ({
   isHumanTurn,
   aiThinking,
   jokerActive,
+  humanDeckSize,
+  aiDeckSize,
 }: GamePageProps) => (
   <section className="game-stage">
     {!matchState ? (
@@ -44,17 +48,17 @@ export const GamePageAi = ({
     ) : (
       <div className="game-section">
         {!playResult?.gameOver ? (
-          <>        
-        <div className="deck-status-container">
-        <div className="deck-pill human">
-          Your Deck: {playResult?.humanDeckSize ?? 16} cards
-        </div>
-        <div className="deck-pill ai">
-          AI Deck: {playResult?.aiDeckSize ?? 16} cards
-        </div>
-      </div>
-        <div className="cards-container">
-                <div className={`card human ${currentRoundResult ? (currentRoundResult.winner === "HUMAN" ? "win" : currentRoundResult.winner === "AI" ? "lose" : "draw") : ""}`}>
+          <>
+            <div className="deck-status-container">
+              <div className="deck-pill human">
+                Your Deck: {humanDeckSize} cards
+              </div>
+              <div className="deck-pill ai">
+                AI Deck: {aiDeckSize} cards
+              </div>
+            </div>
+            <div className="cards-container">
+            <div className={`card human ${currentRoundResult ? (currentRoundResult.winner === "HUMAN" ? "win" : currentRoundResult.winner === "AI" ? "lose" : "draw") : ""}`}>
           <div className="card-header">
             <h2>{matchState.topCard.species}</h2>
             <p className="card-group">{matchState.topCard.groupCode}</p>

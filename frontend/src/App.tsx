@@ -5,6 +5,13 @@ import { HomePage } from "./pages/HomePage";
 import { ProfilePage } from "./pages/ProfilePage";
 import { GamePageAi } from "./pages/GamePageAi";
 import type { MatchState, PlayResult } from "./types/game";
+import {
+  createPlayer as createPlayerService,
+  fetchPlayer as fetchPlayerService,
+  playCard as playCardService,
+  startMatch as startMatchService,
+  suggestAttribute as suggestAttributeService,
+} from "./service/gameService";
 
 type PageView = "home" | "game" | "profile";
 
@@ -28,6 +35,8 @@ function App() {
   const [aiThinking, setAiThinking] = useState(false);
   const [wins, setWins] = useState(0);
   const [losses, setLosses] = useState(0);
+  const [humanDeckSize, setHumanDeckSize] = useState(16);
+  const [aiDeckSize, setAiDeckSize] = useState(16);
   const [activePage, setActivePage] = useState<PageView>("home");
 
   const navigate = (page: PageView) => setActivePage(page);
@@ -35,12 +44,9 @@ function App() {
   const fetchPlayer = async () => {
     if (!playerId) return;
     try {
-      const res = await fetch(`http://localhost:8080/api/players/${playerId}`);
-      if (res.ok) {
-        const player = await res.json();
-        setWins(player.wins || 0);
-        setLosses(player.losses || 0);
-      }
+      const player = await fetchPlayerService(playerId);
+      setWins(player.wins || 0);
+      setLosses(player.losses || 0);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Unknown error");
     }
@@ -55,22 +61,15 @@ function App() {
     setError(null);
     setAiThinking(false);
     try {
-      const playerParam = playerId ? `?playerId=${playerId}` : "";
-      const response = await fetch(
-        `http://localhost:8080/api/matches/start${playerParam}`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-        }
-      );
-      if (!response.ok) throw new Error("Failed to start match");
-      const data = await response.json();
+      const data = await startMatchService(playerId ?? undefined);
       setMatchState(data);
       setSuggested(null);
       setSuggestUsesLeft(3);
       setJokerActive(false);
       setPlayResult(null);
       setCurrentRoundResult(null);
+      setHumanDeckSize(16);
+      setAiDeckSize(16);
       navigate("game");
     } catch (err) {
       setAiThinking(false);
@@ -92,13 +91,7 @@ function App() {
       return setError("Please enter a name");
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:8080/api/players", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: nameInput.trim() }),
-      });
-      if (!res.ok) throw new Error("Failed to create player");
-      const player = await res.json();
+      const player = await createPlayerService(nameInput);
       localStorage.setItem("playerId", String(player.id));
       localStorage.setItem("playerName", player.name);
       setPlayerId(String(player.id));
@@ -123,16 +116,9 @@ function App() {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch(
-        `http://localhost:8080/api/matches/${matchState.matchId}/play`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ attribute }),
-        }
-      );
-      if (!response.ok) throw new Error("Failed to play card");
-      const result = await response.json();
+      const result = await playCardService(matchState.matchId, attribute);
+      setHumanDeckSize(result.humanDeckSize);
+      setAiDeckSize(result.aiDeckSize);
       setAiThinking(false);
       setPlayResult(result);
       setCurrentRoundResult(result);
@@ -195,15 +181,7 @@ function App() {
     setJokerActive(true);
     setError(null);
     try {
-      const res = await fetch(
-        `http://localhost:8080/api/matches/${matchState.matchId}/suggest-attribute`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-        }
-      );
-      if (!res.ok) throw new Error("Failed to get suggestion");
-      const data = await res.json();
+      const data = await suggestAttributeService(matchState.matchId);
       const attribute = data.attribute;
       setSuggested(attribute);
       setSuggestUsesLeft((prev) => Math.max(prev - 1, 0));
@@ -277,6 +255,8 @@ function App() {
             isHumanTurn={isHumanTurn}
             aiThinking={aiThinking}
             jokerActive={jokerActive}
+            humanDeckSize={humanDeckSize}
+            aiDeckSize={aiDeckSize}
           />
         )}
       </main>
