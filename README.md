@@ -24,7 +24,27 @@ To stop the containers simply insert the following docker command, which will al
 docker compose down -v
 ```
 
-## Backend
+## Backend & Frontend mit Docker (vollständig containerisiert)
+
+Startet Backend, Frontend und alle Services mit einem Befehl:
+
+```console
+docker compose up --build
+```
+
+Zugriff:
+- **Frontend**: http://localhost:5173
+- **Backend**: http://localhost:8080
+- **Adminer (DB)**: http://localhost:8081
+- **Ollama**: http://localhost:11434
+
+Zum Beenden:
+
+```console
+docker compose down
+```
+
+## Backend (Lokal ohne Docker)
 
 Starting backend, by changing into the backend folder:
 
@@ -50,7 +70,7 @@ SET image_url = NULL
 WHERE id IN (example_id_1, example_id_32);
 ```
 
-## Frontend
+## Frontend (Lokal ohne Docker)
 
 Starting frontend, by changing into the frontend folder:
 

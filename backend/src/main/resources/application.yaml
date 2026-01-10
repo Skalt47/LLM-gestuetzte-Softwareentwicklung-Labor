@@ -3,6 +3,9 @@ spring:
     url: jdbc:postgresql://localhost:5434/dinodb
     username: app
     password: app
+  redis:
+    host: ${SPRING_REDIS_HOST:redis}
+    port: ${SPRING_REDIS_PORT:6379}
   jpa:
     hibernate:
       ddl-auto: validate   
