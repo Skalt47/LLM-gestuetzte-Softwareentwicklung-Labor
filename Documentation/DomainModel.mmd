@@ -1,0 +1,45 @@
+erDiagram
+
+    PLAYER ||-- o| MATCH_STATE: "hat"
+    PLAYER {
+        Long id PK
+        String name
+        int wins
+        int losses
+    }
+
+    MATCH_STATE ||--|{ DINO_CARD: "speichert 16 DINO_CARD als humanDeck und als aiDeck"
+    MATCH_STATE {
+        UUID matchId PK
+        Long playerId FK
+        String activePlayer
+        Deque humanDeck
+        Deque aiDeck
+    }
+
+    DINO_CARD {
+        long dinosaurId FK
+        String species
+        String groupCode
+        int lifespanYears
+        double lengthM
+        double speedKmh
+        int intelligence
+        int attack
+        int defense
+        String imgUrl
+    }
+
+    DINOSAUR_ENTITY ||--}o DINO_CARD: "instanziert"
+    DINOSAUR_ENTITY {
+        Long id PK
+        String species
+        String groupCode
+        Integer lifespanYears
+        Double lengthM
+        Integer speedKmh
+        Integer intelligence
+        Integer attack
+        Integer defense
+        String image_url
+    }
