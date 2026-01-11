@@ -12,6 +12,10 @@ services:
       - "5173:5173"
 
   backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+      target: builder
     volumes:
       - ./backend:/app:cached
       - ~/.m2:/root/.m2
