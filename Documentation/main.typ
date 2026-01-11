@@ -357,7 +357,7 @@ Der obige Prompt wurde im Allgemeinen verwendet, um die Bilder zu generieren und
     // Rechtes Bild
     figure(
       image("assets/Dino_cute.png", width: 100%),
-      caption: [Der Spinosaurus],
+      caption: [Der Saurolophus],
     ),
   ),
   outlined: false,
