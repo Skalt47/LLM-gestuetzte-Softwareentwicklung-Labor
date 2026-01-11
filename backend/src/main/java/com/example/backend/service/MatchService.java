@@ -75,28 +75,19 @@ public class MatchService {
     // Save MatchState (current Game) in Redis
     state.put(ms);
 
-    // 5) Build the API response: include match ID, starting player, and the human's
-    // top card
-    var top = ms.getHumanDeck().peekFirst();
-    var view = new CardView(
-        top.species,
-        top.groupCode,
-        top.lifespanYears,
-        top.lengthM,
-        top.speedKmh,
-        top.intelligence,
-        top.attack,
-        top.defense,
-        top.imgUrl);
-    return new StartMatchResponseDto(ms.getMatchId(), ms.getActivePlayer(), view);
-  }
-
-  private static double opt(Number n) {
-    return n == null ? 0.0 : n.doubleValue();
-  }
-
-  private static int optInt(Number n) {
-    return n == null ? 0 : n.intValue();
+    // 5) Build the API response: include match ID, starting player, and both top cards
+    var humanTop = ms.getHumanDeck().peekFirst();
+    var aiTop = ms.getAiDeck().peekFirst();
+    if (humanTop == null || aiTop == null) {
+      throw new IllegalStateException("Both decks must contain at least one card");
+    }
+    var humanView = toCardView(humanTop);
+    var aiView = toCardView(aiTop);
+    return new StartMatchResponseDto(
+        ms.getMatchId(),
+        ms.getActivePlayer(),
+        humanView,
+        aiView);
   }
 
   @Transactional
@@ -171,14 +162,15 @@ public class MatchService {
         playerService.applyMatchResult(playerId, finalWinner);
       }
 
-      // 6d) Return final game-over respons
+      // 6d) Return final game-over response
       return new PlayCardResponseDto(
           finalWinner,
           humanValue,
           aiValue,
           ms.getHumanDeck().size(),
           ms.getAiDeck().size(),
-          null, // no next card
+          null, // no next human card
+          null, // no next ai card
           true, // gameOver=true
           finalWinner,
           finalWinner);
@@ -187,20 +179,13 @@ public class MatchService {
     // 6) Save state back to Redis
     state.put(ms);
 
-    // 7) Prepare next top card view
+    // 7) Prepare next top card view for human player
     var next = ms.getHumanDeck().peekFirst();
-    var nextView = next == null
-        ? null
-        : new CardView(
-            next.species,
-            next.groupCode,
-            next.lifespanYears,
-            next.lengthM,
-            next.speedKmh,
-            next.intelligence,
-            next.attack,
-            next.defense,
-            next.imgUrl);
+    var nextView = next == null ? null : toCardView(next);
+
+    // 7.2) Prepare next ai top card view
+    var nextAi = ms.getAiDeck().peekFirst();
+    var nextAiView = nextAi == null ? null : toCardView(nextAi);
 
     // 8) Return the result
     return new PlayCardResponseDto(
@@ -210,9 +195,31 @@ public class MatchService {
         ms.getHumanDeck().size(),
         ms.getAiDeck().size(),
         nextView,
+        nextAiView,
         false,
         ms.getActivePlayer(),
         null);
+  }
+
+  private static double opt(Number n) {
+    return n == null ? 0.0 : n.doubleValue();
+  }
+
+  private static int optInt(Number n) {
+    return n == null ? 0 : n.intValue();
+  }
+
+  private static CardView toCardView(DinoCardModel card) {
+    return new CardView(
+        card.species,
+        card.groupCode,
+        card.lifespanYears,
+        card.lengthM,
+        card.speedKmh,
+        card.intelligence,
+        card.attack,
+        card.defense,
+        card.imgUrl);
   }
 
   @Transactional(readOnly = true)

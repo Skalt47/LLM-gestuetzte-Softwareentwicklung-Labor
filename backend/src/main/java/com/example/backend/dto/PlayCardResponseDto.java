@@ -8,6 +8,7 @@ public class PlayCardResponseDto {
   private int humanDeckSize;
   private int aiDeckSize;
   private StartMatchResponseDto.CardView nextTopCard;
+  private StartMatchResponseDto.CardView nextTopAiCard;
   private boolean gameOver;
   private String activePlayer;
   private String matchWinner;
@@ -19,6 +20,7 @@ public class PlayCardResponseDto {
       int humanDeckSize,
       int aiDeckSize,
       StartMatchResponseDto.CardView nextTopCard,
+      StartMatchResponseDto.CardView nextTopAiCard,
       boolean gameOver,
       String activePlayer,
       String matchWinner) {
@@ -28,6 +30,7 @@ public class PlayCardResponseDto {
     this.humanDeckSize = humanDeckSize;
     this.aiDeckSize = aiDeckSize;
     this.nextTopCard = nextTopCard;
+    this.nextTopAiCard = nextTopAiCard;
     this.gameOver = gameOver;
     this.activePlayer = activePlayer;
     this.matchWinner = matchWinner;
@@ -55,6 +58,10 @@ public class PlayCardResponseDto {
 
   public StartMatchResponseDto.CardView getNextTopCard() {
     return nextTopCard;
+  }
+
+  public StartMatchResponseDto.CardView getNextTopAiCard() {
+    return nextTopAiCard;
   }
 
   public boolean isGameOver() {
