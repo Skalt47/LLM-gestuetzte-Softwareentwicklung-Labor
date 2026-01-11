@@ -8,6 +8,28 @@ This repository is for the subject LLM-gestützte Softwareentwicklung at the Uni
 
 [View 2nd Presentation](https://www.canva.com/design/DAG69rwnytM/W_r624AuQOi_cWFuCyoR3g/view?utm_content=DAG69rwnytM&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h1a1c5ac053)
 
+## Docker Desktop
+
+Starts Backend, Frontend and all services with one command:
+
+```console
+docker compose up --build
+```
+
+## Backend (Lokal ohne Docker)
+
+Starting backend, by changing into the backend folder:
+
+```console
+cd backend
+```
+
+Starting backend (Maven Wrapper):
+
+```console
+./mvnw spring-boot:run
+```
+
 ## Database
 
 Start the **Docker Desktop** Application.
@@ -24,33 +46,19 @@ To stop the containers simply insert the following docker command, which will al
 docker compose down -v
 ```
 
-## Backend
-
-Starting backend, by changing into the backend folder:
-
-```console
-cd backend
-```
-
-Starting backend (Maven Wrapper):
-
-```console
-./mvnw spring-boot:run
-```
-
-Use .env file for secrets. See what fields to set in .env.example file
-
 ### Image Generation
+
 For generating new images you can change the path to your model and include your API_KEY in .env file.
 Before generating new images, delete images from backend folder and delete path in database. When starting backend for every dinosaur which doesnt have a img_url a new image is created.
 Use the following inside pgAdmin:
+
 ```
 UPDATE dinosaurs
 SET image_url = NULL
 WHERE id IN (example_id_1, example_id_32);
 ```
 
-## Frontend
+## Frontend (Lokal ohne Docker)
 
 Starting frontend, by changing into the frontend folder:
 
